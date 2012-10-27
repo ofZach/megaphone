@@ -4,6 +4,7 @@
 void testApp::setup()
 {
     ofSetVerticalSync(true);
+    mode = 1;
 }
 
 //--------------------------------------------------------------
@@ -28,6 +29,8 @@ void testApp::draw()
 void testApp::keyPressed(int key)
 {
     if (key == ' ') glyphs.clear();
+    else if (key == '1') mode = 1;
+    else if (key == '2') mode = 2;
 }
 
 //--------------------------------------------------------------
@@ -45,16 +48,39 @@ void testApp::mouseMoved(int x, int y)
 //--------------------------------------------------------------
 void testApp::mouseDragged(int x, int y, int button)
 {
-    if (glyphs.size() > 0) {
+    if (mode == 1) {  // DRAG MODE
+        if (glyphs.size() > 0) {
             glyphs[glyphs.size() - 1].moveTo(x, y);
+        }
+    }
+    else if (mode == 2) {  // SPRAY MODE
+        prevMousePos = mousePos;
+        mousePos.set(x, y);
+
+        if (prevMousePos.distance(mousePos) > 10) {
+            float targetScale = ofMap(mousePos.distance(prevMousePos), 0, MAX(ofGetWidth(), ofGetHeight()), 10, 500);
+            float targetRotation = RAD_TO_DEG * (atan2(prevMousePos.y - mousePos.y, prevMousePos.x - mousePos.x));
+
+            // Add a new Glyph.
+            glyphs.push_back(Glyph());
+            glyphs.back().moveTo(mousePos.x, mousePos.y);
+            glyphs.back().setScale(targetScale);
+            glyphs.back().setRotation(targetRotation);
+        }
     }
 }
 
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button)
 {
-    // Add a new Glyph.
-    glyphs.push_back(Glyph());
+    if (mode == 1) {  // DRAG MODE
+        // Add a new Glyph.
+        glyphs.push_back(Glyph());
+    }
+    else if (mode == 2) {  // SPRAY MODE
+        mousePos.set(x, y);
+        mouseDragged(x, y, button);
+    }
 }
 
 //--------------------------------------------------------------

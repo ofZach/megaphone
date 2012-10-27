@@ -23,5 +23,8 @@ class testApp : public ofBaseApp
 		void dragEvent(ofDragInfo dragInfo);
         void gotMessage(ofMessage msg);
 
+        int mode;
+
         vector<Glyph> glyphs;
+        ofVec3f prevMousePos, mousePos;
 };
