@@ -187,3 +187,15 @@ void Glyph::draw()
 
     ofPopStyle();
 }
+
+//--------------------------------------------------------------
+void Glyph::setScale(float scale)
+{
+    _targetScale = scale;
+}
+
+//--------------------------------------------------------------
+void Glyph::setRotation(float rotation)
+{
+    _targetRotation = rotation;
+}

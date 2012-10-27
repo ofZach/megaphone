@@ -26,6 +26,7 @@ class Glyph
         void draw();
 
         void setScale(float scale);
+        void setRotation(float rotation);
 
     private:
         ofVec3f _position, _prevPosition;
