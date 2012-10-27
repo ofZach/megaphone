@@ -160,8 +160,13 @@ void Glyph::moveTo(int x, int y)
 //--------------------------------------------------------------
 void Glyph::update()
 {
+    if (_velocity.length() >= 1) {
+        _position += _velocity;
+    }
+
     _scale = ofLerp(_scale, _targetScale, 0.2);
     _rotation = ofLerp(_rotation, _targetRotation, 0.2);
+    _velocity *= 0.9f;
 
     for (int i = 0; i < _limbs.size(); i++) {
         _limbs[i].update();
@@ -198,4 +203,10 @@ void Glyph::setScale(float scale)
 void Glyph::setRotation(float rotation)
 {
     _targetRotation = rotation;
+}
+
+//--------------------------------------------------------------
+void Glyph::setVelocity(ofVec3f velocity)
+{
+    _velocity = velocity;
 }

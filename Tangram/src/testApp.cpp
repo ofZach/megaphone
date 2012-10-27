@@ -52,15 +52,15 @@ void testApp::mouseMoved(int x, int y)
 //--------------------------------------------------------------
 void testApp::mouseDragged(int x, int y, int button)
 {
+    prevMousePos = mousePos;
+    mousePos.set(x, y);
+
     if (mode == 1) {  // DRAG MODE
         if (glyphs.size() > 0) {
-            glyphs[glyphs.size() - 1].moveTo(x, y);
+            glyphs.back().moveTo(x, y);
         }
     }
     else if (mode == 2) {  // SPRAY MODE
-        prevMousePos = mousePos;
-        mousePos.set(x, y);
-
         if (prevMousePos.distance(mousePos) > 10) {
             float targetScale = ofMap(mousePos.distance(prevMousePos), 0, MAX(ofGetWidth(), ofGetHeight()), 10, 500);
             float targetRotation = RAD_TO_DEG * (atan2(prevMousePos.y - mousePos.y, prevMousePos.x - mousePos.x));
@@ -70,6 +70,7 @@ void testApp::mouseDragged(int x, int y, int button)
             glyphs.back().moveTo(mousePos.x, mousePos.y);
             glyphs.back().setScale(targetScale);
             glyphs.back().setRotation(targetRotation);
+            glyphs.back().setVelocity((mousePos - prevMousePos) * 0.5);
         }
     }
 }
@@ -77,12 +78,13 @@ void testApp::mouseDragged(int x, int y, int button)
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button)
 {
+    mousePos.set(x, y);
+
     if (mode == 1) {  // DRAG MODE
         // Add a new Glyph.
         glyphs.push_back(Glyph());
     }
     else if (mode == 2) {  // SPRAY MODE
-        mousePos.set(x, y);
         mouseDragged(x, y, button);
     }
 }
@@ -90,7 +92,11 @@ void testApp::mousePressed(int x, int y, int button)
 //--------------------------------------------------------------
 void testApp::mouseReleased(int x, int y, int button)
 {
-
+    if (mode == 1) {  // DRAG MODE
+        if (glyphs.size() > 0) {
+            glyphs.back().setVelocity((mousePos - prevMousePos) * 0.5);
+        }
+    }
 }
 
 //--------------------------------------------------------------
