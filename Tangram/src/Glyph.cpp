@@ -78,8 +78,6 @@ void buildColorLibrary()
 //--------------------------------------------------------------
 Glyph::Glyph()
 {
-    _x = _px = 0;
-    _y = _py = 0;
     _scale = _targetScale = 1;
     _rotation = _targetRotation = 0;
 
@@ -145,13 +143,11 @@ const vector<Limb>& Glyph::limbs()
 //--------------------------------------------------------------
 void Glyph::move(int x, int y)
 {
-    _px = _x;
-    _py = _y;
-    _x = x;
-    _y = y;
+    _prevPosition = _position;
+    _position.set(x, y);
 
-    _targetScale = ofMap(ofDist(_px, _py, _x, _y), 0, MAX(ofGetWidth(), ofGetHeight()), 10, 1000);
-    _targetRotation = RAD_TO_DEG * (atan2(_py - _y, _px - _x));
+    _targetScale = ofMap(_position.distance(_prevPosition), 0, MAX(ofGetWidth(), ofGetHeight()), 10, 1000);
+    _targetRotation = RAD_TO_DEG * (atan2(_prevPosition.y - _position.y, _prevPosition.x - _position.x));
 
     if ((_rotation - _targetRotation) > 180) {
         _targetRotation += 360;
@@ -179,7 +175,7 @@ void Glyph::draw()
     ofFill();
 
     ofPushMatrix();
-    ofTranslate(_x, _y);
+    ofTranslate(_position);
     ofScale(_scale, _scale, _scale);
     ofRotate(_rotation, 0, 0, 1);
     {

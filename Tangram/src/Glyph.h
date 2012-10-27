@@ -28,9 +28,7 @@ class Glyph
         void setScale(float scale);
 
     private:
-
-        float _x, _y;
-        float _px, _py;
+        ofVec3f _position, _prevPosition;
         float _scale, _targetScale;
         float _rotation, _targetRotation;
 
