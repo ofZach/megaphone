@@ -98,7 +98,7 @@ Glyph::Glyph()
         int colorIndex = ofRandom(colorLibrary.size());
         _limbs.back().setColor(colorLibrary[colorIndex]);
 
-        if (ofRandomuf() > 0.2f) {
+        if (ofRandomuf() > 0.5f) {
             // Add some flapping!
             switch (i) {
                 case 1:

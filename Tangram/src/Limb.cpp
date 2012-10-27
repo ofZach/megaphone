@@ -56,7 +56,7 @@ void Limb::enableFlapping(ofVec3f flapAxis)
     _bFlaps = true;
     _flapAxis = flapAxis;
     _flapRotation = 0;
-    _flapSpeed = ofRandom(1, 10);
+    _flapSpeed = ofRandom(1, 5);
     _flapDirection = (ofRandomuf() < 0.5)? 1:-1;
 }
 
