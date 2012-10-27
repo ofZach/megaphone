@@ -11,26 +11,28 @@
 #include "ofMain.h"
 #include "Limb.h"
 
+//--------------------------------------------------------------
+//--------------------------------------------------------------
 class Glyph
 {
-public:
-    Glyph();
-    void addLimb(Limb limb);
-    void clearLimbs();
-    const vector<Limb>& limbs();
+    public:
+        Glyph();
+        void addLimb(Limb limb);
+        void clearLimbs();
+        const vector<Limb>& limbs();
 
-    void move(int x, int y);
-    void update();
-    void draw();
+        void move(int x, int y);
+        void update();
+        void draw();
 
-    void setScale(float scale);
+        void setScale(float scale);
 
-private:
+    private:
 
-    float _x, _y;
-    float _px, _py;
-    float _scale, _targetScale;
-    float _rotation, _targetRotation;
+        float _x, _y;
+        float _px, _py;
+        float _scale, _targetScale;
+        float _rotation, _targetRotation;
 
-    vector<Limb> _limbs;
+        vector<Limb> _limbs;
 };

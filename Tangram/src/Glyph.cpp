@@ -11,6 +11,7 @@
 vector<Limb> limbLibrary;
 vector<ofColor> colorLibrary;
 
+//--------------------------------------------------------------
 void buildLimbLibrary()
 {
     // Add all the limbs.
@@ -63,6 +64,7 @@ void buildLimbLibrary()
     limbLibrary.push_back(limb);
 }
 
+//--------------------------------------------------------------
 void buildColorLibrary()
 {
     colorLibrary.push_back(ofColor(245, 180, 69));
@@ -73,6 +75,7 @@ void buildColorLibrary()
     colorLibrary.push_back(ofColor(0, 55, 115));
 }
 
+//--------------------------------------------------------------
 Glyph::Glyph()
 {
     _x = _px = 0;
@@ -121,21 +124,25 @@ Glyph::Glyph()
     }    
 }
 
+//--------------------------------------------------------------
 void Glyph::addLimb(Limb limb)
 {
     _limbs.push_back(limb);
 }
 
+//--------------------------------------------------------------
 void Glyph::clearLimbs()
 {
     _limbs.clear();
 }
 
+//--------------------------------------------------------------
 const vector<Limb>& Glyph::limbs()
 {
     return _limbs;
 }
 
+//--------------------------------------------------------------
 void Glyph::move(int x, int y)
 {
     _px = _x;
@@ -154,6 +161,7 @@ void Glyph::move(int x, int y)
     }
 }
 
+//--------------------------------------------------------------
 void Glyph::update()
 {
     _scale = ofLerp(_scale, _targetScale, 0.2);
@@ -164,6 +172,7 @@ void Glyph::update()
     }
 }
 
+//--------------------------------------------------------------
 void Glyph::draw()
 {
     ofPushStyle();

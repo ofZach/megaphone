@@ -8,41 +8,49 @@
 
 #include "Limb.h"
 
+//--------------------------------------------------------------
 Limb::Limb()
 {
     _bFlaps = false;
 }
 
+//--------------------------------------------------------------
 void Limb::addCoord(ofVec3f coord)
 {
     _coords.push_back(coord);
 }
 
+//--------------------------------------------------------------
 void Limb::clearCoords()
 {
     _coords.clear();
 }
 
+//--------------------------------------------------------------
 const vector<ofVec3f>& Limb::coords()
 {
     return _coords;
 }
 
+//--------------------------------------------------------------
 void Limb::setColor(ofColor color)
 {
     _color = color;
 }
 
+//--------------------------------------------------------------
 const ofColor& Limb::color()
 {
     return _color;
 }
 
+//--------------------------------------------------------------
 bool Limb::flaps()
 {
     return _bFlaps;
 }
 
+//--------------------------------------------------------------
 void Limb::enableFlapping(ofVec3f flapAxis)
 {
     _bFlaps = true;
@@ -52,11 +60,13 @@ void Limb::enableFlapping(ofVec3f flapAxis)
     _flapDirection = (ofRandomuf() < 0.5)? 1:-1;
 }
 
+//--------------------------------------------------------------
 void Limb::disableFlapping()
 {
     _bFlaps = false;
 }
 
+//--------------------------------------------------------------
 void Limb::update()
 {
     if (_bFlaps) {
@@ -67,6 +77,7 @@ void Limb::update()
     }
 }
 
+//--------------------------------------------------------------
 void Limb::draw()
 {
     if (_bFlaps) {
