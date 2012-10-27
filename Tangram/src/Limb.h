@@ -13,6 +13,8 @@
 class Limb
 {
 public:
+    Limb();
+
     void addCoord(ofVec3f coord);
     void clearCoords();
     const vector<ofVec3f>& coords();
@@ -20,9 +22,20 @@ public:
     void setColor(ofColor color);
     const ofColor& color();
 
+    bool flaps();
+    void enableFlapping(ofVec3f flapAxis);
+    void disableFlapping();
+
+    void update();
     void draw();
 
 private:
     vector<ofVec3f> _coords;
     ofColor _color;
+
+    bool _bFlaps;
+    float _flapRotation;
+    float _flapSpeed;
+    int _flapDirection;
+    ofVec3f _flapAxis;
 };

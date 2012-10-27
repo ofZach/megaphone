@@ -94,6 +94,30 @@ Glyph::Glyph()
         _limbs.push_back(limbLibrary[i]);
         int colorIndex = ofRandom(colorLibrary.size());
         _limbs.back().setColor(colorLibrary[colorIndex]);
+
+        if (ofRandomuf() > 0.2f) {
+            // Add some flapping!
+            switch (i) {
+                case 1:
+                    _limbs.back().enableFlapping(ofVec3f(1, 1, 0));
+                    break;
+                case 2:
+                    _limbs.back().enableFlapping(ofVec3f(1, -1, 0));
+                    break;
+                case 3:
+                    _limbs.back().enableFlapping(ofVec3f(1, 1, 0));
+                    break;
+                case 4:
+                    _limbs.back().enableFlapping(ofVec3f(1, 1, 0));
+                    break;
+                case 5:
+                    _limbs.back().enableFlapping(ofVec3f(1, 0, 0));
+                    break;
+                case 6:
+                    _limbs.back().enableFlapping(ofVec3f(1, -1, 0));
+                    break;
+            }
+        }
     }    
 }
 
@@ -134,6 +158,10 @@ void Glyph::update()
 {
     _scale = ofLerp(_scale, _targetScale, 0.2);
     _rotation = ofLerp(_rotation, _targetRotation, 0.2);
+
+    for (int i = 0; i < _limbs.size(); i++) {
+        _limbs[i].update();
+    }
 }
 
 void Glyph::draw()
