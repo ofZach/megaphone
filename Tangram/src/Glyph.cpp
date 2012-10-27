@@ -141,7 +141,7 @@ const vector<Limb>& Glyph::limbs()
 }
 
 //--------------------------------------------------------------
-void Glyph::move(int x, int y)
+void Glyph::moveTo(int x, int y)
 {
     _prevPosition = _position;
     _position.set(x, y);

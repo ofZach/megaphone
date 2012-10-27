@@ -46,7 +46,7 @@ void testApp::mouseMoved(int x, int y)
 void testApp::mouseDragged(int x, int y, int button)
 {
     if (glyphs.size() > 0) {
-        glyphs[glyphs.size() - 1].move(x, y);
+            glyphs[glyphs.size() - 1].moveTo(x, y);
     }
 }
 

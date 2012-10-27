@@ -21,7 +21,7 @@ class Glyph
         void clearLimbs();
         const vector<Limb>& limbs();
 
-        void move(int x, int y);
+        void moveTo(int x, int y);
         void update();
         void draw();
 
