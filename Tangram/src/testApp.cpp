@@ -23,6 +23,10 @@ void testApp::draw()
     for (int i = 0; i < glyphs.size(); i++) {
         glyphs[i].draw();
     }
+
+    // Draw some instructions.
+    ofSetColor(0);
+    ofDrawBitmapString("Mode [1] Click to create, drag to move.\nMode [2] Drag to spray.\n[SPACEBAR] to clear.", 20, 20);
 }
 
 //--------------------------------------------------------------
