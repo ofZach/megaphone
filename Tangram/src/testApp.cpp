@@ -5,6 +5,13 @@ void testApp::setup()
 {
     ofSetVerticalSync(true);
     mode = 1;
+
+    // Create an alphabet.
+    for (int i = 0; i < 26; i++) {
+        alphabet.push_back(Glyph());
+    }
+    alphaScale = 20;
+    alphaPos.set(20, ofGetHeight() - 20 - alphaScale);
 }
 
 //--------------------------------------------------------------
@@ -36,6 +43,48 @@ void testApp::keyPressed(int key)
     
     else if (key == '1') mode = 1;
     else if (key == '2') mode = 2;
+    else if (key == '3') mode = 3;
+
+    if (mode == 3) {
+        if (key >= 'a' && key <= 'z') {
+            int index = key - 'a';
+
+            // Add a new Word if none exist yet.
+            if (words.size() == 0) {
+                words.push_back(Word());
+            }
+
+            // Add a new Glyph to the last Word.
+            words.back().addGlyph(alphabet[index]);
+            words.back().glyphs().back().moveTo(alphaPos);
+            words.back().glyphs().back().setScale(alphaScale);
+            words.back().glyphs().back().setAnimates(false);
+
+            // Set the next Glyph position.
+            alphaPos.x += alphaScale * 4;
+        }
+        else if (key == OF_KEY_BACKSPACE && words.size() > 0) {
+            // If the last Word has no more Glyphs, remove the last Word.
+            if (words.back().glyphs().size() == 0) {
+                words.pop_back();
+            }
+            else {
+                // Remove the last Glyph from the last Word.
+                words.back().glyphs().pop_back();
+            }
+
+            // Set the next Glyph position.
+            alphaPos.x -= alphaScale * 4;
+        }
+        else if (key == OF_KEY_RETURN && words.size() > 0) {
+            // Push the last Word on the page.
+            words.back().moveTo(ofVec3f(mouseX, mouseY));
+            for (int i = 0; i < words.back().glyphs().size(); i++) {
+                words.back().glyphs()[i].setScale(alphaScale);
+                words.back().glyphs()[i].setAnimates(true);
+            }
+        }
+    }
 }
 
 //--------------------------------------------------------------

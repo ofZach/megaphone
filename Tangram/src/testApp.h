@@ -27,4 +27,9 @@ class testApp : public ofBaseApp
 
         vector<Word> words;
         ofVec3f prevMousePos, mousePos;
+
+        vector<Glyph> alphabet;
+        float alphaScale;
+        ofVec3f alphaPos;
+        ofVec3f linePos;
 };
