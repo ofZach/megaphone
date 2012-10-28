@@ -194,6 +194,22 @@ void Glyph::draw()
 }
 
 //--------------------------------------------------------------
+bool Glyph::animates()
+{
+    return _bAnimates;
+}
+
+//--------------------------------------------------------------
+void Glyph::setAnimates(bool animates)
+{
+    _bAnimates = animates;
+    
+    for (int i = 0; i < _limbs.size(); i++) {
+        _limbs[i].setFlaps(_bAnimates);
+    }
+}
+
+//--------------------------------------------------------------
 void Glyph::setScale(float scale)
 {
     _targetScale = scale;

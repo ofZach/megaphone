@@ -25,6 +25,9 @@ class Glyph
         void update();
         void draw();
 
+        bool animates();
+        void setAnimates(bool animates);
+
         void setScale(float scale);
         void setRotation(float rotation);
         void setVelocity(ofVec3f velocity);
@@ -34,6 +37,8 @@ class Glyph
         ofVec3f _velocity;
         float _scale, _targetScale;
         float _rotation, _targetRotation;
+
+        bool _bAnimates;
 
         vector<Limb> _limbs;
 };
