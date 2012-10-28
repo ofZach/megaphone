@@ -39,6 +39,18 @@ void Word::moveTo(ofVec3f position)
 }
 
 //--------------------------------------------------------------
+void Word::pushTo(ofVec3f position, float scalar)
+{
+    if (_glyphs.size() == 0) return;
+
+    ofVec3f offset = position - _glyphs[0].position();
+
+    for (int i = 0; i < _glyphs.size(); i++) {
+        _glyphs[i].setVelocity(offset * scalar);
+    }
+}
+
+//--------------------------------------------------------------
 void Word::update()
 {
     for (int i = 0; i < _glyphs.size(); i++) {

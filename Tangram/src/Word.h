@@ -21,6 +21,7 @@ class Word
         vector<Glyph>& glyphs();
 
         void moveTo(ofVec3f position);
+        void pushTo(ofVec3f position, float scalar);
         void update();
         void draw();
 
