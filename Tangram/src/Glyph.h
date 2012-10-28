@@ -24,6 +24,8 @@ class Glyph
         const ofVec3f& position();
         void setPosition(ofVec3f position);
         void moveTo(ofVec3f position);
+        void moveBy(ofVec3f offset);
+
         void update();
         void draw();
 

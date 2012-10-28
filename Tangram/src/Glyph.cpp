@@ -170,6 +170,12 @@ void Glyph::moveTo(ofVec3f position)
 }
 
 //--------------------------------------------------------------
+void Glyph::moveBy(ofVec3f offset)
+{
+    moveTo(_position + offset);
+}
+
+//--------------------------------------------------------------
 void Glyph::update()
 {
     if (_velocity.length() >= 1) {
