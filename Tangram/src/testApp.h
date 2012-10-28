@@ -2,7 +2,7 @@
 
 #include "ofMain.h"
 
-#include "Glyph.h"
+#include "Word.h"
 
 //--------------------------------------------------------------
 //--------------------------------------------------------------
@@ -25,6 +25,6 @@ class testApp : public ofBaseApp
 
         int mode;
 
-        vector<Glyph> glyphs;
+        vector<Word> words;
         ofVec3f prevMousePos, mousePos;
 };
