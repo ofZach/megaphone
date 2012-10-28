@@ -135,7 +135,7 @@ void Glyph::clearLimbs()
 }
 
 //--------------------------------------------------------------
-const vector<Limb>& Glyph::limbs()
+vector<Limb>& Glyph::limbs()
 {
     return _limbs;
 }

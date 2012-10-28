@@ -19,7 +19,7 @@ class Glyph
         Glyph();
         void addLimb(Limb limb);
         void clearLimbs();
-        const vector<Limb>& limbs();
+        vector<Limb>& limbs();
 
         const ofVec3f& position();
         void setPosition(ofVec3f position);
