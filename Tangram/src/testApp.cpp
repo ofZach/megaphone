@@ -55,10 +55,12 @@ void testApp::keyPressed(int key)
             }
 
             // Add a new Glyph to the last Word.
-            words.back().addGlyph(alphabet[index]);
-            words.back().glyphs().back().moveTo(alphaPos);
-            words.back().glyphs().back().setScale(alphaScale);
-            words.back().glyphs().back().setAnimates(false);
+            Glyph newGlyph = alphabet[index];
+            newGlyph.moveTo(alphaPos);
+            newGlyph.setScale(alphaScale);
+            newGlyph.setAnimates(false);
+
+            words.back().addGlyph(newGlyph);
 
             // Set the next Glyph position.
             alphaPos.x += alphaScale * 4;
@@ -77,11 +79,13 @@ void testApp::keyPressed(int key)
             alphaPos.x -= alphaScale * 4;
         }
         else if (key == OF_KEY_RETURN && words.size() > 0) {
+            Word& lastWord = words.back();
+            
             // Push the last Word on the page.
-            words.back().moveTo(ofVec3f(mouseX, mouseY));
-            for (int i = 0; i < words.back().glyphs().size(); i++) {
-                words.back().glyphs()[i].setScale(alphaScale);
-                words.back().glyphs()[i].setAnimates(true);
+            lastWord.moveTo(ofVec3f(mouseX, mouseY));
+            for (int i = 0; i < lastWord.glyphs().size(); i++) {
+                lastWord.glyphs()[i].setScale(alphaScale);
+                lastWord.glyphs()[i].setAnimates(true);
             }
         }
     }
@@ -116,11 +120,12 @@ void testApp::mouseDragged(int x, int y, int button)
             float targetRotation = RAD_TO_DEG * (atan2(prevMousePos.y - mousePos.y, prevMousePos.x - mousePos.x));
 
             // Add a new Glyph to the last Word.
-            words.back().addGlyph(Glyph());
-            words.back().glyphs().back().moveTo(mousePos);
-            words.back().glyphs().back().setScale(targetScale);
-            words.back().glyphs().back().setRotation(targetRotation);
-            words.back().glyphs().back().setVelocity((mousePos - prevMousePos) * 0.5);
+            Glyph glyph;
+            glyph.moveTo(mousePos);
+            glyph.setScale(targetScale);
+            glyph.setRotation(targetRotation);
+            glyph.setVelocity((mousePos - prevMousePos) * 0.5);
+            words.back().addGlyph(glyph);
         }
     }
 }
@@ -132,8 +137,9 @@ void testApp::mousePressed(int x, int y, int button)
 
     if (mode == 1) {  // DRAG MODE
         // Add a new Word, holding a single Glyph.
-        words.push_back(Word());
-        words.back().addGlyph(Glyph());
+        Word word;
+        word.addGlyph(Glyph());
+        words.push_back(word);
     }
     else if (mode == 2) {  // SPRAY MODE
         // Add a new Word.
