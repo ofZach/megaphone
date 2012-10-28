@@ -240,7 +240,7 @@ void Glyph::setRotation(float rotation)
 }
 
 //--------------------------------------------------------------
-void Glyph::setVelocity(ofVec3f velocity)
+void Glyph::addVelocity(ofVec3f velocity)
 {
-    _velocity = velocity;
+    _velocity += velocity;
 }

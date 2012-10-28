@@ -150,7 +150,7 @@ void testApp::mouseDragged(int x, int y, int button)
             glyph.moveTo(mousePos);
             glyph.setScale(targetScale);
             glyph.setRotation(targetRotation);
-            glyph.setVelocity((mousePos - prevMousePos) * 0.5);
+            glyph.addVelocity((mousePos - prevMousePos) * 0.5);
             words.back().addGlyph(glyph);
         }
     }
@@ -180,7 +180,7 @@ void testApp::mouseReleased(int x, int y, int button)
 {
     if (mode == 1) {  // DRAG MODE
         if (words.size() > 0) {
-            words.back().glyphs().back().setVelocity((mousePos - prevMousePos) * 0.5);
+            words.back().glyphs().back().addVelocity((mousePos - prevMousePos) * 0.5);
         }
     }
 }

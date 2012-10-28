@@ -34,7 +34,7 @@ class Glyph
 
         void setScale(float scale);
         void setRotation(float rotation);
-        void setVelocity(ofVec3f velocity);
+        void addVelocity(ofVec3f velocity);
 
     private:
         ofVec3f _position, _prevPosition;
