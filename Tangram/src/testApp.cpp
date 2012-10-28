@@ -10,8 +10,9 @@ void testApp::setup()
     for (int i = 0; i < 26; i++) {
         alphabet.push_back(Glyph());
     }
-    alphaScale = 20;
-    alphaPos.set(20, ofGetHeight() - 20 - alphaScale);
+    alphaScale = 16;
+    alphaPos.set(20, ofGetHeight() - 20 - alphaScale * 4);
+    linePos.set(20, 20 + alphaScale * 4);
 }
 
 //--------------------------------------------------------------
@@ -33,19 +34,28 @@ void testApp::draw()
 
     // Draw some instructions.
     ofSetColor(0);
-    ofDrawBitmapString("Mode [1] Click to create, drag to move.\nMode [2] Drag to spray.\n[SPACEBAR] to clear.", 20, 20);
+    ofDrawBitmapString("Mode [1] Click to create, drag to move.\nMode [2] Drag to spray.\nMode [3] Type to create, [RETURN] to push.\n[DELETE] to clear.", 20, 20);
 }
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key)
 {
-    if (key == ' ') words.clear();
-    
-    else if (key == '1') mode = 1;
+    if (key == '1') mode = 1;
     else if (key == '2') mode = 2;
-    else if (key == '3') mode = 3;
+    else if (key == '3') {
+        mode = 3;
 
-    if (mode == 3) {
+        // Add a new Word to start with.
+        words.push_back(Word());
+    }
+
+    if (mode == 1 || mode == 2) {
+        if (key == OF_KEY_BACKSPACE || OF_KEY_DEL) {
+            // Remove all the Words.
+            words.clear();
+        }
+    }
+    else if (mode == 3) {
         if (key >= 'a' && key <= 'z') {
             int index = key - 'a';
 
@@ -78,15 +88,31 @@ void testApp::keyPressed(int key)
             // Set the next Glyph position.
             alphaPos.x -= alphaScale * 4;
         }
+        else if (key == OF_KEY_DEL) {
+            // Remove all the Words.
+            words.clear();
+            linePos.set(20, 20 + alphaScale * 4);
+        }
         else if (key == OF_KEY_RETURN && words.size() > 0) {
             Word& lastWord = words.back();
             
             // Push the last Word on the page.
-            lastWord.moveTo(ofVec3f(mouseX, mouseY));
+            lastWord.pushTo(linePos, 0.1);
             for (int i = 0; i < lastWord.glyphs().size(); i++) {
                 lastWord.glyphs()[i].setScale(alphaScale);
                 lastWord.glyphs()[i].setAnimates(true);
             }
+
+            // Add a new Word.
+            words.push_back(Word());
+            alphaPos.set(20, ofGetHeight() - 20 - alphaScale * 4);
+
+            // Set the next line position.
+            linePos.y += alphaScale * 4;
+        }
+        else if (key == ' ') {
+            // Add a space.
+            alphaPos.x += alphaScale * 4;
         }
     }
 }
