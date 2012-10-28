@@ -100,22 +100,22 @@ Glyph::Glyph()
             // Add some flapping!
             switch (i) {
                 case 1:
-                    _limbs.back().enableFlapping(ofVec3f(1, 1, 0));
+                    _limbs.back().setupFlapping(ofVec3f(1, 1, 0));
                     break;
                 case 2:
-                    _limbs.back().enableFlapping(ofVec3f(1, -1, 0));
+                    _limbs.back().setupFlapping(ofVec3f(1, -1, 0));
                     break;
                 case 3:
-                    _limbs.back().enableFlapping(ofVec3f(1, 1, 0));
+                    _limbs.back().setupFlapping(ofVec3f(1, 1, 0));
                     break;
                 case 4:
-                    _limbs.back().enableFlapping(ofVec3f(1, 1, 0));
+                    _limbs.back().setupFlapping(ofVec3f(1, 1, 0));
                     break;
                 case 5:
-                    _limbs.back().enableFlapping(ofVec3f(1, 0, 0));
+                    _limbs.back().setupFlapping(ofVec3f(1, 0, 0));
                     break;
                 case 6:
-                    _limbs.back().enableFlapping(ofVec3f(1, -1, 0));
+                    _limbs.back().setupFlapping(ofVec3f(1, -1, 0));
                     break;
             }
         }

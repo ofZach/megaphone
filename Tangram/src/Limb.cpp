@@ -51,19 +51,19 @@ bool Limb::flaps()
 }
 
 //--------------------------------------------------------------
-void Limb::enableFlapping(ofVec3f flapAxis)
+void Limb::setFlaps(bool flaps)
+{
+    _bFlaps = flaps;
+}
+
+//--------------------------------------------------------------
+void Limb::setupFlapping(ofVec3f flapAxis)
 {
     _bFlaps = true;
     _flapAxis = flapAxis;
     _flapRotation = 0;
     _flapSpeed = ofRandom(1, 5);
     _flapDirection = (ofRandomuf() < 0.5)? 1:-1;
-}
-
-//--------------------------------------------------------------
-void Limb::disableFlapping()
-{
-    _bFlaps = false;
 }
 
 //--------------------------------------------------------------
