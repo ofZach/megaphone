@@ -57,7 +57,7 @@ void testApp::mouseDragged(int x, int y, int button)
 
     if (mode == 1) {  // DRAG MODE
         if (glyphs.size() > 0) {
-            glyphs.back().moveTo(x, y);
+            glyphs.back().moveTo(mousePos);
         }
     }
     else if (mode == 2) {  // SPRAY MODE
@@ -67,7 +67,7 @@ void testApp::mouseDragged(int x, int y, int button)
 
             // Add a new Glyph.
             glyphs.push_back(Glyph());
-            glyphs.back().moveTo(mousePos.x, mousePos.y);
+            glyphs.back().moveTo(mousePos);
             glyphs.back().setScale(targetScale);
             glyphs.back().setRotation(targetRotation);
             glyphs.back().setVelocity((mousePos - prevMousePos) * 0.5);

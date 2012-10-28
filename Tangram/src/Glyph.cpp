@@ -141,10 +141,22 @@ const vector<Limb>& Glyph::limbs()
 }
 
 //--------------------------------------------------------------
-void Glyph::moveTo(int x, int y)
+const ofVec3f& Glyph::position()
+{
+    return _position;
+}
+
+//--------------------------------------------------------------
+void Glyph::setPosition(ofVec3f position)
 {
     _prevPosition = _position;
-    _position.set(x, y);
+    _position.set(position);
+}
+
+//--------------------------------------------------------------
+void Glyph::moveTo(ofVec3f position)
+{
+    setPosition(position);
 
     _targetScale = ofMap(_position.distance(_prevPosition), 0, MAX(ofGetWidth(), ofGetHeight()), 10, 1000);
     _targetRotation = RAD_TO_DEG * (atan2(_prevPosition.y - _position.y, _prevPosition.x - _position.x));
