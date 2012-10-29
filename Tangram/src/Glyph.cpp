@@ -100,22 +100,22 @@ Glyph::Glyph()
             // Add some flapping!
             switch (i) {
                 case 1:
-                    _limbs.back().enableFlapping(ofVec3f(1, 1, 0));
+                    _limbs.back().setupFlapping(ofVec3f(1, 1, 0));
                     break;
                 case 2:
-                    _limbs.back().enableFlapping(ofVec3f(1, -1, 0));
+                    _limbs.back().setupFlapping(ofVec3f(1, -1, 0));
                     break;
                 case 3:
-                    _limbs.back().enableFlapping(ofVec3f(1, 1, 0));
+                    _limbs.back().setupFlapping(ofVec3f(1, 1, 0));
                     break;
                 case 4:
-                    _limbs.back().enableFlapping(ofVec3f(1, 1, 0));
+                    _limbs.back().setupFlapping(ofVec3f(1, 1, 0));
                     break;
                 case 5:
-                    _limbs.back().enableFlapping(ofVec3f(1, 0, 0));
+                    _limbs.back().setupFlapping(ofVec3f(1, 0, 0));
                     break;
                 case 6:
-                    _limbs.back().enableFlapping(ofVec3f(1, -1, 0));
+                    _limbs.back().setupFlapping(ofVec3f(1, -1, 0));
                     break;
             }
         }
@@ -135,16 +135,28 @@ void Glyph::clearLimbs()
 }
 
 //--------------------------------------------------------------
-const vector<Limb>& Glyph::limbs()
+vector<Limb>& Glyph::limbs()
 {
     return _limbs;
 }
 
 //--------------------------------------------------------------
-void Glyph::moveTo(int x, int y)
+const ofVec3f& Glyph::position()
+{
+    return _position;
+}
+
+//--------------------------------------------------------------
+void Glyph::setPosition(ofVec3f position)
 {
     _prevPosition = _position;
-    _position.set(x, y);
+    _position.set(position);
+}
+
+//--------------------------------------------------------------
+void Glyph::moveTo(ofVec3f position)
+{
+    setPosition(position);
 
     _targetScale = ofMap(_position.distance(_prevPosition), 0, MAX(ofGetWidth(), ofGetHeight()), 10, 1000);
     _targetRotation = RAD_TO_DEG * (atan2(_prevPosition.y - _position.y, _prevPosition.x - _position.x));
@@ -155,6 +167,12 @@ void Glyph::moveTo(int x, int y)
     else if ((_targetRotation - _rotation) > 180) {
         _targetRotation -= 360;
     }
+}
+
+//--------------------------------------------------------------
+void Glyph::moveBy(ofVec3f offset)
+{
+    moveTo(_position + offset);
 }
 
 //--------------------------------------------------------------
@@ -194,6 +212,22 @@ void Glyph::draw()
 }
 
 //--------------------------------------------------------------
+bool Glyph::animates()
+{
+    return _bAnimates;
+}
+
+//--------------------------------------------------------------
+void Glyph::setAnimates(bool animates)
+{
+    _bAnimates = animates;
+    
+    for (int i = 0; i < _limbs.size(); i++) {
+        _limbs[i].setFlaps(_bAnimates);
+    }
+}
+
+//--------------------------------------------------------------
 void Glyph::setScale(float scale)
 {
     _targetScale = scale;
@@ -206,7 +240,7 @@ void Glyph::setRotation(float rotation)
 }
 
 //--------------------------------------------------------------
-void Glyph::setVelocity(ofVec3f velocity)
+void Glyph::addVelocity(ofVec3f velocity)
 {
-    _velocity = velocity;
+    _velocity += velocity;
 }

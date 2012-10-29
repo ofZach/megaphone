@@ -19,21 +19,30 @@ class Glyph
         Glyph();
         void addLimb(Limb limb);
         void clearLimbs();
-        const vector<Limb>& limbs();
+        vector<Limb>& limbs();
 
-        void moveTo(int x, int y);
+        const ofVec3f& position();
+        void setPosition(ofVec3f position);
+        void moveTo(ofVec3f position);
+        void moveBy(ofVec3f offset);
+
         void update();
         void draw();
 
+        bool animates();
+        void setAnimates(bool animates);
+
         void setScale(float scale);
         void setRotation(float rotation);
-        void setVelocity(ofVec3f velocity);
+        void addVelocity(ofVec3f velocity);
 
     private:
         ofVec3f _position, _prevPosition;
         ofVec3f _velocity;
         float _scale, _targetScale;
         float _rotation, _targetRotation;
+
+        bool _bAnimates;
 
         vector<Limb> _limbs;
 };

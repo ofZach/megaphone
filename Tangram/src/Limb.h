@@ -25,8 +25,8 @@ class Limb
         const ofColor& color();
 
         bool flaps();
-        void enableFlapping(ofVec3f flapAxis);
-        void disableFlapping();
+        void setFlaps(bool flaps);
+        void setupFlapping(ofVec3f flapAxis);
 
         void update();
         void draw();
