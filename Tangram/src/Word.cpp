@@ -21,37 +21,71 @@ void Word::addGlyph(Glyph glyph)
 }
 
 //--------------------------------------------------------------
+void Word::resetForces()
 {
-}
-
-//--------------------------------------------------------------
-void Word::moveTo(ofVec3f position)
-{
-    if (_glyphs.size() == 0) return;
-
-    ofVec3f offset = position - _glyphs[0].position();
-    
     for (int i = 0; i < _glyphs.size(); i++) {
-        _glyphs[i].moveBy(offset);
+        _glyphs[i].resetForce();
     }
 }
 
 //--------------------------------------------------------------
-void Word::pushTo(ofVec3f position, float scalar)
+void Word::addInternalForces()
 {
-    if (_glyphs.size() == 0) return;
-
-    ofVec3f offset = position - _glyphs[0].position();
-
     for (int i = 0; i < _glyphs.size(); i++) {
-        _glyphs[i].addVelocity(offset * scalar);
+        _glyphs[i].addRepulsionForce(ofVec2f(ofGetMouseX(), ofGetMouseY()), 200, 0.7f);
+
+        for (int j = 0; j < i; j++) {
+            _glyphs[i].addRepulsionForce(_glyphs[j], 100, 0.1);
+        }
+    }
+
+//    for (int i = 0; i < springs.size(); i++){
+//        springs[i].update();
+//    }
+}
+
+//--------------------------------------------------------------
+void Word::repelFromWord(Word& otherWord)
+{
+    if (_bounds.intersects(otherWord.bounds())) {
+        for (int i = 0; i < otherWord.glyphs().size(); i++) {
+            for (int j = 0; j < _glyphs.size(); j++) {
+                otherWord.glyphs()[i].addRepulsionForce(_glyphs[j], 40, 10.4);
+            }
+        }
     }
 }
+
+////--------------------------------------------------------------
+//void Word::moveTo(ofVec3f position)
+//{
+//    if (_glyphs.size() == 0) return;
+//
+//    ofVec3f offset = position - _glyphs[0].position();
+//    
+//    for (int i = 0; i < _glyphs.size(); i++) {
+//        _glyphs[i].moveBy(offset);
+//    }
+//}
+
+////--------------------------------------------------------------
+//void Word::pushTo(ofVec3f position, float scalar)
+//{
+//    if (_glyphs.size() == 0) return;
+//
+//    ofVec3f offset = position - _glyphs[0].position();
+//
+//    for (int i = 0; i < _glyphs.size(); i++) {
+//        _glyphs[i].addVelocity(offset * scalar);
+//    }
+//}
 
 //--------------------------------------------------------------
 void Word::update()
 {
     for (int i = 0; i < _glyphs.size(); i++) {
+        _glyphs[i].bounceOffWalls();
+        _glyphs[i].addDampingForce();
         _glyphs[i].update();
     }
 

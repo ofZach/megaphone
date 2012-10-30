@@ -81,6 +81,10 @@ Glyph::Glyph()
     _scale = _targetScale = 1;
     _rotation = _targetRotation = 0;
 
+    setInitialCondition(ofVec2f(), ofVec2f());
+    _damping = 0.15;
+    _bFixed = false;
+
     if (limbLibrary.size() == 0) {
         buildLimbLibrary();
     }
@@ -144,51 +148,147 @@ vector<Limb>& Glyph::limbs()
     return _limbs;
 }
 
+#pragma mark - Physics Methods
+
 //--------------------------------------------------------------
-const ofVec3f& Glyph::position()
+void Glyph::setInitialCondition(ofVec2f pos, ofVec2f vel)
 {
-    return _position;
+    _pos.set(pos);
+    _vel.set(vel);
 }
 
 //--------------------------------------------------------------
-void Glyph::setPosition(ofVec3f position)
+void Glyph::resetForce()
 {
-    _prevPosition = _position;
-    _position.set(position);
+    // Should be reset every frame.
+    _acc.set(0, 0);
 }
 
 //--------------------------------------------------------------
-void Glyph::moveTo(ofVec3f position)
+void Glyph::addForce(ofVec2f frc)
 {
-    setPosition(position);
+    _acc += frc;
+}
 
-    _targetScale = ofMap(_position.distance(_prevPosition), 0, MAX(ofGetWidth(), ofGetHeight()), 10, 1000);
-    _targetRotation = RAD_TO_DEG * (atan2(_prevPosition.y - _position.y, _prevPosition.x - _position.x));
+//--------------------------------------------------------------
+void Glyph::addDampingForce()
+{
+    _acc -= _vel * _damping;
+}
 
-    if ((_rotation - _targetRotation) > 180) {
-        _targetRotation += 360;
+//--------------------------------------------------------------
+void Glyph::bounceOffWalls(bool bDampenCollision)
+{
+	bool bDidCollide = false;
+
+	// Set the wall limits.
+	float minX = 0;
+	float minY = 0;
+	float maxX = ofGetWidth();
+	float maxY = ofGetHeight();
+
+    ofRectangle bounds = absBounds();
+
+	if (bounds.getMaxX() > ofGetWidth()) {
+		_pos.x -= bounds.getMaxX() - ofGetWidth(); // move to the edge, (important!)
+		_vel.x *= -1;
+		bDidCollide = true;
+	}
+    else if (bounds.getMinX() < 0){
+		_pos.x = 0; // move to the edge, (important!)
+		_vel.x *= -1;
+		bDidCollide = true;
+	}
+
+	if (bounds.getMaxY() > ofGetHeight()) {
+		_pos.y -= bounds.getMaxY() - ofGetHeight(); // move to the edge, (important!)
+		_vel.y *= -1;
+		bDidCollide = true;
+	}
+    else if (bounds.getMinY() < 0) {
+		_pos.y = 0; // move to the edge, (important!)
+		_vel.y *= -1;
+		bDidCollide = true;
+	}
+
+	if (bDidCollide && bDampenCollision) {
+		_vel *= 0.3;
+	}
+}
+
+//--------------------------------------------------------------
+void Glyph::addRepulsionForce(ofVec2f posOfForce, float radius, float scale)
+{
+	ofVec2f deltaPos = _pos - posOfForce;
+	float length = deltaPos.length();
+
+    // If we're close enough, update the force.
+    if ((radius == 0) || (length <= radius)) {
+		float pct = 1 - (length / radius);
+        deltaPos.normalize();
+		_acc += deltaPos * scale * pct;
     }
-    else if ((_targetRotation - _rotation) > 180) {
-        _targetRotation -= 360;
+}
+
+//------------------------------------------------------------
+void Glyph::addRepulsionForce(Glyph& glyph, float radius, float scale)
+{
+    ofVec2f posOfForce = glyph.pos();
+
+    ofVec2f deltaPos = _pos - posOfForce;
+	float length = deltaPos.length();
+
+    // If we're close enough, update the force.
+    if ((radius == 0) || (length <= radius)) {
+		float pct = 1 - (length / radius);
+        deltaPos.normalize();
+		_acc += deltaPos * scale * pct;
+        glyph.acc() -= deltaPos * scale * pct;
     }
 }
 
 //--------------------------------------------------------------
-void Glyph::moveBy(ofVec3f offset)
+void Glyph::addAttractionForce(ofVec2f posOfForce, float radius, float scale)
 {
-    moveTo(_position + offset);
+    ofVec2f deltaPos = _pos - posOfForce;
+	float length = deltaPos.length();
+
+    // If we're close enough, update the force.
+    if ((radius == 0) || (length <= radius)) {
+		float pct = 1 - (length / radius);
+        deltaPos.normalize();
+		_acc -= deltaPos * scale * pct;
+    }
+}
+
+//--------------------------------------------------------------
+void Glyph::addAttractionForce(Glyph& glyph, float radius, float scale)
+{
+    ofVec2f posOfForce = glyph.pos();
+
+    ofVec2f deltaPos = _pos - posOfForce;
+	float length = deltaPos.length();
+
+    // If we're close enough, update the force.
+    if ((radius == 0) || (length <= radius)) {
+		float pct = 1 - (length / radius);
+        deltaPos.normalize();
+		_acc += deltaPos * scale * pct;
+        glyph.acc() -= deltaPos * scale * pct;
+        glyph.acc() += deltaPos * scale * pct;
+    }
 }
 
 //--------------------------------------------------------------
 void Glyph::update()
 {
-    if (_velocity.length() >= 1) {
-        _position += _velocity;
-    }
+    if (_bFixed == false) {
+		_vel += _acc;
+		_pos += _vel;
+	}
 
     _scale = ofLerp(_scale, _targetScale, 0.2);
     _rotation = ofLerp(_rotation, _targetRotation, 0.2);
-    _velocity *= 0.9f;
 
     for (int i = 0; i < _limbs.size(); i++) {
         _limbs[i].update();
@@ -202,7 +302,7 @@ void Glyph::draw()
     ofFill();
 
     ofPushMatrix();
-    ofTranslate(_position);
+    ofTranslate(_pos);
     ofScale(_scale, _scale, _scale);
     ofRotate(_rotation, 0, 0, 1);
     {
@@ -254,10 +354,8 @@ void Glyph::setRotation(float rotation)
 }
 
 //--------------------------------------------------------------
-void Glyph::addVelocity(ofVec3f velocity)
 ofRectangle Glyph::absBounds()
 {
-    _velocity += velocity;
     ofRectangle absBounds;
 
     // Calculate bounds taking the rotation into account.

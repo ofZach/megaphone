@@ -17,11 +17,17 @@ class Word
 {
     public:
         Word();
+
         void addGlyph(Glyph glyph);
         vector<Glyph>& glyphs() { return _glyphs; }
 
-        void moveTo(ofVec3f position);
-        void pushTo(ofVec3f position, float scalar);
+        void resetForces();
+        void addInternalForces();
+
+        void repelFromWord(Word& otherWord);
+
+//        void moveTo(ofVec3f position);
+//        void pushTo(ofVec3f position, float scalar);
         void update();
         void draw();
         void debug();
