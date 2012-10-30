@@ -21,15 +21,14 @@ class Word
         ~Word();
 
         void addGlyph(Glyph *glyph);
-        vector<Glyph *>& glyphs() { return _glyphs; }
+        void removeLastGlyph();
+        vector<Glyph*>& glyphs() { return _glyphs; }
 
         void resetForces();
         void addInternalForces();
 
         void repelFromWord(Word *otherWord);
 
-//        void moveTo(ofVec3f position);
-//        void pushTo(ofVec3f position, float scalar);
         void update();
         void draw();
         void debug();
@@ -37,7 +36,7 @@ class Word
         const ofRectangle& bounds() { return _bounds; }
 
     private:
-        vector<Glyph *>     _glyphs;
-        vector<Spring *>    _springs;
-        ofRectangle         _bounds;
+        vector<Glyph*>  _glyphs;
+        vector<Spring*> _springs;
+        ofRectangle     _bounds;
 };

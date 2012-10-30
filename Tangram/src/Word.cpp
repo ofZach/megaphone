@@ -33,15 +33,26 @@ void Word::addGlyph(Glyph *glyph)
 {
     _glyphs.push_back(glyph);
 
-    if (_glyphs.size() > 2) {
+    if (_glyphs.size() > 1) {
         // Add a Spring between the last two Glyphs.
-        Spring *spring = new Spring();
-        spring->distance = 10;
-        spring->springiness = 0.2;
-        spring->glyphA = _glyphs.at(_glyphs.size() - 2);
-        spring->glyphB = _glyphs.back();
-
+        Spring *spring = new Spring(_glyphs.at(_glyphs.size() - 2), _glyphs.back());
         _springs.push_back(spring);
+    }
+}
+
+//--------------------------------------------------------------
+void Word::removeLastGlyph()
+{
+    if (_glyphs.size() > 0) {
+        if (_glyphs.size() > 1) {
+            // Delete the last Spring.
+            delete _springs.back();
+            _springs.pop_back();
+        }
+
+        // Delete the last Glyph.
+        delete _glyphs.back();
+        _glyphs.pop_back();
     }
 }
 
@@ -60,7 +71,7 @@ void Word::addInternalForces()
         _glyphs[i]->addRepulsionForce(ofVec2f(ofGetMouseX(), ofGetMouseY()), 200, 0.7f);
 
         for (int j = 0; j < i; j++) {
-            _glyphs[i]->addRepulsionForce(_glyphs[j], 100, 0.1);
+            _glyphs[i]->addRepulsionForce(_glyphs[j], 100, 0.5);
         }
     }
 
@@ -75,7 +86,7 @@ void Word::repelFromWord(Word *otherWord)
     if (_bounds.intersects(otherWord->bounds())) {
         for (int i = 0; i < otherWord->glyphs().size(); i++) {
             for (int j = 0; j < _glyphs.size(); j++) {
-                otherWord->glyphs()[i]->addRepulsionForce(_glyphs[j], 40, 10.4);
+                otherWord->glyphs()[i]->addRepulsionForce(_glyphs[j], 40, 10);
             }
         }
     }

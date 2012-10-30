@@ -17,14 +17,18 @@
 class Spring
 {
 	public:
-		Spring();
-		
-		Glyph * glyphA;
-		Glyph * glyphB;
-		
-		float distance;
-		float springiness;	 // this is the k, springiness constant
+		Spring(Glyph *a, Glyph *b);
+
+        void update();
+        void debug();
+
+        float distance() { return _distance; }
+        float springiness() { return _springiness; }
+
+    private:
+		Glyph *_a;
+        Glyph *_b;
+		float  _distance;
+		float  _springiness;
 	
-		void update();
-		void debug();
 };

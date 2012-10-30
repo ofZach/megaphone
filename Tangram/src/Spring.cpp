@@ -9,36 +9,27 @@
 #include "spring.h"
 
 //---------------------------------------------------------------------
-Spring::Spring()
+Spring::Spring(Glyph *a, Glyph *b)
 {
-	glyphA = NULL;
-	glyphB = NULL;
+	_a = a;
+    _b = b;
+    _distance = MAX(40, _a->pos().distance(_b->pos()));
+    _springiness = 0.52;
 }
 
 //---------------------------------------------------------------------
 void Spring::update()
 {
-	if ((glyphA == NULL) || (glyphB == NULL)) {
-		return;
-	}
+    ofVec2f delta = _a->pos() - _b->pos();
+	float springForce = (_springiness * (_distance - delta.length()));
+	ofVec2f frcToAdd = delta.normalized() * springForce;
 	
-	ofVec2f pta = glyphA->pos();
-	ofVec2f ptb = glyphB->pos();
-	
-	float theirDistance = (pta - ptb).length();
-	float springForce = (springiness * (distance - theirDistance));
-	ofVec2f frcToAdd = (pta-ptb).normalized() * springForce;
-	
-	glyphA->addForce(frcToAdd);
-	glyphB->addForce(frcToAdd * -1);
+	_a->addForce(frcToAdd);
+	_b->addForce(frcToAdd * -1);
 }
 
 //---------------------------------------------------------------------
 void Spring::debug()
 {	
-	if ((glyphA == NULL) || (glyphB == NULL)) {
-		return;
-	}
-	
-	ofLine(glyphA->pos(), glyphB->pos());
+	ofLine(_a->pos(), _b->pos());
 }
