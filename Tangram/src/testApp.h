@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 
+#include "vectorField.h"
 #include "Word.h"
 
 //--------------------------------------------------------------
@@ -25,8 +26,10 @@ class testApp : public ofBaseApp
 
         int mode;
 
+        vectorField VF;
+
         vector<Word *> words;
-        ofVec3f prevMousePos, mousePos;
+        ofVec2f prevMousePos, mousePos;
 
         vector<Glyph> alphabet;
         float alphaScale;

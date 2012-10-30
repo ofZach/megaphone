@@ -4,6 +4,8 @@
 void testApp::setup()
 {
     ofSetVerticalSync(true);
+    ofSetFrameRate(60);
+    
     mode = 1;
 
     // Create an alphabet.
@@ -11,6 +13,8 @@ void testApp::setup()
         alphabet.push_back(Glyph());
     }
     alphaScale = 16;
+
+    VF.setupField(60, 40, ofGetWidth(), ofGetHeight());
 }
 
 //--------------------------------------------------------------
@@ -29,8 +33,9 @@ void testApp::update()
 
     for (int i = 0; i < words.size(); i++) {
         for (int j = 0; j < words[i]->glyphs().size(); j++) {
-//            ofVec2f frc = VF.getForceFromPos(words[i].glyphs()[j].pos().x, words[i].glyphs()[j].pos().y);
-//            words[i].glyphs()[j].addForce(frc);
+            Glyph *glyph = words[i]->glyphs()[j];
+            ofVec2f frc = VF.getForceFromPos(glyph->pos().x, glyph->pos().y);
+            glyph->addForce(frc);
         }
 	}
 
@@ -43,6 +48,9 @@ void testApp::update()
 void testApp::draw()
 {
     ofBackground(255);
+
+    VF.fadeField(0.99);
+    VF.draw();
 
     for (int i = 0; i < words.size(); i++) {
         words[i]->draw();
@@ -233,6 +241,9 @@ void testApp::mouseDragged(int x, int y, int button)
 {
     prevMousePos = mousePos;
     mousePos.set(x, y);
+
+    VF.addInwardCircle(x, y, 600, 0.1f);
+    VF.addClockwiseCircle(x, y, 260, 0.3f);
 
     if (mode == 1) {  // DRAG MODE
         if (words.size() > 0) {
