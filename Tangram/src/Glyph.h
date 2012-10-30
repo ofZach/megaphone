@@ -17,7 +17,8 @@ class Glyph
 {
     public:
         Glyph();
-    
+        ~Glyph();
+
         void addLimb(Limb limb);
         void clearLimbs();
         vector<Limb>& limbs();
@@ -37,8 +38,8 @@ class Glyph
         void bounceOffWalls(bool bDampenCollision = true);
         void addRepulsionForce(ofVec2f frc, float radius, float scale);
         void addAttractionForce(ofVec2f frc, float radius, float scale);
-        void addRepulsionForce(Glyph& glyph, float radius, float scale);
-        void addAttractionForce(Glyph& glyph, float radius, float scale);
+        void addRepulsionForce(Glyph *glyph, float radius, float scale);
+        void addAttractionForce(Glyph *glyph, float radius, float scale);
 
         void setFixed(bool fixed) { _bFixed = fixed; }
         bool isFixed() { return _bFixed; }

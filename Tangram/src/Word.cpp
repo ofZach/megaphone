@@ -15,7 +15,17 @@ Word::Word()
 }
 
 //--------------------------------------------------------------
-void Word::addGlyph(Glyph glyph)
+Word::~Word()
+{
+
+    for (int i = 0; i < _glyphs.size(); i++) {
+        delete _glyphs[i];
+    }
+    _glyphs.clear();
+}
+
+//--------------------------------------------------------------
+void Word::addGlyph(Glyph *glyph)
 {
     _glyphs.push_back(glyph);
 }
@@ -24,7 +34,7 @@ void Word::addGlyph(Glyph glyph)
 void Word::resetForces()
 {
     for (int i = 0; i < _glyphs.size(); i++) {
-        _glyphs[i].resetForce();
+        _glyphs[i]->resetForce();
     }
 }
 
@@ -32,10 +42,10 @@ void Word::resetForces()
 void Word::addInternalForces()
 {
     for (int i = 0; i < _glyphs.size(); i++) {
-        _glyphs[i].addRepulsionForce(ofVec2f(ofGetMouseX(), ofGetMouseY()), 200, 0.7f);
+        _glyphs[i]->addRepulsionForce(ofVec2f(ofGetMouseX(), ofGetMouseY()), 200, 0.7f);
 
         for (int j = 0; j < i; j++) {
-            _glyphs[i].addRepulsionForce(_glyphs[j], 100, 0.1);
+            _glyphs[i]->addRepulsionForce(_glyphs[j], 100, 0.1);
         }
     }
 
@@ -45,12 +55,12 @@ void Word::addInternalForces()
 }
 
 //--------------------------------------------------------------
-void Word::repelFromWord(Word& otherWord)
+void Word::repelFromWord(Word *otherWord)
 {
-    if (_bounds.intersects(otherWord.bounds())) {
-        for (int i = 0; i < otherWord.glyphs().size(); i++) {
+    if (_bounds.intersects(otherWord->bounds())) {
+        for (int i = 0; i < otherWord->glyphs().size(); i++) {
             for (int j = 0; j < _glyphs.size(); j++) {
-                otherWord.glyphs()[i].addRepulsionForce(_glyphs[j], 40, 10.4);
+                otherWord->glyphs()[i]->addRepulsionForce(_glyphs[j], 40, 10.4);
             }
         }
     }
@@ -84,16 +94,16 @@ void Word::repelFromWord(Word& otherWord)
 void Word::update()
 {
     for (int i = 0; i < _glyphs.size(); i++) {
-        _glyphs[i].bounceOffWalls();
-        _glyphs[i].addDampingForce();
-        _glyphs[i].update();
+        _glyphs[i]->bounceOffWalls();
+        _glyphs[i]->addDampingForce();
+        _glyphs[i]->update();
     }
 
     // Calculate the new bounds.
     if (_glyphs.size() > 0) {
-        _bounds = _glyphs[0].absBounds();
+        _bounds = _glyphs[0]->absBounds();
         for (int i = 1; i < _glyphs.size(); i++) {
-            _bounds.growToInclude(_glyphs[i].absBounds());
+            _bounds.growToInclude(_glyphs[i]->absBounds());
         }
     }
 }
@@ -102,7 +112,7 @@ void Word::update()
 void Word::draw()
 {
     for (int i = 0; i < _glyphs.size(); i++) {
-        _glyphs[i].draw();
+        _glyphs[i]->draw();
     }
 }
 
@@ -110,7 +120,7 @@ void Word::draw()
 void Word::debug()
 {
     for (int i = 0; i < _glyphs.size(); i++) {
-        _glyphs[i].debug();
+        _glyphs[i]->debug();
     }
 
     ofNoFill();

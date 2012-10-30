@@ -25,7 +25,7 @@ class testApp : public ofBaseApp
 
         int mode;
 
-        vector<Word> words;
+        vector<Word *> words;
         ofVec3f prevMousePos, mousePos;
 
         vector<Glyph> alphabet;

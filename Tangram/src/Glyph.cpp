@@ -129,6 +129,12 @@ Glyph::Glyph()
 }
 
 //--------------------------------------------------------------
+Glyph::~Glyph()
+{
+
+}
+
+//--------------------------------------------------------------
 void Glyph::addLimb(Limb limb)
 {
     _limbs.push_back(limb);
@@ -231,9 +237,9 @@ void Glyph::addRepulsionForce(ofVec2f posOfForce, float radius, float scale)
 }
 
 //------------------------------------------------------------
-void Glyph::addRepulsionForce(Glyph& glyph, float radius, float scale)
+void Glyph::addRepulsionForce(Glyph *glyph, float radius, float scale)
 {
-    ofVec2f posOfForce = glyph.pos();
+    ofVec2f posOfForce = glyph->pos();
 
     ofVec2f deltaPos = _pos - posOfForce;
 	float length = deltaPos.length();
@@ -243,7 +249,7 @@ void Glyph::addRepulsionForce(Glyph& glyph, float radius, float scale)
 		float pct = 1 - (length / radius);
         deltaPos.normalize();
 		_acc += deltaPos * scale * pct;
-        glyph.acc() -= deltaPos * scale * pct;
+        glyph->acc() -= deltaPos * scale * pct;
     }
 }
 
@@ -262,9 +268,9 @@ void Glyph::addAttractionForce(ofVec2f posOfForce, float radius, float scale)
 }
 
 //--------------------------------------------------------------
-void Glyph::addAttractionForce(Glyph& glyph, float radius, float scale)
+void Glyph::addAttractionForce(Glyph *glyph, float radius, float scale)
 {
-    ofVec2f posOfForce = glyph.pos();
+    ofVec2f posOfForce = glyph->pos();
 
     ofVec2f deltaPos = _pos - posOfForce;
 	float length = deltaPos.length();
@@ -273,9 +279,8 @@ void Glyph::addAttractionForce(Glyph& glyph, float radius, float scale)
     if ((radius == 0) || (length <= radius)) {
 		float pct = 1 - (length / radius);
         deltaPos.normalize();
-		_acc += deltaPos * scale * pct;
-        glyph.acc() -= deltaPos * scale * pct;
-        glyph.acc() += deltaPos * scale * pct;
+		_acc -= deltaPos * scale * pct;
+        glyph->acc() += deltaPos * scale * pct;
     }
 }
 

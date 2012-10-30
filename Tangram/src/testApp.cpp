@@ -17,25 +17,25 @@ void testApp::setup()
 void testApp::update()
 {
     for (int i = 0; i < words.size(); i++) {
-        words[i].resetForces();
-        words[i].addInternalForces();
+        words[i]->resetForces();
+        words[i]->addInternalForces();
     }
 
     for (int i = 0; i < words.size(); i++) {
         for (int j = 0; j < i; j++) {
-            words[i].repelFromWord(words[j]);
+            words[i]->repelFromWord(words[j]);
         }
     }
 
     for (int i = 0; i < words.size(); i++) {
-        for (int j = 0; j < words[i].glyphs().size(); j++) {
+        for (int j = 0; j < words[i]->glyphs().size(); j++) {
 //            ofVec2f frc = VF.getForceFromPos(words[i].glyphs()[j].pos().x, words[i].glyphs()[j].pos().y);
 //            words[i].glyphs()[j].addForce(frc);
         }
 	}
 
     for (int i = 0; i < words.size(); i++) {
-        words[i].update();
+        words[i]->update();
     }
 }
 
@@ -45,8 +45,8 @@ void testApp::draw()
     ofBackground(255);
 
     for (int i = 0; i < words.size(); i++) {
-        words[i].draw();
-        words[i].debug();
+        words[i]->draw();
+        words[i]->debug();
     }
 
     // Draw some instructions.
@@ -245,12 +245,12 @@ void testApp::mouseDragged(int x, int y, int button)
             float targetRotation = RAD_TO_DEG * (atan2(prevMousePos.y - mousePos.y, prevMousePos.x - mousePos.x));
 
             // Add a new Glyph to the last Word.
-            Glyph glyph;
-            glyph.setInitialCondition(mousePos, ofVec2f());
-            glyph.setScale(targetScale);
-            glyph.setRotation(targetRotation);
-            glyph.addForce((mousePos - prevMousePos) * 0.5);
-            words.back().addGlyph(glyph);
+            Glyph *glyph = new Glyph();
+            glyph->setInitialCondition(mousePos, ofVec2f());
+            glyph->setScale(targetScale);
+            glyph->setRotation(targetRotation);
+            glyph->addForce((mousePos - prevMousePos) * 0.5);
+            words.back()->addGlyph(glyph);
         }
     }
 }
@@ -262,13 +262,13 @@ void testApp::mousePressed(int x, int y, int button)
 
     if (mode == 1) {  // DRAG MODE
         // Add a new Word, holding a single Glyph.
-        Word word;
-        word.addGlyph(Glyph());
+        Word *word = new Word();
+        word->addGlyph(new Glyph());
         words.push_back(word);
     }
     else if (mode == 2) {  // SPRAY MODE
         // Add a new Word.
-        words.push_back(Word());
+        words.push_back(new Word());
         
         mouseDragged(x, y, button);
     }
@@ -279,7 +279,7 @@ void testApp::mouseReleased(int x, int y, int button)
 {
     if (mode == 1) {  // DRAG MODE
         if (words.size() > 0) {
-            words.back().glyphs().back().addForce((mousePos - prevMousePos) * 0.5);
+            words.back()->glyphs().back()->addForce((mousePos - prevMousePos) * 0.5);
         }
     }
 }
