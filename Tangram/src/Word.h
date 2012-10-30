@@ -18,7 +18,7 @@ class Word
     public:
         Word();
         void addGlyph(Glyph glyph);
-        vector<Glyph>& glyphs();
+        vector<Glyph>& glyphs() { return _glyphs; }
 
         void moveTo(ofVec3f position);
         void pushTo(ofVec3f position, float scalar);

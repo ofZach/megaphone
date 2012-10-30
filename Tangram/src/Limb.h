@@ -19,12 +19,12 @@ class Limb
 
         void addCoord(ofVec3f coord);
         void clearCoords();
-        const vector<ofVec3f>& coords();
+        const vector<ofVec3f>& coords() { return _coords; }
 
         void setColor(ofColor color);
-        const ofColor& color();
+        const ofColor& color() { return _color; }
 
-        bool flaps();
+        bool flaps() { return _bFlaps; }
         void setFlaps(bool flaps);
         void setupFlapping(ofVec3f flapAxis);
 
