@@ -36,6 +36,9 @@ class Glyph
         void setRotation(float rotation);
         void addVelocity(ofVec3f velocity);
 
+        const ofRectangle& bounds() { return _bounds; }
+        ofRectangle absBounds();
+
     private:
         ofVec3f _position, _prevPosition;
         ofVec3f _velocity;
@@ -44,5 +47,6 @@ class Glyph
 
         bool _bAnimates;
 
+        ofRectangle  _bounds;
         vector<Limb> _limbs;
 };

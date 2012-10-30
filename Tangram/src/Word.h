@@ -25,6 +25,9 @@ class Word
         void update();
         void draw();
 
+        const ofRectangle& bounds() { return _bounds; }
+
     private:
         vector<Glyph> _glyphs;
+        ofRectangle   _bounds;
 };

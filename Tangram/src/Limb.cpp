@@ -12,18 +12,21 @@
 Limb::Limb()
 {
     _bFlaps = false;
+    _bounds.set(0, 0, 0, 0);
 }
 
 //--------------------------------------------------------------
 void Limb::addCoord(ofVec3f coord)
 {
     _coords.push_back(coord);
+    _bounds.growToInclude(_coords.back());
 }
 
 //--------------------------------------------------------------
 void Limb::clearCoords()
 {
     _coords.clear();
+    _bounds.set(0, 0, 0, 0);
 }
 
 //--------------------------------------------------------------

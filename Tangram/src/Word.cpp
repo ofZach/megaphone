@@ -11,7 +11,7 @@
 //--------------------------------------------------------------
 Word::Word()
 {
-    
+    _bounds.set(0, 0, 0, 0);
 }
 
 //--------------------------------------------------------------
@@ -53,6 +53,14 @@ void Word::update()
 {
     for (int i = 0; i < _glyphs.size(); i++) {
         _glyphs[i].update();
+    }
+
+    // Calculate the new bounds.
+    if (_glyphs.size() > 0) {
+        _bounds = _glyphs[0].absBounds();
+        for (int i = 1; i < _glyphs.size(); i++) {
+            _bounds.growToInclude(_glyphs[i].absBounds());
+        }
     }
 }
 

@@ -31,6 +31,8 @@ class Limb
         void update();
         void draw();
 
+        const ofRectangle& bounds() { return _bounds; }
+
     private:
         vector<ofVec3f> _coords;
         ofColor _color;
@@ -40,4 +42,6 @@ class Limb
         float _flapSpeed;
         int _flapDirection;
         ofVec3f _flapAxis;
+
+        ofRectangle _bounds;
 };
