@@ -24,6 +24,7 @@ class Word
         void pushTo(ofVec3f position, float scalar);
         void update();
         void draw();
+        void debug();
 
         const ofRectangle& bounds() { return _bounds; }
 

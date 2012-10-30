@@ -216,6 +216,16 @@ void Glyph::draw()
 }
 
 //--------------------------------------------------------------
+void Glyph::debug()
+{
+    ofPushStyle();
+    ofNoFill();
+    ofSetColor(128);
+    ofRect(absBounds());
+    ofPopStyle();
+}
+
+//--------------------------------------------------------------
 bool Glyph::animates()
 {
     return _bAnimates;

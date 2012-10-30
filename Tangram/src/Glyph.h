@@ -28,6 +28,7 @@ class Glyph
 
         void update();
         void draw();
+        void debug();
 
         bool animates();
         void setAnimates(bool animates);

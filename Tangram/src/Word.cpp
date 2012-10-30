@@ -71,3 +71,16 @@ void Word::draw()
         _glyphs[i].draw();
     }
 }
+
+//--------------------------------------------------------------
+void Word::debug()
+{
+    for (int i = 0; i < _glyphs.size(); i++) {
+        _glyphs[i].debug();
+    }
+
+    ofNoFill();
+    ofSetColor(0);
+    ofRect(_bounds);
+    ofFill();
+}
