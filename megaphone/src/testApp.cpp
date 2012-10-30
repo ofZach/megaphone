@@ -20,7 +20,7 @@ void testApp::setup(){
 //--------------------------------------------------------------
 void testApp::update(){
 
-   cout << AM.results.RMS << " " << AM.results.pitch << endl;
+   //cout << AM.results.RMS << " " << AM.results.pitch << endl;
 }
 
 //--------------------------------------------------------------

@@ -7,8 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1137D582163D7C120043A11D /* dywapitchtrack.c in Sources */ = {isa = PBXBuildFile; fileRef = 1137D580163D7C120043A11D /* dywapitchtrack.c */; };
-		1137D584163D7D560043A11D /* audioManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1137D583163D7D550043A11D /* audioManager.cpp */; };
+		1137D669163DB0F50043A11D /* audioManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1137D643163DB0F50043A11D /* audioManager.cpp */; };
+		1137D66A163DB0F50043A11D /* dywapitchtrack.c in Sources */ = {isa = PBXBuildFile; fileRef = 1137D647163DB0F50043A11D /* dywapitchtrack.c */; };
+		119A1BBE163F987B0003D223 /* aubioAnalyzer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 119A1B93163F987B0003D223 /* aubioAnalyzer.cpp */; };
+		119A1BBF163F987B0003D223 /* aubioOSX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 119A1BBD163F987B0003D223 /* aubioOSX.a */; };
+		119A1BC516402B7D0003D223 /* fft.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 119A1BC116402B7D0003D223 /* fft.cpp */; };
+		119A1BC616402B7D0003D223 /* fftOctaveAnalyzer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 119A1BC316402B7D0003D223 /* fftOctaveAnalyzer.cpp */; };
 		5a4349e9754d6fa14c0f2a3a1abc30b6 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = fc5da1c87211d4f6377da7199d8c5a1e /* tinyxmlparser.cpp */; };
 		63b57ac5bf4ef088491e0317dbb2ecaa /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50df87d612c5aae17aafa6c02c6bc570 /* ofxXmlSettings.cpp */; };
 		933a2227713c720ceff80fd967d0a8ee /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2b40eda85beb63e46785bc299a638898 /* tinyxml.cpp */; };
@@ -67,10 +71,51 @@
 
 /* Begin PBXFileReference section */
 		01dcc0911400f9acf5b65578af4ec8f9 /* ofxXmlSettings.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxXmlSettings.h; path = ../../../addons/ofxXmlSettings/src/ofxXmlSettings.h; sourceTree = SOURCE_ROOT; };
-		1137D57D163D7C120043A11D /* audioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = audioManager.h; sourceTree = "<group>"; };
-		1137D580163D7C120043A11D /* dywapitchtrack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dywapitchtrack.c; sourceTree = "<group>"; };
-		1137D581163D7C120043A11D /* dywapitchtrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dywapitchtrack.h; sourceTree = "<group>"; };
-		1137D583163D7D550043A11D /* audioManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = audioManager.cpp; sourceTree = "<group>"; };
+		1137D643163DB0F50043A11D /* audioManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = audioManager.cpp; sourceTree = "<group>"; };
+		1137D644163DB0F50043A11D /* audioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = audioManager.h; sourceTree = "<group>"; };
+		1137D647163DB0F50043A11D /* dywapitchtrack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dywapitchtrack.c; sourceTree = "<group>"; };
+		1137D648163DB0F50043A11D /* dywapitchtrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dywapitchtrack.h; sourceTree = "<group>"; };
+		119A1B93163F987B0003D223 /* aubioAnalyzer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = aubioAnalyzer.cpp; sourceTree = "<group>"; };
+		119A1B94163F987B0003D223 /* aubioAnalyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aubioAnalyzer.h; sourceTree = "<group>"; };
+		119A1B97163F987B0003D223 /* aubio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aubio.h; sourceTree = "<group>"; };
+		119A1B98163F987B0003D223 /* aubio_priv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aubio_priv.h; sourceTree = "<group>"; };
+		119A1B99163F987B0003D223 /* beattracking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = beattracking.h; sourceTree = "<group>"; };
+		119A1B9A163F987B0003D223 /* biquad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = biquad.h; sourceTree = "<group>"; };
+		119A1B9B163F987B0003D223 /* fft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fft.h; sourceTree = "<group>"; };
+		119A1B9C163F987B0003D223 /* filter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = filter.h; sourceTree = "<group>"; };
+		119A1B9D163F987B0003D223 /* hist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hist.h; sourceTree = "<group>"; };
+		119A1B9E163F987B0003D223 /* mathutils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mathutils.h; sourceTree = "<group>"; };
+		119A1B9F163F987B0003D223 /* onset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = onset.h; sourceTree = "<group>"; };
+		119A1BA0163F987B0003D223 /* onsetdetection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = onsetdetection.h; sourceTree = "<group>"; };
+		119A1BA1163F987B0003D223 /* peakpick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = peakpick.h; sourceTree = "<group>"; };
+		119A1BA2163F987B0003D223 /* phasevoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = phasevoc.h; sourceTree = "<group>"; };
+		119A1BA3163F987B0003D223 /* pitchdetection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pitchdetection.h; sourceTree = "<group>"; };
+		119A1BA4163F987B0003D223 /* pitchfcomb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pitchfcomb.h; sourceTree = "<group>"; };
+		119A1BA5163F987B0003D223 /* pitchmcomb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pitchmcomb.h; sourceTree = "<group>"; };
+		119A1BA6163F987B0003D223 /* pitchschmitt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pitchschmitt.h; sourceTree = "<group>"; };
+		119A1BA7163F987B0003D223 /* pitchyin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pitchyin.h; sourceTree = "<group>"; };
+		119A1BA8163F987B0003D223 /* pitchyinfft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pitchyinfft.h; sourceTree = "<group>"; };
+		119A1BA9163F987B0003D223 /* resample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = resample.h; sourceTree = "<group>"; };
+		119A1BAA163F987B0003D223 /* sample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sample.h; sourceTree = "<group>"; };
+		119A1BAB163F987B0003D223 /* scale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scale.h; sourceTree = "<group>"; };
+		119A1BAC163F987B0003D223 /* tempo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tempo.h; sourceTree = "<group>"; };
+		119A1BAD163F987B0003D223 /* tss.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tss.h; sourceTree = "<group>"; };
+		119A1BAE163F987B0003D223 /* types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
+		119A1BB0163F987B0003D223 /* fftw3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fftw3.h; sourceTree = "<group>"; };
+		119A1BB2163F987B0003D223 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
+		119A1BB3163F987B0003D223 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
+		119A1BB4163F987B0003D223 /* fastest_coeffs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fastest_coeffs.h; sourceTree = "<group>"; };
+		119A1BB5163F987B0003D223 /* float_cast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = float_cast.h; sourceTree = "<group>"; };
+		119A1BB6163F987B0003D223 /* high_qual_coeffs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = high_qual_coeffs.h; sourceTree = "<group>"; };
+		119A1BB7163F987B0003D223 /* mid_qual_coeffs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mid_qual_coeffs.h; sourceTree = "<group>"; };
+		119A1BB8163F987B0003D223 /* samplerate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = samplerate.h; sourceTree = "<group>"; };
+		119A1BBA163F987B0003D223 /* sndfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sndfile.h; sourceTree = "<group>"; };
+		119A1BBB163F987B0003D223 /* sndfile.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = sndfile.hh; sourceTree = "<group>"; };
+		119A1BBD163F987B0003D223 /* aubioOSX.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = aubioOSX.a; sourceTree = "<group>"; };
+		119A1BC116402B7D0003D223 /* fft.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fft.cpp; sourceTree = "<group>"; };
+		119A1BC216402B7D0003D223 /* fft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fft.h; sourceTree = "<group>"; };
+		119A1BC316402B7D0003D223 /* fftOctaveAnalyzer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fftOctaveAnalyzer.cpp; sourceTree = "<group>"; };
+		119A1BC416402B7D0003D223 /* fftOctaveAnalyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fftOctaveAnalyzer.h; sourceTree = "<group>"; };
 		2b40eda85beb63e46785bc299a638898 /* tinyxml.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = tinyxml.cpp; path = ../../../addons/ofxXmlSettings/libs/tinyxml.cpp; sourceTree = SOURCE_ROOT; };
 		50df87d612c5aae17aafa6c02c6bc570 /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxXmlSettings.cpp; path = ../../../addons/ofxXmlSettings/src/ofxXmlSettings.cpp; sourceTree = SOURCE_ROOT; };
 		832bdc407620cdba568b713d2252c43c /* tinyxmlerror.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = tinyxmlerror.cpp; path = ../../../addons/ofxXmlSettings/libs/tinyxmlerror.cpp; sourceTree = SOURCE_ROOT; };
@@ -124,38 +169,143 @@
 				E4C2424810CC5A17004149E2 /* Cocoa.framework in Frameworks */,
 				E4C2424910CC5A17004149E2 /* IOKit.framework in Frameworks */,
 				E7E077E515D3B63C0020DFD4 /* CoreVideo.framework in Frameworks */,
+				119A1BBF163F987B0003D223 /* aubioOSX.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1137D57C163D7C120043A11D /* audio */ = {
+		1137D5F7163DB0F50043A11D /* audioManager */ = {
 			isa = PBXGroup;
 			children = (
-				1137D583163D7D550043A11D /* audioManager.cpp */,
-				1137D57D163D7C120043A11D /* audioManager.h */,
-				1137D57E163D7C120043A11D /* pitch */,
+				119A1BC016402B7D0003D223 /* fft */,
+				1137D643163DB0F50043A11D /* audioManager.cpp */,
+				1137D644163DB0F50043A11D /* audioManager.h */,
+				119A1B92163F987B0003D223 /* aubio */,
+				1137D645163DB0F50043A11D /* pitch */,
 			);
-			name = audio;
-			path = audio.h;
+			path = audioManager;
 			sourceTree = "<group>";
 		};
-		1137D57E163D7C120043A11D /* pitch */ = {
+		1137D645163DB0F50043A11D /* pitch */ = {
 			isa = PBXGroup;
 			children = (
-				1137D57F163D7C120043A11D /* dywapitchtrack */,
+				1137D646163DB0F50043A11D /* dywapitchtrack */,
 			);
 			path = pitch;
 			sourceTree = "<group>";
 		};
-		1137D57F163D7C120043A11D /* dywapitchtrack */ = {
+		1137D646163DB0F50043A11D /* dywapitchtrack */ = {
 			isa = PBXGroup;
 			children = (
-				1137D580163D7C120043A11D /* dywapitchtrack.c */,
-				1137D581163D7C120043A11D /* dywapitchtrack.h */,
+				1137D647163DB0F50043A11D /* dywapitchtrack.c */,
+				1137D648163DB0F50043A11D /* dywapitchtrack.h */,
 			);
 			path = dywapitchtrack;
+			sourceTree = "<group>";
+		};
+		119A1B92163F987B0003D223 /* aubio */ = {
+			isa = PBXGroup;
+			children = (
+				119A1B93163F987B0003D223 /* aubioAnalyzer.cpp */,
+				119A1B94163F987B0003D223 /* aubioAnalyzer.h */,
+				119A1B95163F987B0003D223 /* include */,
+				119A1BBC163F987B0003D223 /* lib */,
+			);
+			path = aubio;
+			sourceTree = "<group>";
+		};
+		119A1B95163F987B0003D223 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				119A1B96163F987B0003D223 /* aubio */,
+				119A1BAF163F987B0003D223 /* fft */,
+				119A1BB1163F987B0003D223 /* libsamplerate */,
+				119A1BB9163F987B0003D223 /* libsndfile */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		119A1B96163F987B0003D223 /* aubio */ = {
+			isa = PBXGroup;
+			children = (
+				119A1B97163F987B0003D223 /* aubio.h */,
+				119A1B98163F987B0003D223 /* aubio_priv.h */,
+				119A1B99163F987B0003D223 /* beattracking.h */,
+				119A1B9A163F987B0003D223 /* biquad.h */,
+				119A1B9B163F987B0003D223 /* fft.h */,
+				119A1B9C163F987B0003D223 /* filter.h */,
+				119A1B9D163F987B0003D223 /* hist.h */,
+				119A1B9E163F987B0003D223 /* mathutils.h */,
+				119A1B9F163F987B0003D223 /* onset.h */,
+				119A1BA0163F987B0003D223 /* onsetdetection.h */,
+				119A1BA1163F987B0003D223 /* peakpick.h */,
+				119A1BA2163F987B0003D223 /* phasevoc.h */,
+				119A1BA3163F987B0003D223 /* pitchdetection.h */,
+				119A1BA4163F987B0003D223 /* pitchfcomb.h */,
+				119A1BA5163F987B0003D223 /* pitchmcomb.h */,
+				119A1BA6163F987B0003D223 /* pitchschmitt.h */,
+				119A1BA7163F987B0003D223 /* pitchyin.h */,
+				119A1BA8163F987B0003D223 /* pitchyinfft.h */,
+				119A1BA9163F987B0003D223 /* resample.h */,
+				119A1BAA163F987B0003D223 /* sample.h */,
+				119A1BAB163F987B0003D223 /* scale.h */,
+				119A1BAC163F987B0003D223 /* tempo.h */,
+				119A1BAD163F987B0003D223 /* tss.h */,
+				119A1BAE163F987B0003D223 /* types.h */,
+			);
+			path = aubio;
+			sourceTree = "<group>";
+		};
+		119A1BAF163F987B0003D223 /* fft */ = {
+			isa = PBXGroup;
+			children = (
+				119A1BB0163F987B0003D223 /* fftw3.h */,
+			);
+			path = fft;
+			sourceTree = "<group>";
+		};
+		119A1BB1163F987B0003D223 /* libsamplerate */ = {
+			isa = PBXGroup;
+			children = (
+				119A1BB2163F987B0003D223 /* common.h */,
+				119A1BB3163F987B0003D223 /* config.h */,
+				119A1BB4163F987B0003D223 /* fastest_coeffs.h */,
+				119A1BB5163F987B0003D223 /* float_cast.h */,
+				119A1BB6163F987B0003D223 /* high_qual_coeffs.h */,
+				119A1BB7163F987B0003D223 /* mid_qual_coeffs.h */,
+				119A1BB8163F987B0003D223 /* samplerate.h */,
+			);
+			path = libsamplerate;
+			sourceTree = "<group>";
+		};
+		119A1BB9163F987B0003D223 /* libsndfile */ = {
+			isa = PBXGroup;
+			children = (
+				119A1BBA163F987B0003D223 /* sndfile.h */,
+				119A1BBB163F987B0003D223 /* sndfile.hh */,
+			);
+			path = libsndfile;
+			sourceTree = "<group>";
+		};
+		119A1BBC163F987B0003D223 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				119A1BBD163F987B0003D223 /* aubioOSX.a */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+		119A1BC016402B7D0003D223 /* fft */ = {
+			isa = PBXGroup;
+			children = (
+				119A1BC116402B7D0003D223 /* fft.cpp */,
+				119A1BC216402B7D0003D223 /* fft.h */,
+				119A1BC316402B7D0003D223 /* fftOctaveAnalyzer.cpp */,
+				119A1BC416402B7D0003D223 /* fftOctaveAnalyzer.h */,
+			);
+			path = fft;
 			sourceTree = "<group>";
 		};
 		1f4fb5c423662b96adfdcc0badec1cb0 /* ofxXmlSettings */ = {
@@ -258,7 +408,7 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				1137D57C163D7C120043A11D /* audio */,
+				1137D5F7163DB0F50043A11D /* audioManager */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* testApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* testApp.h */,
@@ -365,8 +515,11 @@
 				933a2227713c720ceff80fd967d0a8ee /* tinyxml.cpp in Sources */,
 				9d44dc88ef9e7991b4a09951e2e4769f /* tinyxmlerror.cpp in Sources */,
 				5a4349e9754d6fa14c0f2a3a1abc30b6 /* tinyxmlparser.cpp in Sources */,
-				1137D582163D7C120043A11D /* dywapitchtrack.c in Sources */,
-				1137D584163D7D560043A11D /* audioManager.cpp in Sources */,
+				1137D669163DB0F50043A11D /* audioManager.cpp in Sources */,
+				1137D66A163DB0F50043A11D /* dywapitchtrack.c in Sources */,
+				119A1BBE163F987B0003D223 /* aubioAnalyzer.cpp in Sources */,
+				119A1BC516402B7D0003D223 /* fft.cpp in Sources */,
+				119A1BC616402B7D0003D223 /* fftOctaveAnalyzer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,12 +558,16 @@
 					"$(OF_CORE_HEADERS)",
 					../../../addons/ofxXmlSettings/libs,
 					../../../addons/ofxXmlSettings/src,
+					"src/audioManager/aubio/src/**",
+					"src/audioManager/aubio/src/**",
+					"src/audioManager/aubio/**",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"-D__MACOSX_CORE__",
 					"-lpthread",
 					"-mtune=native",
 				);
+				USER_HEADER_SEARCH_PATHS = "src/audioManager/**";
 			};
 			name = Debug;
 		};
@@ -439,12 +596,16 @@
 					"$(OF_CORE_HEADERS)",
 					../../../addons/ofxXmlSettings/libs,
 					../../../addons/ofxXmlSettings/src,
+					"src/audioManager/aubio/src/**",
+					src/audioManager/aubio/src/pitch,
+					src/audioManager/aubio,
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"-D__MACOSX_CORE__",
 					"-lpthread",
 					"-mtune=native",
 				);
+				USER_HEADER_SEARCH_PATHS = "src/audioManager/**";
 			};
 			name = Release;
 		};
@@ -463,6 +624,12 @@
 				GCC_MODEL_TUNING = NONE;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				HEADER_SEARCH_PATHS = (
+					"$(OF_CORE_HEADERS)",
+					../../../addons/ofxXmlSettings/libs,
+					../../../addons/ofxXmlSettings/src,
+					"src/**",
+				);
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
@@ -528,9 +695,12 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_50)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_52)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/src/audioManager/aubio/lib\"";
 				PREBINDING = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)Debug";
+				USER_HEADER_SEARCH_PATHS = "$(OF_CORE_HEADERS) ../../../addons/ofxXmlSettings/libs ../../../addons/ofxXmlSettings/src src/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -549,6 +719,11 @@
 				GCC_MODEL_TUNING = NONE;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				HEADER_SEARCH_PATHS = (
+					"$(OF_CORE_HEADERS)",
+					../../../addons/ofxXmlSettings/libs,
+					../../../addons/ofxXmlSettings/src,
+				);
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
@@ -614,9 +789,12 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_49)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_50)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/src/audioManager/aubio/lib\"";
 				PREBINDING = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "$(OF_CORE_HEADERS) ../../../addons/ofxXmlSettings/libs ../../../addons/ofxXmlSettings/src src/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
