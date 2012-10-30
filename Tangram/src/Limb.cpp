@@ -12,42 +12,27 @@
 Limb::Limb()
 {
     _bFlaps = false;
+    _bounds.set(0, 0, 0, 0);
 }
 
 //--------------------------------------------------------------
 void Limb::addCoord(ofVec3f coord)
 {
     _coords.push_back(coord);
+    _bounds.growToInclude(_coords.back());
 }
 
 //--------------------------------------------------------------
 void Limb::clearCoords()
 {
     _coords.clear();
-}
-
-//--------------------------------------------------------------
-const vector<ofVec3f>& Limb::coords()
-{
-    return _coords;
+    _bounds.set(0, 0, 0, 0);
 }
 
 //--------------------------------------------------------------
 void Limb::setColor(ofColor color)
 {
     _color = color;
-}
-
-//--------------------------------------------------------------
-const ofColor& Limb::color()
-{
-    return _color;
-}
-
-//--------------------------------------------------------------
-bool Limb::flaps()
-{
-    return _bFlaps;
 }
 
 //--------------------------------------------------------------

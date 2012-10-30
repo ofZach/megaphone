@@ -19,17 +19,19 @@ class Limb
 
         void addCoord(ofVec3f coord);
         void clearCoords();
-        const vector<ofVec3f>& coords();
+        const vector<ofVec3f>& coords() { return _coords; }
 
         void setColor(ofColor color);
-        const ofColor& color();
+        const ofColor& color() { return _color; }
 
-        bool flaps();
+        bool flaps() { return _bFlaps; }
         void setFlaps(bool flaps);
         void setupFlapping(ofVec3f flapAxis);
 
         void update();
         void draw();
+
+        const ofRectangle& bounds() { return _bounds; }
 
     private:
         vector<ofVec3f> _coords;
@@ -40,4 +42,6 @@ class Limb
         float _flapSpeed;
         int _flapDirection;
         ofVec3f _flapAxis;
+
+        ofRectangle _bounds;
 };
