@@ -10,6 +10,7 @@
 
 #include "ofMain.h"
 #include "Glyph.h"
+#include "Spring.h"
 
 //--------------------------------------------------------------
 //--------------------------------------------------------------
@@ -37,5 +38,6 @@ class Word
 
     private:
         vector<Glyph *>     _glyphs;
+        vector<Spring *>    _springs;
         ofRectangle         _bounds;
 };

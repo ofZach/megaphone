@@ -17,6 +17,10 @@ Word::Word()
 //--------------------------------------------------------------
 Word::~Word()
 {
+    for (int i = 0; i < _springs.size(); i++) {
+        delete _springs[i];
+    }
+    _springs.clear();
 
     for (int i = 0; i < _glyphs.size(); i++) {
         delete _glyphs[i];
@@ -28,6 +32,17 @@ Word::~Word()
 void Word::addGlyph(Glyph *glyph)
 {
     _glyphs.push_back(glyph);
+
+    if (_glyphs.size() > 2) {
+        // Add a Spring between the last two Glyphs.
+        Spring *spring = new Spring();
+        spring->distance = 10;
+        spring->springiness = 0.2;
+        spring->glyphA = _glyphs.at(_glyphs.size() - 2);
+        spring->glyphB = _glyphs.back();
+
+        _springs.push_back(spring);
+    }
 }
 
 //--------------------------------------------------------------
@@ -49,9 +64,9 @@ void Word::addInternalForces()
         }
     }
 
-//    for (int i = 0; i < springs.size(); i++){
-//        springs[i].update();
-//    }
+    for (int i = 0; i < _springs.size(); i++) {
+        _springs[i]->update();
+    }
 }
 
 //--------------------------------------------------------------
@@ -121,6 +136,10 @@ void Word::debug()
 {
     for (int i = 0; i < _glyphs.size(); i++) {
         _glyphs[i]->debug();
+    }
+
+    for (int i = 0; i < _springs.size(); i++) {
+        _springs[i]->debug();
     }
 
     ofNoFill();

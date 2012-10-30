@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		643B6149163B089B00632426 /* Limb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 643B6148163B089B00632426 /* Limb.cpp */; };
 		643B6155163B0DD900632426 /* Glyph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 643B6154163B0DD900632426 /* Glyph.cpp */; };
+		6499BAE8163F406C0055C359 /* Spring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6499BAE5163F406C0055C359 /* Spring.cpp */; };
 		64FE4E70163DCCE8001DE362 /* Word.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 64FE4E6F163DCCE8001DE362 /* Word.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
@@ -67,6 +68,8 @@
 		643B6148163B089B00632426 /* Limb.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Limb.cpp; sourceTree = "<group>"; };
 		643B6153163B0DCE00632426 /* Glyph.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Glyph.h; sourceTree = "<group>"; };
 		643B6154163B0DD900632426 /* Glyph.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Glyph.cpp; sourceTree = "<group>"; };
+		6499BAE5163F406C0055C359 /* Spring.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Spring.cpp; sourceTree = "<group>"; };
+		6499BAE6163F406C0055C359 /* Spring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Spring.h; sourceTree = "<group>"; };
 		64FE4E6E163DCCE1001DE362 /* Word.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Word.h; sourceTree = "<group>"; };
 		64FE4E6F163DCCE8001DE362 /* Word.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Word.cpp; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
@@ -202,6 +205,8 @@
 				643B6154163B0DD900632426 /* Glyph.cpp */,
 				64FE4E6E163DCCE1001DE362 /* Word.h */,
 				64FE4E6F163DCCE8001DE362 /* Word.cpp */,
+				6499BAE6163F406C0055C359 /* Spring.h */,
+				6499BAE5163F406C0055C359 /* Spring.cpp */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -304,6 +309,7 @@
 				643B6149163B089B00632426 /* Limb.cpp in Sources */,
 				643B6155163B0DD900632426 /* Glyph.cpp in Sources */,
 				64FE4E70163DCCE8001DE362 /* Word.cpp in Sources */,
+				6499BAE8163F406C0055C359 /* Spring.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
