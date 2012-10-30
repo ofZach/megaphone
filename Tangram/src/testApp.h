@@ -27,6 +27,8 @@ class testApp : public ofBaseApp
         int mode;
 
         vectorField VF;
+        ofVec2f crawlerInward;
+        ofVec2f crawlerClockwise;
 
         vector<Word *> words;
         ofVec2f prevMousePos, mousePos;

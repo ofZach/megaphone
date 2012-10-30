@@ -42,6 +42,14 @@ void testApp::update()
     for (int i = 0; i < words.size(); i++) {
         words[i]->update();
     }
+
+    float t = ofGetElapsedTimef();
+    crawlerInward.x = ofNoise(t * 0.50) * ofGetWidth();
+    crawlerInward.y = ofNoise(t * 0.42) * ofGetHeight();
+    VF.addInwardCircle(crawlerInward.x, crawlerInward.y, 600, 0.02f);
+    crawlerClockwise.x = ofNoise(t * 1.00) * ofGetWidth();
+    crawlerClockwise.y = ofNoise(t * 0.87) * ofGetWidth();
+    VF.addClockwiseCircle(crawlerClockwise.x, crawlerClockwise.y, 260, 0.05f);
 }
 
 //--------------------------------------------------------------
@@ -56,6 +64,9 @@ void testApp::draw()
         words[i]->draw();
         words[i]->debug();
     }
+
+    ofCircle(crawlerInward, 10);
+    ofCircle(crawlerClockwise, 10);
 
     // Draw some instructions.
     ofSetColor(0);
