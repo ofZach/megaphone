@@ -77,7 +77,7 @@ void audioManager::update(float * audio, int _bufferSize){
             aubioArray[i] = aubioBuffer[i];
         }
         calculateAubio();
-        calculateFFT();
+        //calculateFFT();
     }
 }
 

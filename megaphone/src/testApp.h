@@ -3,6 +3,8 @@
 #include "ofMain.h"
 #include "audioManager.h"
 
+#include "angleLengthLine.h"
+
 class testApp : public ofBaseApp{
 
 	public:
@@ -27,5 +29,22 @@ class testApp : public ofBaseApp{
         
         ofSoundStream soundStream;
         audioManager AM;
+    
+    
+     
+    
+    float pitch;
+    float volume;
+    bool bLoudEnough;
+    float pitchSmooth;      // non aubio needs some love -- works well w/ whisteling. 
+    
+    
+    vector < float > angleDiffs;
+    vector < float > distances;
+    ofPolyline total;
+    float angle;
+    float angleSmooth;
+    ofPoint catchPoint;
+    
     
 };
