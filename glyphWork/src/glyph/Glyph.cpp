@@ -15,6 +15,7 @@ vector<ofColor> colorLibrary;
 void buildLimbLibrary()
 {
     
+    cout << "buildLimbLibrarys" <<endl;
     limbLibrary.clear();
     
     // Add all the limbs.
@@ -91,23 +92,22 @@ void buildLimbLibrary()
 //        }
 //    }
     
-//    //if (ofRandom(0,1) > 0.5){
-//        for (int i = 0; i < limbLibrary.size(); i++){
-//            for (int j = 0; j < limbLibrary[i].coords().size(); j++){
-//                float ang = PI/2 * (int)ofRandom(0,50);
-//                //cout << ang / (PI/2) << endl;
-//                ofPoint pos = limbLibrary[i].coords()[j];
-//                float len = pos.length();
-//                float angle = atan2(pos.y, pos.x);
-//                //angle += ofGetMouseX()/00.0f;
-//                
-//                limbLibrary[i].coords()[j].set( len * cos(angle), len * sin(angle));
-//                
-//                //limbLibrary[i].coords()[j].x *= -1;   
-//            }
-//        }
-//    //}
-//    
+    //if (ofRandom(0,1) > 0.5){
+        for (int i = 0; i < limbLibrary.size(); i++){
+            for (int j = 0; j < limbLibrary[i].coords().size(); j++){
+                float ang = PI/2 * (int)ofRandom(0,50);
+                //cout << ang / (PI/2) << endl;
+                ofPoint pos = limbLibrary[i].coords()[j];
+                float len = pos.length();
+                float angle = atan2(pos.y, pos.x);
+                angle += PI/2 * 3;
+                
+                limbLibrary[i].coords()[j].set( len * cos(angle), len * sin(angle));
+                
+            }
+        }
+    //}
+    
     
     
     for (int i = 0; i < limbLibrary.size(); i++){
@@ -310,19 +310,11 @@ void Glyph::draw()
     ofSetColor(255,0,0);
     ofCircle(_pos, 10);
     
-    bool bAreWeSmall = false;
-    float pctOfBig = (absBounds().width * absBounds().height) / (float)(4 * 4);
-    
-    if (pctOfBig < 0.15){ 
-        cout << pctOfBig<< " " << absBounds().width << " " << absBounds().height << endl;
-
-        bAreWeSmall = true;
-    }
     
     //cout << pctOfBig << endl;
     
     ofPushMatrix();
-    if (!bAreWeSmall) ofTranslate(_pos.x - absBounds().x * _scale, _pos.y);
+    ofTranslate(_pos.x - absBounds().x * _scale, _pos.y);
     ofScale(_scale, -_scale, _scale);
     ofRotate(_rotation, 0, 0, 1);
     {

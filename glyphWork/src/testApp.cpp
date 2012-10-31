@@ -7,13 +7,13 @@ void testApp::setup(){
     
     float xPos = 200;
     for (int i = 0; i < 50; i++){
-        Glyph g;
-        g.pos().set(xPos, 400);
-        g.setScale(50);
+        Glyph * g = new Glyph();
+        g->pos().set(xPos, 400);
+        g->setScale(50);
         glyphs.push_back(g);
         
         
-        xPos += g.absBounds().width * 50 + 4;
+        xPos += g->absBounds().width * 50 + 4;
     }
     
     
@@ -26,7 +26,7 @@ void testApp::setup(){
 void testApp::update(){
 
     for (int i = 0; i < 50; i++){
-        glyphs[i].update();
+        glyphs[i]->update();
     }
     
 }
@@ -36,8 +36,8 @@ void testApp::draw(){
     ofScale(0.2,0.2);
     ofFill();
     for (int i = 0; i < 50; i++){
-        glyphs[i].draw();
-        glyphs[i].debug();
+        glyphs[i]->draw();
+        glyphs[i]->debug();
         
     }
     
@@ -49,13 +49,13 @@ void testApp::keyPressed(int key){
     glyphs.clear();
     float xPos = 200;
     for (int i = 0; i < 50; i++){
-        Glyph g;
-        g.pos().set(xPos, 400);
-        g.setScale(50);
+        Glyph  * g = new Glyph;
+        g->pos().set(xPos, 400);
+        g->setScale(50);
         glyphs.push_back(g);
         
         
-        xPos += g.absBounds().width * 50 + 10;
+        xPos += g->absBounds().width * 50 + 10;
     }
     
     /*g = Glyph();
