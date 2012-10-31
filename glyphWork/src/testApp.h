@@ -23,7 +23,7 @@ class testApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
     
     
-        vector < Glyph > glyphs;
+        vector < Glyph *  > glyphs;
     
     
 		
