@@ -152,14 +152,53 @@ Glyph::Glyph()
     }
 
     // Build the Glyph out of continuous limbs.
-    int startIndex = ofRandom(0, limbLibrary.size() / 2);
-    int stopIndex = ofRandom(startIndex + 1, limbLibrary.size());
-    for (int i = startIndex; i < stopIndex; i++) {
-        addLimb(limbLibrary[i]);
-        Limb& newLimb = _limbs.back();
-        
-        int colorIndex = ofRandom(colorLibrary.size());
-        newLimb.setColor(colorLibrary[colorIndex]);
+    int limbCount = ofRandom(1, limbLibrary.size() - 3);
+    bool usedFlags[limbLibrary.size()];
+    for (int i=0; i < limbLibrary.size(); i++) {
+        usedFlags[i] = false;
+    }
+    int usedCount = 0;
+    
+    // randomly select half the limbs.
+    do {
+        int index = ofRandom(limbLibrary.size());
+        if (!usedFlags[index]) {
+            addLimb(limbLibrary[index]);
+            Limb& newLimb = _limbs.back();
+
+            int colorIndex = ofRandom(colorLibrary.size());
+            newLimb.setColor(colorLibrary[colorIndex]);
+
+            usedFlags[index] = true;
+            usedCount++;
+        }
+    } while (usedCount < limbCount / 2);
+
+    // sequentially select the rest.
+    for (int i = 0; i < limbLibrary.size(); i++) {
+        if (!usedFlags[i]) {
+            addLimb(limbLibrary[i]);
+            Limb& newLimb = _limbs.back();
+
+            int colorIndex = ofRandom(colorLibrary.size());
+            newLimb.setColor(colorLibrary[colorIndex]);
+
+            usedFlags[i] = true;
+            usedCount++;
+
+            if (usedCount == limbCount) break;
+        }
+    }
+    
+
+//    int startIndex = ofRandom(0, limbLibrary.size() / 2);
+//    int stopIndex = ofRandom(startIndex + 1, limbLibrary.size());
+//    for (int i = startIndex; i < stopIndex; i++) {
+//        addLimb(limbLibrary[i]);
+//        Limb& newLimb = _limbs.back();
+//        
+//        int colorIndex = ofRandom(colorLibrary.size());
+//        newLimb.setColor(colorLibrary[colorIndex]);
 
 //        if (ofRandomuf() > 0.5f) {
 //            // Add some flapping!
@@ -184,7 +223,7 @@ Glyph::Glyph()
 //                    break;
 //            }
 //        }
-    }    
+//    }    
 }
 
 //--------------------------------------------------------------
