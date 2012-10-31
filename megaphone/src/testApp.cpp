@@ -20,11 +20,36 @@ void testApp::setup(){
 //--------------------------------------------------------------
 void testApp::update(){
 
-   //cout << AM.results.RMS << " " << AM.results.pitch << endl;
+   
+
 }
+
+
 
 //--------------------------------------------------------------
 void testApp::draw(){
+    
+    
+    ofDrawBitmapStringHighlight("rms: " + ofToString(AM.results.RMS), ofPoint(30,30));
+    ofDrawBitmapStringHighlight("pitch: " + ofToString(AM.results.pitch), ofPoint(30,60));
+    ofDrawBitmapStringHighlight("aubio rms: " + ofToString(AM.results.aubioRMS), ofPoint(30,90));
+    ofDrawBitmapStringHighlight("aubio pitch: " + ofToString(AM.results.aubioPitch), ofPoint(30,120));
+    
+    ofRectangle fftBounds;
+    fftBounds.set(30,150, 300, 100);
+    ofFill();
+    ofSetColor(100);
+    ofRect(fftBounds);
+    ofSetColor(255);
+    for (int i = 0; i < AM.results.nFftOctaves; i++){
+        float pctA = i/(float)AM.results.nFftOctaves; 
+        float pctB = (i+1)/(float)AM.results.nFftOctaves; 
+        
+        float x = fftBounds.x + pctA * fftBounds.width;
+        float y = fftBounds.y;
+        ofRect(x, y + fftBounds.height, (pctB-pctA) * fftBounds.width, -AM.results.fftOctaves[i] * 5);
+    }
+    ///cout << AM.results.fftOctaves
     
 }
 

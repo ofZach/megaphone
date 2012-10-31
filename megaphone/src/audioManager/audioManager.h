@@ -14,7 +14,9 @@ typedef struct {
     float aubioRMS;
     float RMS;              // root mean square
     
-    vector < float > fftOctaves; 
+    float * fftOctaves; 
+    int nFftOctaves;
+    
     
 } analysisResults;
 
@@ -38,6 +40,9 @@ public:
     float * audioData;
     int bufferSize;
     
+    
+    
+    analysisResults resultsFromMainThread;
     analysisResults results;
     
     aubioAnalyzer AA;

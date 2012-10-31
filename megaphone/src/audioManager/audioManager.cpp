@@ -37,6 +37,9 @@ void audioManager::setup(){
     FFTanalyzer.peakDecayRate   = 0.095f;
     FFTanalyzer.linearEQIntercept = 0.9f;
     FFTanalyzer.linearEQSlope   = 0.01f;
+    
+    results.fftOctaves = new float[ FFTanalyzer.nAverages];
+    results.nFftOctaves = FFTanalyzer.nAverages;
 
 };
 
@@ -109,9 +112,9 @@ void audioManager::calculateFFT(){
     }
     FFTanalyzer.calculate(freq);
     
-    results.fftOctaves.clear();
+    //results.fftOctaves.clear();
     for (int i = 0; i < FFTanalyzer.nAverages; i++){
-        results.fftOctaves.push_back(FFTanalyzer.averages[i]);
+        results.fftOctaves[i] = FFTanalyzer.averages[i];
     }
     
 }
