@@ -41,7 +41,7 @@ void FallingPage::update()
 
         // sway back and forth
         ta += 0.05;
-        pivotAngle = sin(ta) - M_PI / 2; cout << (RAD_TO_DEG * pivotAngle) << endl;
+        pivotAngle = sin(ta) - M_PI / 2;
         realPos.x = cos(pivotAngle) * pivotLength;
         realPos.y = sin(pivotAngle) * pivotLength;
 
