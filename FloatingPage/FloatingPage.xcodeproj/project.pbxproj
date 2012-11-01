@@ -10,6 +10,8 @@
 		6483C2511642D61D00D6A9DE /* FlatPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6483C2501642D61D00D6A9DE /* FlatPage.cpp */; };
 		6483C2631642E31600D6A9DE /* CurvePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6483C2621642E31600D6A9DE /* CurvePage.cpp */; };
 		6483C2661642F1C000D6A9DE /* OtherPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6483C2651642F1C000D6A9DE /* OtherPage.cpp */; };
+		6483C269164307BE00D6A9DE /* FallingPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6483C268164307BE00D6A9DE /* FallingPage.cpp */; };
+		6483C26C16430B3700D6A9DE /* A5Page.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6483C26B16430B3700D6A9DE /* A5Page.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
@@ -69,6 +71,10 @@
 		6483C2621642E31600D6A9DE /* CurvePage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CurvePage.cpp; sourceTree = "<group>"; };
 		6483C2641642F1B400D6A9DE /* OtherPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OtherPage.h; sourceTree = "<group>"; };
 		6483C2651642F1C000D6A9DE /* OtherPage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OtherPage.cpp; sourceTree = "<group>"; };
+		6483C267164307B000D6A9DE /* FallingPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FallingPage.h; sourceTree = "<group>"; };
+		6483C268164307BE00D6A9DE /* FallingPage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FallingPage.cpp; sourceTree = "<group>"; };
+		6483C26A16430B2E00D6A9DE /* A5Page.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = A5Page.h; sourceTree = "<group>"; };
+		6483C26B16430B3700D6A9DE /* A5Page.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = A5Page.cpp; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -202,6 +208,10 @@
 				6483C2621642E31600D6A9DE /* CurvePage.cpp */,
 				6483C2641642F1B400D6A9DE /* OtherPage.h */,
 				6483C2651642F1C000D6A9DE /* OtherPage.cpp */,
+				6483C267164307B000D6A9DE /* FallingPage.h */,
+				6483C268164307BE00D6A9DE /* FallingPage.cpp */,
+				6483C26A16430B2E00D6A9DE /* A5Page.h */,
+				6483C26B16430B3700D6A9DE /* A5Page.cpp */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -304,6 +314,8 @@
 				6483C2511642D61D00D6A9DE /* FlatPage.cpp in Sources */,
 				6483C2631642E31600D6A9DE /* CurvePage.cpp in Sources */,
 				6483C2661642F1C000D6A9DE /* OtherPage.cpp in Sources */,
+				6483C269164307BE00D6A9DE /* FallingPage.cpp in Sources */,
+				6483C26C16430B3700D6A9DE /* A5Page.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

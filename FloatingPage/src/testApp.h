@@ -4,6 +4,8 @@
 #include "FlatPage.h"
 #include "CurvePage.h"
 #include "OtherPage.h"
+#include "FallingPage.h"
+#include "A5Page.h"
 
 class testApp : public ofBaseApp
 {
@@ -27,5 +29,7 @@ class testApp : public ofBaseApp
         FlatPage flatPage;
         CurvePage curvePage;
         OtherPage otherPage;
+        FallingPage fallingPage;
+        A5Page a5Page;
 
 };
