@@ -9,9 +9,7 @@ void audioManager::setup(){
     audioDataDouble = NULL;
     AA.setup();//1024
     
-    aubioBuffer.reserve(1024);
-    aubioArray = new float[1024];
-
+    
     magnitude = new float[1024];
     phase = new float[1024];
     power = new float[1024];
@@ -54,31 +52,16 @@ void audioManager::update(float * audio, int _bufferSize){
         audioDataDouble = new double[bufferSize];
     }
     
-    for (int i = 0; i < bufferSize; i++){
-        audioDataDouble[i] = audioData[i];
-    }
-    
-    if (aubioBuffer.size() == 1024){
-        aubioBuffer.erase(aubioBuffer.begin(), aubioBuffer.begin() + _bufferSize);
-    }
-    for (int i = 0; i < bufferSize; i++){
-        aubioBuffer.push_back(audio[i]);
-    }
-
+   
     //cout << aubioBuffer.size() << endl;
-    calculatePitch();
-    calculateRMS();
+    //calculatePitch();
+    //calculateRMS();
     
     
     
     
-    if (aubioBuffer.size() == 1024){
-        for (int i = 0; i < 1024; i++){
-            aubioArray[i] = aubioBuffer[i];
-        }
-        calculateAubio();
-        //calculateFFT();
-    }
+    calculateAubio();
+    
 }
 
 void audioManager::calculatePitch(){
@@ -96,7 +79,7 @@ void audioManager::calculateRMS(){
 }
 
 void audioManager::calculateAubio(){
-    AA.processAudio(aubioArray, 1024);
+    AA.processAudio(audioData, 256);
     results.aubioPitch = AA.pitch;
     results.aubioRMS = AA.amplitude;
 }
@@ -106,7 +89,7 @@ void audioManager::calculateFFT(){
 
     
     float avg_power = 0.0f;
-    myfft.powerSpectrum(0, (int) 1024/2, aubioArray, 1024, &magnitude[0], &phase[0], &power[0], &avg_power);
+    myfft.powerSpectrum(0, (int) 1024/2, audioData, 1024, &magnitude[0], &phase[0], &power[0], &avg_power);
     for(int i = 0; i< 1024/2; i++){
         freq[i] = magnitude[i];
     }

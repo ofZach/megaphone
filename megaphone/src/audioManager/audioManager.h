@@ -46,9 +46,8 @@ public:
     analysisResults results;
     
     aubioAnalyzer AA;
+   
     
-    vector < float > aubioBuffer;
-    float * aubioArray;
     void calculateAubio();
 
     
