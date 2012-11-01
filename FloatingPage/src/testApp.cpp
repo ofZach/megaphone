@@ -10,7 +10,7 @@ void testApp::setup()
     camera.tilt(-20);
     camera.rotate(10, 0, 1, 0);
 
-    flatPage.pos.set(-100, 0, 0);
+    flatPage.pos.set(-70, 0, 70);
     flatPage.path.setFillColor(ofColor(200, 0, 0));
 
     curvePage.pos.set(70, 0, 70);
@@ -18,6 +18,11 @@ void testApp::setup()
 
     otherPage.pos.set(70, 0, -70);
     otherPage.path.setFillColor(ofColor(200, 200, 0));
+
+    fallingPage.pos.set(-70, 0, -70);
+    fallingPage.path.setFillColor(ofColor(0, 200, 200));
+
+    a5Page.path.setFillColor(ofColor(0, 200, 0));
 }
 
 //--------------------------------------------------------------
@@ -26,12 +31,17 @@ void testApp::update()
     flatPage.update();
     curvePage.update();
     otherPage.update();
+    fallingPage.update();
+    a5Page.update();
 }
 
 //--------------------------------------------------------------
 void testApp::draw()
 {
     camera.begin();
+
+    glEnable(GL_DEPTH_TEST);
+    glDepthMask(GL_TRUE);
 
     // draw the ground
     static int groundSize = 200;
@@ -47,6 +57,8 @@ void testApp::draw()
     flatPage.draw();
     curvePage.draw();
     otherPage.draw();
+    fallingPage.draw();
+    a5Page.draw();
 
     // draw the 3d origin
     static int axisLength = 10;

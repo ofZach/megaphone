@@ -41,8 +41,8 @@ void CurvePage::update()
         pos.y = ABS(sin(ty)) * apex;
 
         // twirl slower as you reach the apex
-        float twirlInc = (apex - pos.y) * 0.001;
-        twirl += twirlInc;
+//        float twirlInc = (apex - pos.y) * 0.001;
+//        twirl += twirlInc;
 
         // bend more as you reach the apex
         bend(2 * pos.y / apex, -pos.y / apex);
