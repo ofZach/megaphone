@@ -15,7 +15,7 @@ vector<ofColor> colorLibrary;
 void buildLimbLibrary()
 {
     
-    cout << "buildLimbLibrarys" <<endl;
+    //cout << "buildLimbLibrarys" <<endl;
     limbLibrary.clear();
     
     // Add all the limbs.
@@ -110,11 +110,16 @@ void buildLimbLibrary()
     
     
     
-    for (int i = 0; i < limbLibrary.size(); i++){
-        for (int j = 0; j < limbLibrary[i].coords().size(); j++){
-            limbLibrary[i].coords()[j] += ofPoint(2,2);   
-        }
-    }
+//    for (int i = 0; i < limbLibrary.size(); i++){
+//        for (int j = 0; j < limbLibrary[i].coords().size(); j++){
+//            limbLibrary[i].coords()[j] += ofPoint(2,2);   
+//        }
+//    }
+    
+    
+    
+    
+    
     
     
 }
@@ -137,8 +142,8 @@ void buildColorLibrary()
 //--------------------------------------------------------------
 Glyph::Glyph()
 {
-    _scale = _targetScale = 1;
-    _rotation = _targetRotation = 0;
+    _scale = 1;
+    _rotation = 0;
 
     //setInitialCondition(ofVec2f(), ofVec2f());
     _damping = 0.15;
@@ -226,6 +231,19 @@ Glyph::Glyph()
 //            }
 //        }
     }    
+    
+    
+    
+    
+    ofRectangle rect = absBounds();
+    ofPoint midPt = ofPoint(rect.x + rect.width/2, rect.y + rect.height/2);
+    for (int i = 0; i < _limbs.size(); i++) {
+        for (int j = 0; j < _limbs[i].coords().size(); j++) {
+            _limbs[i].coords()[j] -= midPt;
+        }
+    }
+    
+    
 }
 
 //--------------------------------------------------------------
@@ -292,15 +310,15 @@ void Glyph::update(/*ofxSplineTool& spline*/)
 //		_pos += _vel;
 //	}
 
-    _targetRotation = RAD_TO_DEG * atan2(_pos.y - _prv.y, _pos.x - _prv.x);
-    if ((_rotation - _targetRotation) > 180)
-        _targetRotation += 360;
-     if ((_targetRotation - _rotation) > 180)
-        _targetRotation -= 360;
+    //_targetRotation = RAD_TO_DEG * atan2(_pos.y - _prv.y, _pos.x - _prv.x);
+    //if// ((_rotation - _targetRotation) > 180)
+        //_targetRotation += 360;
+    // if ((_targetRotation - _rotation) > 180)
+      //  _targetRotation -= 360;
 
 
     //_scale = ofLerp(_scale, _targetScale, 0.2);
-    _rotation = ofLerp(_rotation, _targetRotation, 0.2);
+   // _rotation = ofLerp(_rotation, _targetRotation, 0.2);
 
     for (int i = 0; i < _limbs.size(); i++) {
         _limbs[i].update();
@@ -313,36 +331,45 @@ void Glyph::draw()
     ofPushStyle();
     ofFill();
     
+    ofRectangle rect = absBounds();
     
-    float h = absBounds().height;
-    float y = absBounds().y;
-
-    //cout << pctOfBig << endl;
+       
     
     ofPushMatrix();
 //    ofTranslate(_pos.x - absBounds().x * _scale, _pos.y);
     ofTranslate(_pos.x, _pos.y);
     ofScale(_scale, _scale, _scale);
     ofRotate(_rotation, 0, 0, 1);
-    ofTranslate(-_bounds.width / 2, -_bounds.height / 2);
     {
         
         
-        //ofNoFill();
-        //ofSetColor(255);
-        //ofRect(absBounds());
+        ofNoFill();
+        ofSetColor(255);
+        ofRectangle rect = absBounds();
+        //ofRect(rect);
         
+        ofFill();
         //if (bAreWeSmall){
         for (int i = 0; i < _limbs.size(); i++) {
             _limbs[i].draw();
         }
+        
+        //ofNoFill();
+        //ofSetColor(255,0,0);
+        //ofRect(-2, -2, 4, 4);
+        
+        
+        //ofCircle(midPt, 0.4);
+        
+        
     //}
         
     }
     ofPopMatrix();
 
+    ofFill();
     ofSetColor(255,0,0);
-    ofCircle(_pos, 2);
+    //ofCircle(_pos, 4);
 
     ofPopStyle();
 }
@@ -396,7 +423,7 @@ void Glyph::setScale(float scale)
 //--------------------------------------------------------------
 void Glyph::setRotation(float rotation)
 {
-    _targetRotation = rotation;
+    _rotation = rotation;
 }
 
 //--------------------------------------------------------------
@@ -409,8 +436,8 @@ ofRectangle Glyph::absBounds()
         else absBounds.growToInclude(_limbs[i].getBoundingBox());
     }
 
-    absBounds.width  *= _scale;
-    absBounds.height *= _scale;
+   
+    
     
 //    // Calculate bounds taking the rotation into account.
 //    float vx, vy;  // Unrotated vertex coords.

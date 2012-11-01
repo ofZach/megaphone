@@ -23,14 +23,13 @@ class Glyph
         void clearLimbs();
         vector<Limb>& limbs();
 
-    
-    
-    
         void update();
         void draw();
         void debug();
+    
+        void normalize();
+    
 
-        ofVec2f& prv() { return _prv; }
         ofVec2f& pos() { return _pos; }
         ofVec2f& vel() { return _vel; }
         ofVec2f& acc() { return _acc; }

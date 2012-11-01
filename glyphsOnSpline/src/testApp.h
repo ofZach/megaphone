@@ -25,6 +25,6 @@ class testApp : public ofBaseApp
         ofPolyline spline;
         bool bShowSpline;
         vector < Glyph *  > glyphs;
-
-        Glyph glyph;
+    
+    
 };
