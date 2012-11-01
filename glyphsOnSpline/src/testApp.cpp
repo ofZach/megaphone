@@ -49,15 +49,10 @@ void testApp::update()
             }
             glyphs[i]->update();
 
-            // if we are moving from right to left, set the offset for the next object based on the current object's width
-            if (prevPoint.x >= nextPoint.x) {
-                currLength += glyphs[i]->absBounds().width + 10;
+            currLength += glyphs[i]->absBounds().width / 2 + 10;
+            if (i < glyphs.size() - 1) {
+                currLength += glyphs[i+1]->absBounds().width / 2;
             }
-            // if we are moving from left to right, set the offset for the next object based on its own width
-            else if (i < glyphs.size() - 1) {
-                currLength += glyphs[i+1]->absBounds().width + 10;
-            }
-
             currPct = currLength / totalLength;
             if (currPct > 1) break;
         }
