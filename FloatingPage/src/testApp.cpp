@@ -23,6 +23,9 @@ void testApp::setup()
     fallingPage.path.setFillColor(ofColor(0, 200, 200));
 
     a5Page.path.setFillColor(ofColor(0, 200, 0));
+
+    flipperPage.pos.set(-100, 0, -100);
+    flipperPage.path.setFillColor(ofColor(200, 0, 200));
 }
 
 //--------------------------------------------------------------
@@ -33,6 +36,7 @@ void testApp::update()
     otherPage.update();
     fallingPage.update();
     a5Page.update();
+    flipperPage.update();
 }
 
 //--------------------------------------------------------------
@@ -59,6 +63,7 @@ void testApp::draw()
     otherPage.draw();
     fallingPage.draw();
     a5Page.draw();
+    flipperPage.draw();
 
     // draw the 3d origin
     static int axisLength = 10;

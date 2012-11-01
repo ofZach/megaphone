@@ -6,6 +6,7 @@
 #include "OtherPage.h"
 #include "FallingPage.h"
 #include "A5Page.h"
+#include "FlipperPage.h"
 
 class testApp : public ofBaseApp
 {
@@ -31,5 +32,6 @@ class testApp : public ofBaseApp
         OtherPage otherPage;
         FallingPage fallingPage;
         A5Page a5Page;
+        FlipperPage flipperPage;
 
 };
