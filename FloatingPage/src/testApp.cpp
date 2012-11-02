@@ -73,6 +73,49 @@ void testApp::draw()
     ofSetColor(0, 0, 255);
     ofLine(0, 0, 0, 0, 0, axisLength);
 
+    // draw some windows on the front
+    static int windowWidth = 30 * 2;
+    static int windowHeight = 80 * 2;
+    static int windowBase = 60;
+    ofSetColor(0);
+    ofBeginShape();
+    ofVertex(groundSize, windowBase, -groundSize/2 - windowWidth/2);
+    ofVertex(groundSize, windowBase + windowHeight, -groundSize/2 - windowWidth/2);
+    ofVertex(groundSize, windowBase + windowHeight, -groundSize/2 + windowWidth/2);
+    ofVertex(groundSize, windowBase, -groundSize/2 + windowWidth/2);
+    ofEndShape(true);
+    ofBeginShape();
+    ofVertex(groundSize, windowBase, -windowWidth/2);
+    ofVertex(groundSize, windowBase + windowHeight, -windowWidth/2);
+    ofVertex(groundSize, windowBase + windowHeight, windowWidth/2);
+    ofVertex(groundSize, windowBase, windowWidth/2);
+    ofEndShape(true);
+    ofBeginShape();
+    ofVertex(groundSize, windowBase, groundSize/2 - windowWidth/2);
+    ofVertex(groundSize, windowBase + windowHeight, groundSize/2 - windowWidth/2);
+    ofVertex(groundSize, windowBase + windowHeight, groundSize/2 + windowWidth/2);
+    ofVertex(groundSize, windowBase, groundSize/2 + windowWidth/2);
+    ofEndShape(true);
+
+    ofBeginShape();
+    ofVertex(-groundSize/2 - windowWidth/2, windowBase, groundSize);
+    ofVertex(-groundSize/2 - windowWidth/2, windowBase + windowHeight, groundSize);
+    ofVertex(-groundSize/2 + windowWidth/2, windowBase + windowHeight, groundSize);
+    ofVertex(-groundSize/2 + windowWidth/2, windowBase, groundSize);
+    ofEndShape(true);
+    ofBeginShape();
+    ofVertex(-windowWidth/2, windowBase, groundSize);
+    ofVertex(-windowWidth/2, windowBase + windowHeight, groundSize);
+    ofVertex(windowWidth/2, windowBase + windowHeight, groundSize);
+    ofVertex(windowWidth/2, windowBase, groundSize);
+    ofEndShape(true);
+    ofBeginShape();
+    ofVertex(groundSize/2 - windowWidth/2, windowBase, groundSize);
+    ofVertex(groundSize/2 - windowWidth/2, windowBase + windowHeight, groundSize);
+    ofVertex(groundSize/2 + windowWidth/2, windowBase + windowHeight, groundSize);
+    ofVertex(groundSize/2 + windowWidth/2, windowBase, groundSize);
+    ofEndShape(true);
+
     camera.end();
 }
 
