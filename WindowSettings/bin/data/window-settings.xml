@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+	<setting name="screen_width">800</setting>
+	<setting name="screen_height">600</setting>
+	<setting name="num_screens">2</setting>
+</settings>
