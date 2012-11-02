@@ -8,9 +8,6 @@
 
 #include "Page.h"
 
-static int pageSize = 20;
-static int apex = 200;
-
 //--------------------------------------------------------------
 Page::Page()
 {
@@ -18,8 +15,10 @@ Page::Page()
     pauseRemaining = 0;
     floatDuration = 0;
 
+    bHops = true;
     posInc = 0;
     posSpeed = 0.01;
+    rainSpeed.set(0, -5, 0);
 
     rotSpeed = 0.001;
 
@@ -152,10 +151,21 @@ void Page::update()
     }
     else {
         ++floatDuration;
-        
-        // move up and down
-        posInc += posSpeed;
-        pos.y = ABS(sin(posInc)) * apex;
+
+        if (bHops) {
+            // move up and down
+            posInc += posSpeed;
+            pos.y = ABS(sin(posInc)) * apex;
+        }
+        else {
+            // rain down, repeat
+            pos += rainSpeed;
+            if (pos.y < 0) pos.y = apex * 2;
+            if (pos.x < -groundSize) pos.x += groundSize * 2;
+            else if (pos.x > groundSize) pos.x -= groundSize * 2;
+            if (pos.z < -groundSize) pos.z += groundSize * 2;
+            else if (pos.z > groundSize) pos.z -= groundSize * 2;
+        }
 
         // increment slower as you reach the apex
         rotInc = (apex - pos.y) * rotSpeed;

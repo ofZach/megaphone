@@ -10,13 +10,19 @@
 
 #include "ofMain.h"
 
+static int groundSize = 400;
+static int pageSize = 20;
+static int apex = 400;
+
 enum PageMode
 {
     PageModeFlat = 0,
     PageModeVert,
     PageModeSway,
     PageModeFlex,
-    PageModeFlip
+    PageModeFlip,
+
+    NumPageModes
 };
 
 class Page
@@ -38,9 +44,11 @@ class Page
         int  pauseRemaining;
         int  floatDuration;
 
+        bool bHops;
         float posInc;
         float posSpeed;
         ofPoint pos;
+        ofPoint rainSpeed;
 
         float rotInc;
         float rotSpeed;

@@ -21,11 +21,19 @@ class testApp : public ofBaseApp
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 
+        void addRainPages(int num);
+
         ofEasyCam camera;
+
         Page flatPage;
         Page flexPage;
         Page swayPage;
         Page vertPage;
         Page flipPage;
+
+        bool bShowWindows;
+
+        bool bShowRain;
+        vector<Page *> rainPages;
 
 };
