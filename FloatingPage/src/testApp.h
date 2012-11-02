@@ -1,12 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "FlatPage.h"
-#include "CurvePage.h"
-#include "OtherPage.h"
-#include "FallingPage.h"
-#include "A5Page.h"
-#include "FlipperPage.h"
+#include "Page.h"
 
 class testApp : public ofBaseApp
 {
@@ -27,11 +22,10 @@ class testApp : public ofBaseApp
 		void gotMessage(ofMessage msg);
 
         ofEasyCam camera;
-        FlatPage flatPage;
-        CurvePage curvePage;
-        OtherPage otherPage;
-        FallingPage fallingPage;
-        A5Page a5Page;
-        FlipperPage flipperPage;
+        Page flatPage;
+        Page flexPage;
+        Page swayPage;
+        Page vertPage;
+        Page flipPage;
 
 };

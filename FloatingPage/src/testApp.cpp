@@ -13,30 +13,30 @@ void testApp::setup()
     flatPage.pos.set(-70, 0, 70);
     flatPage.path.setFillColor(ofColor(200, 0, 0));
 
-    curvePage.pos.set(70, 0, 70);
-    curvePage.path.setFillColor(ofColor(0, 0, 200));
+    flexPage.pos.set(70, 0, -70);
+    flexPage.path.setFillColor(ofColor(200, 200, 0));
+    flexPage.setMode(PageModeFlex);
 
-    otherPage.pos.set(70, 0, -70);
-    otherPage.path.setFillColor(ofColor(200, 200, 0));
+    swayPage.pos.set(-70, 0, -70);
+    swayPage.path.setFillColor(ofColor(0, 200, 200));
+    swayPage.setMode(PageModeSway);
 
-    fallingPage.pos.set(-70, 0, -70);
-    fallingPage.path.setFillColor(ofColor(0, 200, 200));
+    vertPage.path.setFillColor(ofColor(0, 200, 0));
+    vertPage.setMode(PageModeVert);
 
-    a5Page.path.setFillColor(ofColor(0, 200, 0));
-
-    flipperPage.pos.set(-100, 0, -100);
-    flipperPage.path.setFillColor(ofColor(200, 0, 200));
+    flipPage.pos.set(70, 0, 70);
+    flipPage.path.setFillColor(ofColor(200, 0, 200));
+    flipPage.setMode(PageModeFlip);
 }
 
 //--------------------------------------------------------------
 void testApp::update()
 {
     flatPage.update();
-    curvePage.update();
-    otherPage.update();
-    fallingPage.update();
-    a5Page.update();
-    flipperPage.update();
+    flexPage.update();
+    swayPage.update();
+    vertPage.update();
+    flipPage.update();
 }
 
 //--------------------------------------------------------------
@@ -59,11 +59,10 @@ void testApp::draw()
 
     // draw the pages
     flatPage.draw();
-    curvePage.draw();
-    otherPage.draw();
-    fallingPage.draw();
-    a5Page.draw();
-    flipperPage.draw();
+    flexPage.draw();
+    swayPage.draw();
+    vertPage.draw();
+    flipPage.draw();
 
     // draw the 3d origin
     static int axisLength = 10;
