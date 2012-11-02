@@ -31,9 +31,11 @@ class testApp : public ofBaseApp
         Page vertPage;
         Page flipPage;
 
-        bool bShowWindows;
-
         bool bShowRain;
+        bool bShowAll;
         vector<Page *> rainPages;
+
+        ofMatrix4x4 closeUpCameraMatrix;
+        ofMatrix4x4 longShotCameraMatrix;
 
 };
