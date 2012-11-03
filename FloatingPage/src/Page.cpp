@@ -14,11 +14,12 @@ Page::Page()
     animateDuration = 0;
 
     bRains = false;
-    startPos.set(0, apex, 0);
+    startPos.set(0, 10, 0);
     pos.set(startPos);
     posInc = 0;
     posSpeed = 0.01;
     rainSpeed.set(0, -5, 0);
+    tornadoAngle = ofRandom(M_TWO_PI);
 
     rotSpeed = 0.001;
 
@@ -204,7 +205,7 @@ void Page::begin(int newMode)
 //--------------------------------------------------------------
 void Page::end()
 {
-    if (mode == PageModeStatic) return;
+//    if (mode == PageModeStatic) return;
 
     bRains = false;
 
@@ -377,13 +378,54 @@ void Page::update()
     }
 
     if (bRains) {
-        // rain down, repeat
-        pos += rainSpeed;
-        if (pos.y < 0) pos.set(startPos); //pos.y = apex * 2;
-        if (pos.x < -groundSize) pos.x += groundSize * 2;
-        else if (pos.x > groundSize) pos.x -= groundSize * 2;
-        if (pos.z < -groundSize) pos.z += groundSize * 2;
-        else if (pos.z > groundSize) pos.z -= groundSize * 2;
+        float tornadoRadius = MIN(pos.y, groundSize);
+        float distFromCenter = ofVec2f(pos.x, pos.z).length();
+        if (distFromCenter < 2) {
+            cout << "away" << endl;
+            // move away from the center
+            pos.x += cos(tornadoAngle);
+            pos.z += sin(tornadoAngle);
+        }
+        else {
+            // tornado!
+            ofPoint center(0, pos.y, 0);
+            tornadoSpeed = pos.getPerpendicular(center);
+            tornadoSpeed.normalize();
+            tornadoSpeed *= (pos.y * 0.1);
+            
+            if (distFromCenter < tornadoRadius) {
+                cout << "tornado" << endl;
+                tornadoSpeed.y += tornadoAngle;
+                pos += tornadoSpeed;
+            }
+            else {
+                cout << "rain " << "radius=" << tornadoRadius << ", dist=" << distFromCenter << endl;
+                tornadoSpeed.y += rainSpeed.y;
+                pos += tornadoSpeed;
+                if (pos.y < startPos.y) pos.y = startPos.y;
+
+                ofPoint offsetFromStart = startPos - pos;
+                offsetFromStart.y = 0;
+
+                // move towards the center
+                pos += offsetFromStart * 0.01;
+                
+                // rain down, repeat
+//                pos.y += rainSpeed.y;
+//                if (pos.y < startPos.y) pos.y = startPos.y;//pos = (startPos); //pos.y = apex * 2;
+    //            if (pos.x < -groundSize) pos.x += groundSize * 2;
+    //            else if (pos.x > groundSize) pos.x -= groundSize * 2;
+    //            if (pos.z < -groundSize) pos.z += groundSize * 2;
+    //            else if (pos.z > groundSize) pos.z -= groundSize * 2;
+//                ofPoint offsetFromStart = startPos - pos;
+//                offsetFromStart.y = 0;
+
+                // move towards the center
+//                pos += offsetFromStart * 0.01;
+            }
+        }
+
+//        cout << "tornado radius = " << tornadoRadius << ", ground size = " << groundSize << ", dist from center = " << distFromCenter << endl;
     }
 
     if (mode == PageModeVert || mode == PageModeAll) {

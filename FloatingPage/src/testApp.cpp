@@ -14,10 +14,10 @@ void testApp::setup()
     camera.tilt(-30);
     camera.rotate(20, 0, 1, 0);
 
-    closeUpCameraMatrix.setTranslation(-15.0981, 259.202, 99.0417);
-    closeUpCameraMatrix.setRotate(ofQuaternion(-0.240849, -0.0507347, -0.00102867, 0.969235));
+    closeUpCameraMatrix.setTranslation(40.3154, 68.0548, 110.766);
+    closeUpCameraMatrix.setRotate(ofQuaternion(-0.254887, 0.167731, 0.0449435, 0.951251));
 
-    longShotCameraMatrix.setTranslation(197.004, 332.554, 541.263);
+    longShotCameraMatrix.setTranslation(242.633, 457.804, 637.342);
     longShotCameraMatrix.setRotate(ofQuaternion(-0.254887, 0.167731, 0.0449435, 0.951251));
 
     targetCameraMatrix = longShotCameraMatrix;
@@ -59,6 +59,7 @@ void testApp::addRainPages(int num)
 //--------------------------------------------------------------
 void testApp::update()
 {
+    // tween the camera to its target position
     ofMatrix4x4 currCameraMatrix = camera.getLocalTransformMatrix();
     ofVec3f currTranslation = currCameraMatrix.getTranslation();
     ofVec3f targetTranslation = targetCameraMatrix.getTranslation();
@@ -154,7 +155,6 @@ void testApp::keyPressed(int key)
             rainPages[i]->begin(pageMode);
         }
         bShowAll = false;
-        targetCameraMatrix = closeUpCameraMatrix;
     }
 
     else if (key == 'q') {
@@ -170,6 +170,7 @@ void testApp::keyPressed(int key)
             rainPages[i]->end();
             rainPages[i]->bRains = false;
         }
+        targetCameraMatrix = closeUpCameraMatrix;
     }
 
     else if (key == 'z') {
