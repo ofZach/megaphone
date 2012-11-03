@@ -35,6 +35,7 @@ class testApp : public ofBaseApp
         bool bShowAll;
         vector<Page *> rainPages;
 
+        ofMatrix4x4 targetCameraMatrix;
         ofMatrix4x4 closeUpCameraMatrix;
         ofMatrix4x4 longShotCameraMatrix;
 

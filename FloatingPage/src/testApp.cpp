@@ -13,8 +13,14 @@ void testApp::setup()
     camera.enableMouseInput();
     camera.tilt(-30);
     camera.rotate(20, 0, 1, 0);
-    closeUpCameraMatrix = camera.getLocalTransformMatrix();
-    longShotCameraMatrix = camera.getLocalTransformMatrix();
+
+    closeUpCameraMatrix.setTranslation(-15.0981, 259.202, 99.0417);
+    closeUpCameraMatrix.setRotate(ofQuaternion(-0.240849, -0.0507347, -0.00102867, 0.969235));
+
+    longShotCameraMatrix.setTranslation(197.004, 332.554, 541.263);
+    longShotCameraMatrix.setRotate(ofQuaternion(-0.254887, 0.167731, 0.0449435, 0.951251));
+
+    targetCameraMatrix = longShotCameraMatrix;
 
     flatPage.pos.set(-70, 0, 70);
     flatPage.path.setFillColor(ofColor(200, 0, 0));
@@ -53,6 +59,20 @@ void testApp::addRainPages(int num)
 //--------------------------------------------------------------
 void testApp::update()
 {
+    ofMatrix4x4 currCameraMatrix = camera.getLocalTransformMatrix();
+    ofVec3f currTranslation = currCameraMatrix.getTranslation();
+    ofVec3f targetTranslation = targetCameraMatrix.getTranslation();
+    ofVec3f offsetTranslation = targetTranslation - currTranslation;
+    currTranslation += (offsetTranslation * 0.2f);
+    ofVec4f currRotation = currCameraMatrix.getRotate().asVec4();
+    ofVec4f targetRotation = targetCameraMatrix.getRotate().asVec4();
+    ofVec4f offsetRotation = targetRotation - currRotation;
+    currRotation += (offsetRotation * 0.2f);
+    currCameraMatrix.setTranslation(currTranslation);
+    currCameraMatrix.setRotate(ofQuaternion(currRotation));
+    camera.setTransformMatrix(currCameraMatrix);
+
+
     flatPage.update();
     flexPage.update();
     swayPage.update();
@@ -127,38 +147,14 @@ void testApp::keyPressed(int key)
         }
         rainPages.clear();
     }
-    
-    else if (key == '1') {
+
+    else if (key >= '1' && key <= '6') {
+        int pageMode = key - 48;
         for (int i = 0; i < rainPages.size(); i++) {
-            rainPages[i]->begin(PageModeFlat);
+            rainPages[i]->begin(pageMode);
         }
         bShowAll = false;
-    }
-    else if (key == '2') {
-        for (int i = 0; i < rainPages.size(); i++) {
-            rainPages[i]->begin(PageModeFlex);
-        }
-        bShowAll = false;
-    }
-    else if (key == '3') {
-        for (int i = 0; i < rainPages.size(); i++) {
-            rainPages[i]->begin(PageModeFlip);
-        }
-    }
-    else if (key == '4') {
-        for (int i = 0; i < rainPages.size(); i++) {
-            rainPages[i]->begin(PageModeVert);
-        }
-    }
-    else if (key == '5') {
-        for (int i = 0; i < rainPages.size(); i++) {
-            rainPages[i]->begin(PageModeSway);
-        }
-    }
-    else if (key == '6') {
-        for (int i = 0; i < rainPages.size(); i++) {
-            rainPages[i]->begin(PageModeAll);
-        }
+        targetCameraMatrix = closeUpCameraMatrix;
     }
 
     else if (key == 'q') {
@@ -167,6 +163,7 @@ void testApp::keyPressed(int key)
             rainPages[i]->bRains = true;
         }
         bShowAll = true;
+        targetCameraMatrix = longShotCameraMatrix;
     }
     else if (key == 'w') {
         for (int i = 0; i < rainPages.size(); i++) {
@@ -180,6 +177,13 @@ void testApp::keyPressed(int key)
     }
     else if (key == 'x') {
         closeUpCameraMatrix = camera.getLocalTransformMatrix();
+    }
+    else if (key == 'p') {
+        cout << "Camera " << endl
+             << "  trans = " << camera.getLocalTransformMatrix().getTranslation() << endl
+             << "  rotat = " << camera.getLocalTransformMatrix().getRotate().asVec4() << endl
+             << "  scale = " << camera.getLocalTransformMatrix().getScale() << endl;
+        cout << "  dist  = " << camera.getDistance() << endl;
     }
 }
 

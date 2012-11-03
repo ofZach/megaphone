@@ -333,6 +333,11 @@ void Page::update()
             // set up the next state
             setMode(keyframe.onCompleteMode);
             phase = keyframe.onCompletePhase;
+
+            // reset incrementing vars
+            animateDuration = 0;
+            rotInc = 0;
+            swayInc = 0;
         }
     }
     else {  // phase == PagePhaseAnimate
