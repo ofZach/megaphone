@@ -32,6 +32,19 @@ class aubioAnalyzer{
 		fvec_t * in;
 		aubio_pitchdetection_t * pitch_output ;
 	
+    
+    
+        aubio_pvoc_t*           mPhaseVocoder;
+        aubio_onsetdetection_t*  mOnsetDetector;
+        aubio_pickpeak_t*           mPeakPickingParms;
+        
+        fvec_t*                     mCurrentFrame;
+        fvec_t*                     mInputAudio;
+        fvec_t*                     mOnsetBuffer;
+        cvec_t*                     mSpectrum;
+        aubio_onsetdetection_type  mOnsetType;
+        
+
 		// ------------------------------------------------------------------
 
 };

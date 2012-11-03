@@ -14,7 +14,6 @@ void testApp::setup(){
     
     AM.setup();
 
-    soundStream.setup(this, 0, 2, 44100, bufferSize, 4);
     
 
     total.addVertex(ofPoint(ofGetWidth()/2, ofGetWidth()/2));
@@ -40,6 +39,15 @@ void testApp::setup(){
     }
     
     
+    
+    nBuffersRecorded = 0;
+    audioDataThread = new float[ bufferSize * 100]; // almost half a second
+    audioDataMainThread = new float [ bufferSize * 100];
+        
+    
+    soundStream.setup(this, 0, 2, 44100, bufferSize, 4);
+    
+    
 }
 
 void testApp::exit(){
@@ -54,6 +62,27 @@ float distanceAdderPct = 0;
 //--------------------------------------------------------------
 void testApp::update(){
 
+    
+    
+    int nFramesAudio = 0; 
+    mutex.lock();
+    memcpy( audioDataMainThread, audioDataThread, nBuffersRecorded * 256 * sizeof(float));
+    nFramesAudio = nBuffersRecorded;
+    nBuffersRecorded = 0;
+    mutex.unlock();
+    
+    for (int i = 0; i < nFramesAudio; i++){
+        AM.update(audioDataMainThread + i * 256, 256);
+        pitch = AM.results.aubioPitch;
+        volume = AM.results.aubioRMS;
+    }
+    
+    //    AM.update(left, bufferSize);
+    //    pitch = AM.results.aubioPitch;
+    //    volume = AM.results.aubioRMS;
+    
+    
+    
    
     bool bLoudEnoughLastFrame = bLoudEnough;
     float pitchSmoothLastFrame = pitchSmooth;
@@ -68,17 +97,16 @@ void testApp::update(){
     
     if (bLoudEnough){
         
-        cout << log2(pitch/440.0 + 1) * 100.0 << endl;
+        //cout << log2(pitch/440.0 + 1) * 100.0 << endl;
         
         // if we were not loud enough last frame, and loud enough this frame, don't smooth: 
         if (!bLoudEnoughLastFrame){
             pitchSmooth = log2(pitch/440.0 + 1) * 100.0;
         } else {
             pitchSmooth = 0.97f * pitchSmooth + 0.03 * log2(pitch/440.0 + 1) * 100.0;
-            
-            
+        
             float diffPitch = pitchSmooth - pitchSmoothLastFrame;
-            float angleMap = ofMap(diffPitch, -20,20, PI, -PI, true);
+            float angleMap = ofMap(diffPitch, -20,20, PI, -PI, false);
             float distance = ofMap(volume, 0.001, 0.04, 0.4, 6.5, true) * 2.0;
             angleDiffs.push_back(angleMap);
             distances.push_back(distance);
@@ -236,12 +264,13 @@ void testApp::draw(){
         
         float x = fftBounds.x + pctA * fftBounds.width;
         float y = fftBounds.y;
-        //ofRect(x, y + fftBounds.height, (pctB-pctA) * fftBounds.width, -AM.results.fftOctaves[i] * 5);
+        ofRect(x, y + fftBounds.height, (pctB-pctA) * fftBounds.width, -AM.results.fftOctaves[i] * 5);
     }
     ///cout << AM.results.fftOctaves
     
-    
-    
+    AM.volume.draw();
+    AM.onset.draw();
+
     if (total.getVertices().size() > 0){
         
         
@@ -251,16 +280,14 @@ void testApp::draw(){
         
         glBegin(GL_LINE_STRIP);
         for (int i = 0; i < total.getVertices().size(); i++){
-            
             glVertex3f(total.getVertices()[i].x, total.getVertices()[i].y, total.getVertices()[i].z);
         }
         glEnd();
-        ofEndShape();
+        //ofEndShape();
         
         //total.draw();
         ofPopMatrix();
-        
-        
+
     }
     
     
@@ -281,6 +308,7 @@ void testApp::draw(){
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
 
+    total.clear();
  //   AL.addAngleLength(ofRandom(0,1), ofRandom(1,2));
 }
 
@@ -328,14 +356,26 @@ float freqDiffSmooth = 0;
 //--------------------------------------------------------------
 void testApp::audioIn(float * input, int bufferSize, int nChannels){	
 	
+
 	for (int i = 0; i < bufferSize; i++){
 		left[i]		= input[i*2];
 		right[i]	= input[i*2+1];
 	}
+
+    mutex.lock();
+    if (nBuffersRecorded < 100){
+        memcpy( audioDataThread + nBuffersRecorded * bufferSize, left, bufferSize * sizeof(float));
+        nBuffersRecorded++;
+    } else {
+        printf("skip! ?\n");
+    }
     
-    AM.update(left, bufferSize);
+    mutex.unlock();
     
-    pitch = AM.results.aubioPitch;
-    volume = AM.results.aubioRMS;
+    
+    
+    //    AM.update(left, bufferSize);
+//    pitch = AM.results.aubioPitch;
+//    volume = AM.results.aubioRMS;
     
 }

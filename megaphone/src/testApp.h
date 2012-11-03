@@ -5,6 +5,7 @@
 #include "Glyph.h"
 #include "angleLengthLine.h"
 
+
 class testApp : public ofBaseApp{
 
 	public:
@@ -32,24 +33,30 @@ class testApp : public ofBaseApp{
         audioManager AM;
     
     
-     
+        
     
-    float pitch;
-    float volume;
-    bool bLoudEnough;
-    float pitchSmooth;      // non aubio needs some love -- works well w/ whisteling. 
+        float pitch;
+        float volume;
+        bool bLoudEnough;
+        float pitchSmooth;      // non aubio needs some love -- works well w/ whisteling. 
+        
+        
+        vector < float > angleDiffs;
+        vector < float > distances;
+        ofPolyline total;
+        float angle;
+        float angleSmooth;
+        ofPoint catchPoint;
+        
+        vector < Glyph *  > glyphs;
+        
+        int nBuffersRecorded;
+        float * audioDataThread;
+        float * audioDataMainThread;
     
     
-    vector < float > angleDiffs;
-    vector < float > distances;
-    ofPolyline total;
-    float angle;
-    float angleSmooth;
-    ofPoint catchPoint;
-    
-    
-    
-    vector < Glyph *  > glyphs;
+        ofMutex mutex;
+
     
     
 };

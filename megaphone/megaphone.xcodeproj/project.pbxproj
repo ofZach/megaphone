@@ -11,6 +11,7 @@
 		1137D66A163DB0F50043A11D /* dywapitchtrack.c in Sources */ = {isa = PBXBuildFile; fileRef = 1137D647163DB0F50043A11D /* dywapitchtrack.c */; };
 		1164F25F1642DBFD0013CB90 /* Glyph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1164F25B1642DBFD0013CB90 /* Glyph.cpp */; };
 		1164F2601642DBFD0013CB90 /* Limb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1164F25D1642DBFD0013CB90 /* Limb.cpp */; };
+		1164F30816445C190013CB90 /* AubioOnsetDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1164F30616445C190013CB90 /* AubioOnsetDetector.cpp */; };
 		119A1BBE163F987B0003D223 /* aubioAnalyzer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 119A1B93163F987B0003D223 /* aubioAnalyzer.cpp */; };
 		119A1BBF163F987B0003D223 /* aubioOSX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 119A1BBD163F987B0003D223 /* aubioOSX.a */; };
 		119A1BC516402B7D0003D223 /* fft.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 119A1BC116402B7D0003D223 /* fft.cpp */; };
@@ -81,6 +82,8 @@
 		1164F25C1642DBFD0013CB90 /* Glyph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Glyph.h; sourceTree = "<group>"; };
 		1164F25D1642DBFD0013CB90 /* Limb.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Limb.cpp; sourceTree = "<group>"; };
 		1164F25E1642DBFD0013CB90 /* Limb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Limb.h; sourceTree = "<group>"; };
+		1164F30616445C190013CB90 /* AubioOnsetDetector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AubioOnsetDetector.cpp; sourceTree = "<group>"; };
+		1164F30716445C190013CB90 /* AubioOnsetDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AubioOnsetDetector.h; sourceTree = "<group>"; };
 		119A1B93163F987B0003D223 /* aubioAnalyzer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = aubioAnalyzer.cpp; sourceTree = "<group>"; };
 		119A1B94163F987B0003D223 /* aubioAnalyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aubioAnalyzer.h; sourceTree = "<group>"; };
 		119A1B97163F987B0003D223 /* aubio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aubio.h; sourceTree = "<group>"; };
@@ -226,6 +229,8 @@
 		119A1B92163F987B0003D223 /* aubio */ = {
 			isa = PBXGroup;
 			children = (
+				1164F30616445C190013CB90 /* AubioOnsetDetector.cpp */,
+				1164F30716445C190013CB90 /* AubioOnsetDetector.h */,
 				119A1B93163F987B0003D223 /* aubioAnalyzer.cpp */,
 				119A1B94163F987B0003D223 /* aubioAnalyzer.h */,
 				119A1B95163F987B0003D223 /* include */,
@@ -550,6 +555,7 @@
 				119A1BC616402B7D0003D223 /* fftOctaveAnalyzer.cpp in Sources */,
 				1164F25F1642DBFD0013CB90 /* Glyph.cpp in Sources */,
 				1164F2601642DBFD0013CB90 /* Limb.cpp in Sources */,
+				1164F30816445C190013CB90 /* AubioOnsetDetector.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

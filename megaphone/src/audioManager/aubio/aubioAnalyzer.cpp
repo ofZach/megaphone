@@ -21,6 +21,8 @@ void aubioAnalyzer::setup(){
 	in  = new_fvec (hop_s, channels);
 	pitch_output = new_aubio_pitchdetection(win_s, hop_s, channels, samplerate, type, mode);
 	
+    
+    
 	
 }
 
@@ -54,4 +56,10 @@ void aubioAnalyzer::processAudio (float * input, int bufferSize){
 		//finally get the pitch of the sound
 		pitch = aubio_pitchdetection(pitch_output,in);	
 	}
+    
+    
+   
+    
+    
+    
 }

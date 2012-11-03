@@ -4,18 +4,26 @@
     
 
 
+
+
+
+
+
 void audioManager::setup(){
     dywapitch_inittracking(&pitchtracker);   
     audioDataDouble = NULL;
     AA.setup();//1024
     
     
+    nBuffers = 0;
+    
+    largerBuffer = new float[1024];
     magnitude = new float[1024];
     phase = new float[1024];
     power = new float[1024];
     freq = new float[1024];
     
-    FFTanalyzer.setup(44100, 1024/2, 2);
+    FFTanalyzer.setup(44100, 1024/4, 5);
     
     //FFTOctaveAnalyzer davebollinger 
     
@@ -38,12 +46,35 @@ void audioManager::setup(){
     
     results.fftOctaves = new float[ FFTanalyzer.nAverages];
     results.nFftOctaves = FFTanalyzer.nAverages;
+    
+    
+    volume.bounds.set(300,40,100,40);
+    volume.max = 0.1;
+    
+    onset.bounds.set(300,140,100,40);
 
 };
 
 
 
 void audioManager::update(float * audio, int _bufferSize){
+    
+    
+    if (nBuffers < 1024/_bufferSize){
+        memcpy(largerBuffer + nBuffers * _bufferSize, audio, _bufferSize * sizeof(float));
+        nBuffers++;
+    } else {
+        int nTimes = 1024/_bufferSize;
+        for (int i = 1; i < nTimes; i++){
+            memcpy(largerBuffer + (i-1) * _bufferSize, 
+                   largerBuffer + (i) * _bufferSize,
+                   _bufferSize * sizeof(float));
+            memcpy(largerBuffer + (nTimes-1) * _bufferSize, audio, _bufferSize * sizeof(float));
+            
+        }
+        nBuffers ++;
+    }
+    
     
     
     bufferSize = _bufferSize;
@@ -55,13 +86,21 @@ void audioManager::update(float * audio, int _bufferSize){
    
     //cout << aubioBuffer.size() << endl;
     //calculatePitch();
-    //calculateRMS();
-    
-    
-    
-    
+    calculateRMS();
     calculateAubio();
     
+    if (nBuffers > 1024/_bufferSize){
+        calculateFFT();
+    }
+    
+    AOD.processframe(audio, _bufferSize);
+    if (AOD.aubioOnsetFound == true){
+        printf("hello %f \n", ofGetElapsedTimef());
+    }
+    
+    volume.addValue(AA.amplitude);
+    
+    onset.addValue(AOD.aubioOnsetFound == true ? 1 : 0);
 }
 
 void audioManager::calculatePitch(){
@@ -89,7 +128,7 @@ void audioManager::calculateFFT(){
 
     
     float avg_power = 0.0f;
-    myfft.powerSpectrum(0, (int) 1024/2, audioData, 1024, &magnitude[0], &phase[0], &power[0], &avg_power);
+    myfft.powerSpectrum(0, (int) 1024/2, largerBuffer, 1024, &magnitude[0], &phase[0], &power[0], &avg_power);
     for(int i = 0; i< 1024/2; i++){
         freq[i] = magnitude[i];
     }
