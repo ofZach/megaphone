@@ -59,18 +59,19 @@ void testApp::addRainPages(int num)
 //--------------------------------------------------------------
 void testApp::update()
 {
-    ofMatrix4x4 currCameraMatrix = camera.getLocalTransformMatrix();
-    ofVec3f currTranslation = currCameraMatrix.getTranslation();
-    ofVec3f targetTranslation = targetCameraMatrix.getTranslation();
-    ofVec3f offsetTranslation = targetTranslation - currTranslation;
-    currTranslation += (offsetTranslation * 0.2f);
-    ofVec4f currRotation = currCameraMatrix.getRotate().asVec4();
-    ofVec4f targetRotation = targetCameraMatrix.getRotate().asVec4();
-    ofVec4f offsetRotation = targetRotation - currRotation;
-    currRotation += (offsetRotation * 0.2f);
-    currCameraMatrix.setTranslation(currTranslation);
-    currCameraMatrix.setRotate(ofQuaternion(currRotation));
-    camera.setTransformMatrix(currCameraMatrix);
+    // tween the camera to its target position
+//    ofMatrix4x4 currCameraMatrix = camera.getLocalTransformMatrix();
+//    ofVec3f currTranslation = currCameraMatrix.getTranslation();
+//    ofVec3f targetTranslation = targetCameraMatrix.getTranslation();
+//    ofVec3f offsetTranslation = targetTranslation - currTranslation;
+//    currTranslation += (offsetTranslation * 0.2f);
+//    ofVec4f currRotation = currCameraMatrix.getRotate().asVec4();
+//    ofVec4f targetRotation = targetCameraMatrix.getRotate().asVec4();
+//    ofVec4f offsetRotation = targetRotation - currRotation;
+//    currRotation += (offsetRotation * 0.2f);
+//    currCameraMatrix.setTranslation(currTranslation);
+//    currCameraMatrix.setRotate(ofQuaternion(currRotation));
+//    camera.setTransformMatrix(currCameraMatrix);
 
 
     flatPage.update();
