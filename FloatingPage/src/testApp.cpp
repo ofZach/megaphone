@@ -7,7 +7,6 @@ void testApp::setup()
     ofSetVerticalSync(true);
     ofBackground(0);
 
-    bShowRain = true;
     bShowAll = true;
 
     camera.disableMouseInput();
@@ -23,24 +22,6 @@ void testApp::setup()
     targetCameraMatrix = closeUpCameraMatrix;
     camera.setTransformMatrix(targetCameraMatrix);
 
-    flatPage.pos.set(-70, 0, 70);
-    flatPage.path.setFillColor(ofColor(200, 0, 0));
-
-    flexPage.pos.set(70, 0, -70);
-    flexPage.path.setFillColor(ofColor(200, 200, 0));
-    flexPage.setMode(PageModeFlex);
-
-    swayPage.pos.set(-70, 0, -70);
-    swayPage.path.setFillColor(ofColor(0, 200, 200));
-    swayPage.setMode(PageModeSway);
-
-    vertPage.path.setFillColor(ofColor(0, 200, 0));
-    vertPage.setMode(PageModeVert);
-
-    flipPage.pos.set(70, 0, 70);
-    flipPage.path.setFillColor(ofColor(200, 0, 200));
-    flipPage.setMode(PageModeFlip);
-
     addRainPages(1);
     rainPages.back()->begin(PageModeAll);
 
@@ -54,13 +35,6 @@ void testApp::setup()
     gui.add(bendFresh.setup("bend fresh", false));
     gui.add(topBendAmount.setup("top bend", 0, 0, 1));
     gui.add(bottomBendAmount.setup("bottom bend", 0.5, 0, 1));
-	gui.add(r.setup( "red", 100.0f, 0, 255 ));
-	gui.add(g.setup( "green", 100.0f, 0, 255 ));
-	gui.add(b.setup( "blue", 140.0f, 0, 255 ));
-	gui.add(circleResolution.setup("circle res", 5, 3, 90));
-	gui.add(twoCircles.setup("twoCircles"));
-	gui.add(ringButton.setup("ring"));
-	gui.add(status.setup("Status", ""));
 
     addToggleListeners();
     
@@ -112,13 +86,6 @@ void testApp::update()
 //    currCameraMatrix.setRotate(ofQuaternion(currRotation));
 //    camera.setTransformMatrix(currCameraMatrix);
 
-
-    flatPage.update();
-    flexPage.update();
-    swayPage.update();
-    vertPage.update();
-    flipPage.update();
-
     for (int i = 0; i < rainPages.size(); i++) {
         rainPages[i]->update();
     }
@@ -142,22 +109,13 @@ void testApp::draw()
     ofEndShape(true);
 
     // draw the pages
-    if (bShowRain) {
-        if (bShowAll) {
-            for (int i = 0; i < rainPages.size(); i++) {
-                rainPages[i]->draw();
-            }
-        }
-        else if (rainPages.size() > 0) {
-            rainPages[0]->draw();
+    if (bShowAll) {
+        for (int i = 0; i < rainPages.size(); i++) {
+            rainPages[i]->draw();
         }
     }
-    else {
-//        flatPage.draw();
-//        flexPage.draw();
-//        swayPage.draw();
-//        vertPage.draw();
-//        flipPage.draw();
+    else if (rainPages.size() > 0) {
+        rainPages[0]->draw();
     }
 
 //    // draw the 3d origin
@@ -216,12 +174,9 @@ void testApp::bendFreshTogglePressed(bool& pressed)
 void testApp::keyPressed(int key)
 {
     if (key == 'r') {
-        bShowRain = true;
         addRainPages(20);
     }
     else if (key == ' ') {
-        bShowRain = false;
-
         for (int i = 0; i < rainPages.size(); i++) {
             delete rainPages[i];
         }

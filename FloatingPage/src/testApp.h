@@ -30,7 +30,6 @@ class testApp : public ofBaseApp
 
         ofEasyCam camera;
 
-        bool bShowRain;
         bool bShowAll;
         vector<Page *> rainPages;
 
