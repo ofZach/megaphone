@@ -107,6 +107,7 @@ class Page
         ofPoint pos;
         ofPoint rainSpeed;
         float tornadoAngle;
+        float flightAngle;
         ofPoint tornadoSpeed;
 
         float rotInc;
