@@ -20,6 +20,7 @@ Page::Page()
     posSpeed = 0.01;
     rainSpeed.set(0, -5, 0);
     tornadoAngle = ofRandom(M_TWO_PI);
+    flightAngle = 0;
 
     rotSpeed = 0.001;
 
@@ -162,7 +163,7 @@ void Page::rebuild(float bendTopPct, float bendBottomPct)
 //--------------------------------------------------------------
 void Page::begin(int newMode)
 {
-    if (mode == newMode) return;
+//    if (mode == newMode) return;
 
     keyframe.bPosComplete = true;
 
@@ -344,7 +345,6 @@ void Page::update()
     else {  // phase == PagePhaseAnimate
         ++animateDuration;
 
-        // increment slower as you reach the apex
         rotInc = sin(animateDuration) * rotSpeed;
         
         if (bTwirls) twirlAngle += rotInc;
@@ -381,7 +381,7 @@ void Page::update()
         float tornadoRadius = MIN(pos.y, groundSize);
         float distFromCenter = ofVec2f(pos.x, pos.z).length();
         if (distFromCenter < 2) {
-            cout << "away" << endl;
+//            cout << "away" << endl;
             // move away from the center
             pos.x += cos(tornadoAngle);
             pos.z += sin(tornadoAngle);
@@ -394,12 +394,12 @@ void Page::update()
             tornadoSpeed *= (pos.y * 0.1);
             
             if (distFromCenter < tornadoRadius) {
-                cout << "tornado" << endl;
+//                cout << "tornado" << endl;
                 tornadoSpeed.y += tornadoAngle;
                 pos += tornadoSpeed;
             }
             else {
-                cout << "rain " << "radius=" << tornadoRadius << ", dist=" << distFromCenter << endl;
+//                cout << "rain " << "radius=" << tornadoRadius << ", dist=" << distFromCenter << endl;
                 tornadoSpeed.y += rainSpeed.y;
                 pos += tornadoSpeed;
                 if (pos.y < startPos.y) pos.y = startPos.y;
@@ -425,7 +425,13 @@ void Page::update()
             }
         }
 
+
 //        cout << "tornado radius = " << tornadoRadius << ", ground size = " << groundSize << ", dist from center = " << distFromCenter << endl;
+    }
+
+    flightAngle = ofLerp(0, tornadoAngle, pos.y / groundSize);
+    if (ABS(pos.y / groundSize - flightAngle) < 1) {
+        flightAngle = pos.y / groundSize;
     }
 
     if (mode == PageModeVert || mode == PageModeAll) {
@@ -441,6 +447,9 @@ void Page::draw()
 {
     ofPushMatrix();
     ofTranslate(pos);
+
+    // flight tilt
+    ofRotate(RAD_TO_DEG * flightAngle, 1, 0, 0);
 
     // sway
     ofTranslate(swayPos);
