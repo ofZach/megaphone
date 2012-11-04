@@ -10,7 +10,7 @@ void testApp::setup()
     bShowRain = true;
     bShowAll = true;
 
-    camera.enableMouseInput();
+    camera.disableMouseInput();
     camera.tilt(-30);
     camera.rotate(20, 0, 1, 0);
 
@@ -20,7 +20,8 @@ void testApp::setup()
     longShotCameraMatrix.setTranslation(242.633, 457.804, 637.342);
     longShotCameraMatrix.setRotate(ofQuaternion(-0.254887, 0.167731, 0.0449435, 0.951251));
 
-    targetCameraMatrix = longShotCameraMatrix;
+    targetCameraMatrix = closeUpCameraMatrix;
+    camera.setTransformMatrix(targetCameraMatrix);
 
     flatPage.pos.set(-70, 0, 70);
     flatPage.path.setFillColor(ofColor(200, 0, 0));
@@ -42,6 +43,44 @@ void testApp::setup()
 
     addRainPages(1);
     rainPages.back()->begin(PageModeAll);
+
+    gui.setup("Controls");
+	gui.add(twirlAmount.setup("twirl", 1, 0, 1));
+	gui.add(tiltAmount.setup("tilt", 1, 0, 1));
+	gui.add(flipAmount.setup("flip", 1, 0, 1));
+	gui.add(swayAmount.setup("sway", 1, 0, 1));
+	gui.add(bendTail.setup("bend tail", true));
+    gui.add(bendWings.setup("bend wings", false));
+    gui.add(bendFresh.setup("bend fresh", false));
+    gui.add(topBendAmount.setup("top bend", 0, 0, 1));
+    gui.add(bottomBendAmount.setup("bottom bend", 0.5, 0, 1));
+	gui.add(r.setup( "red", 100.0f, 0, 255 ));
+	gui.add(g.setup( "green", 100.0f, 0, 255 ));
+	gui.add(b.setup( "blue", 140.0f, 0, 255 ));
+	gui.add(circleResolution.setup("circle res", 5, 3, 90));
+	gui.add(twoCircles.setup("twoCircles"));
+	gui.add(ringButton.setup("ring"));
+	gui.add(status.setup("Status", ""));
+
+    addToggleListeners();
+    
+//	ringButton.addListener(this,&testApp::ringButtonPressed);
+}
+
+//--------------------------------------------------------------
+void testApp::addToggleListeners()
+{
+    bendTail.addListener(this, &testApp::bendTailTogglePressed);
+    bendWings.addListener(this, &testApp::bendWingsTogglePressed);
+    bendFresh.addListener(this, &testApp::bendFreshTogglePressed);
+}
+
+//--------------------------------------------------------------
+void testApp::removeToggleListeners()
+{
+    bendTail.removeListener(this, &testApp::bendTailTogglePressed);
+    bendWings.removeListener(this, &testApp::bendWingsTogglePressed);
+    bendFresh.removeListener(this, &testApp::bendFreshTogglePressed);
 }
 
 //--------------------------------------------------------------
@@ -60,18 +99,18 @@ void testApp::addRainPages(int num)
 void testApp::update()
 {
     // tween the camera to its target position
-    ofMatrix4x4 currCameraMatrix = camera.getLocalTransformMatrix();
-    ofVec3f currTranslation = currCameraMatrix.getTranslation();
-    ofVec3f targetTranslation = targetCameraMatrix.getTranslation();
-    ofVec3f offsetTranslation = targetTranslation - currTranslation;
-    currTranslation += (offsetTranslation * 0.2f);
-    ofVec4f currRotation = currCameraMatrix.getRotate().asVec4();
-    ofVec4f targetRotation = targetCameraMatrix.getRotate().asVec4();
-    ofVec4f offsetRotation = targetRotation - currRotation;
-    currRotation += (offsetRotation * 0.2f);
-    currCameraMatrix.setTranslation(currTranslation);
-    currCameraMatrix.setRotate(ofQuaternion(currRotation));
-    camera.setTransformMatrix(currCameraMatrix);
+//    ofMatrix4x4 currCameraMatrix = camera.getLocalTransformMatrix();
+//    ofVec3f currTranslation = currCameraMatrix.getTranslation();
+//    ofVec3f targetTranslation = targetCameraMatrix.getTranslation();
+//    ofVec3f offsetTranslation = targetTranslation - currTranslation;
+//    currTranslation += (offsetTranslation * 0.2f);
+//    ofVec4f currRotation = currCameraMatrix.getRotate().asVec4();
+//    ofVec4f targetRotation = targetCameraMatrix.getRotate().asVec4();
+//    ofVec4f offsetRotation = targetRotation - currRotation;
+//    currRotation += (offsetRotation * 0.2f);
+//    currCameraMatrix.setTranslation(currTranslation);
+//    currCameraMatrix.setRotate(ofQuaternion(currRotation));
+//    camera.setTransformMatrix(currCameraMatrix);
 
 
     flatPage.update();
@@ -131,6 +170,46 @@ void testApp::draw()
 //    ofLine(0, 0, 0, 0, 0, axisLength);
 
     camera.end();
+
+    // draw the controls
+    glDisable(GL_DEPTH_TEST);
+    gui.draw();
+}
+
+//--------------------------------------------------------------
+void testApp::bendTailTogglePressed(bool& pressed)
+{
+    // radio button hack
+    removeToggleListeners();
+
+    bendWings = false;
+    bendFresh = false;
+
+    addToggleListeners();
+}
+
+//--------------------------------------------------------------
+void testApp::bendWingsTogglePressed(bool& pressed)
+{
+    // radio button hack
+    removeToggleListeners();
+
+    bendTail  = false;
+    bendFresh = false;
+
+    addToggleListeners();
+}
+
+//--------------------------------------------------------------
+void testApp::bendFreshTogglePressed(bool& pressed)
+{
+    // radio button hack
+    removeToggleListeners();
+
+    bendTail  = false;
+    bendWings = false;
+
+    addToggleListeners();
 }
 
 //--------------------------------------------------------------
@@ -154,7 +233,7 @@ void testApp::keyPressed(int key)
         for (int i = 0; i < rainPages.size(); i++) {
             rainPages[i]->begin(pageMode);
         }
-        bShowAll = false;
+//        bShowAll = false;
     }
 
     else if (key == 'q') {
@@ -170,7 +249,7 @@ void testApp::keyPressed(int key)
             rainPages[i]->end();
             rainPages[i]->bRains = false;
         }
-        targetCameraMatrix = closeUpCameraMatrix;
+//        targetCameraMatrix = closeUpCameraMatrix;
     }
 
     else if (key == 'z') {

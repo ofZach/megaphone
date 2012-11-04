@@ -9,6 +9,17 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxGui.h"
+
+extern ofxFloatSlider swayAmount;
+extern ofxFloatSlider twirlAmount;
+extern ofxFloatSlider tiltAmount;
+extern ofxFloatSlider flipAmount;
+extern ofxToggle bendTail;
+extern ofxToggle bendWings;
+extern ofxToggle bendFresh;
+extern ofxFloatSlider topBendAmount;
+extern ofxFloatSlider bottomBendAmount;
 
 static int groundSize = 300;
 static int pageSize = 16;

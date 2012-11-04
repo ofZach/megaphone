@@ -5,7 +5,6 @@
 
 class testApp : public ofBaseApp
 {
-
 	public:
 		void setup();
 		void update();
@@ -21,15 +20,15 @@ class testApp : public ofBaseApp
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 
+        void addToggleListeners();
+        void removeToggleListeners();
+        void bendTailTogglePressed(bool& pressed);
+        void bendWingsTogglePressed(bool& pressed);
+        void bendFreshTogglePressed(bool& pressed);
+
         void addRainPages(int num);
 
         ofEasyCam camera;
-
-        Page flatPage;
-        Page flexPage;
-        Page swayPage;
-        Page vertPage;
-        Page flipPage;
 
         bool bShowRain;
         bool bShowAll;
@@ -39,4 +38,5 @@ class testApp : public ofBaseApp
         ofMatrix4x4 closeUpCameraMatrix;
         ofMatrix4x4 longShotCameraMatrix;
 
+        ofxPanel gui;
 };

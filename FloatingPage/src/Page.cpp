@@ -8,6 +8,16 @@
 
 #include "Page.h"
 
+ofxFloatSlider twirlAmount;
+ofxFloatSlider tiltAmount;
+ofxFloatSlider flipAmount;
+ofxFloatSlider swayAmount;
+ofxToggle bendTail;
+ofxToggle bendWings;
+ofxToggle bendFresh;
+ofxFloatSlider topBendAmount;
+ofxFloatSlider bottomBendAmount;
+
 //--------------------------------------------------------------
 Page::Page()
 {
@@ -347,33 +357,31 @@ void Page::update()
 
         rotInc = sin(animateDuration) * rotSpeed;
         
-        if (bTwirls) twirlAngle += rotInc;
-        if (bTilts) tiltAngle = sin(rotInc) * 2;
-
-        // flip around
-        if (bFlips) flipAngle += MAX(rotInc, 0.02);
+        // twirl, tilt, and flip around
+        twirlAngle += rotInc * twirlAmount;
+        tiltAngle = sin(rotInc * 0.01) * 100 * tiltAmount; cout << RAD_TO_DEG * tiltAngle << endl;
+        flipAngle += MAX(rotInc, 0.02) * flipAmount;
 
         // sway back and forth
-        if (bSways) {
-            swayInc += swaySpeed;
-            swayAngle = sin(swayInc) - M_PI / 2;
-            swayPos.x = cos(swayAngle) * swayRadius;
-            swayPos.y = sin(swayAngle) * swayRadius + swayRadius;
-        }
+        swayInc += swaySpeed;
+        swayAngle = (sin(swayInc) * swayAmount) - M_PI / 2;
+        swayPos.x = cos(swayAngle) * swayRadius;
+        swayPos.y = sin(swayAngle) * swayRadius + swayRadius;
+        swayPos *= swayAmount;
 
-        if (mode == PageModeVert || mode == PageModeAll) {
+        if (bendTail) {
             // bend the bottom of the page
-            vertBendPct = sin(animateDuration * 0.1) * 0.5;
+            vertBendPct = sin(animateDuration * 0.1) * bottomBendAmount;
         }
-        else if (mode == PageModeFlex) {
+        else if (bendWings) {
             // bend more 
-            topBendPct = -sin(animateDuration * 0.1);
-            bottomBendPct = sin(animateDuration * 0.07);
+            topBendPct = sin(animateDuration * 0.1) * topBendAmount;
+            bottomBendPct = sin(animateDuration * 0.1) * bottomBendAmount;
         }
-        else if (mode == PageModeFlip) {
+        else if (bendFresh) {
             // funky fresh bending
-            topBendPct = sin(animateDuration * 0.1);
-            bottomBendPct = -rotInc * 2;
+            topBendPct = sin(animateDuration * 0.1) * topBendAmount;
+            bottomBendPct = -rotInc * 2 * bottomBendAmount;
         }
     }
 
@@ -434,10 +442,10 @@ void Page::update()
         flightAngle = pos.y / groundSize;
     }
 
-    if (mode == PageModeVert || mode == PageModeAll) {
+    if (bendTail) {
         rebuild(vertBendPct);
     }
-    else if (mode == PageModeFlex || mode == PageModeFlip) {
+    else if (bendWings || bendFresh) {
         rebuild(topBendPct, bottomBendPct);
     }
 }
