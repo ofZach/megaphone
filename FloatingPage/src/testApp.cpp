@@ -19,26 +19,32 @@ void testApp::setup()
     longShotCameraMatrix.setTranslation(242.633, 457.804, 637.342);
     longShotCameraMatrix.setRotate(ofQuaternion(-0.254887, 0.167731, 0.0449435, 0.951251));
 
-    targetCameraMatrix = closeUpCameraMatrix;
+    targetCameraMatrix = longShotCameraMatrix;
     camera.setTransformMatrix(targetCameraMatrix);
 
     addRainPages(1);
-    rainPages.back()->begin(PageModeAll);
 
     gui.setup("Controls");
-	gui.add(twirlAmount.setup("twirl", 1, 0, 1));
-	gui.add(tiltAmount.setup("tilt", 1, 0, 1));
-	gui.add(flipAmount.setup("flip", 1, 0, 1));
-	gui.add(swayAmount.setup("sway", 1, 0, 1));
+	gui.add(twirlAmountTarget.setup("twirl", 0.1, 0, 1));
+	gui.add(tiltAmountTarget.setup("tilt", 0, 0, 1));
+	gui.add(flipAmountTarget.setup("flip", 0, 0, 1));
+	gui.add(swayAmountTarget.setup("sway", 1, 0, 1));
 	gui.add(bendTail.setup("bend tail", true));
     gui.add(bendWings.setup("bend wings", false));
     gui.add(bendFresh.setup("bend fresh", false));
     gui.add(topBendAmount.setup("top bend", 0, 0, 1));
     gui.add(bottomBendAmount.setup("bottom bend", 0.5, 0, 1));
+    gui.add(tornadoAmountTarget.setup("tornado", 0, 0, 1));
+    gui.add(cameraZoom.setup("camera zoom", 0, 0, 1));
+    gui.add(addOneButton.setup("add one page"));
+    gui.add(addTenButton.setup("add ten pages"));
+    gui.add(clearButton.setup("clear all pages"));
 
+    cameraZoom.addListener(this, &testApp::cameraZoomChanged);
+    addOneButton.addListener(this, &testApp::addOneButtonPressed);
+    addTenButton.addListener(this, &testApp::addTenButtonPressed);
+    clearButton.addListener(this, &testApp::clearButtonPressed);
     addToggleListeners();
-    
-//	ringButton.addListener(this,&testApp::ringButtonPressed);
 }
 
 //--------------------------------------------------------------
@@ -72,6 +78,14 @@ void testApp::addRainPages(int num)
 //--------------------------------------------------------------
 void testApp::update()
 {
+    static float lerpRatio = 0.2;
+
+    twirlAmount = ofLerp(twirlAmount, twirlAmountTarget, lerpRatio);
+    tiltAmount = ofLerp(tiltAmount, tiltAmountTarget, lerpRatio);
+    flipAmount = ofLerp(flipAmount, flipAmountTarget, lerpRatio);
+    swayAmount = ofLerp(swayAmount, swayAmountTarget, lerpRatio);
+    tornadoAmount = ofLerp(tornadoAmount, tornadoAmountTarget, lerpRatio);
+
     // tween the camera to its target position
 //    ofMatrix4x4 currCameraMatrix = camera.getLocalTransformMatrix();
 //    ofVec3f currTranslation = currCameraMatrix.getTranslation();
@@ -85,6 +99,19 @@ void testApp::update()
 //    currCameraMatrix.setTranslation(currTranslation);
 //    currCameraMatrix.setRotate(ofQuaternion(currRotation));
 //    camera.setTransformMatrix(currCameraMatrix);
+
+    ofMatrix4x4 newCameraTransform = camera.getLocalTransformMatrix();
+    ofVec3f currTranslation = newCameraTransform.getTranslation();
+    ofVec3f targetTranslation = targetCameraMatrix.getTranslation();
+    ofVec3f offsetTranslation = targetTranslation - currTranslation;
+    currTranslation += (offsetTranslation * lerpRatio);
+    ofVec4f currRotation = newCameraTransform.getRotate().asVec4();
+    ofVec4f targetRotation = targetCameraMatrix.getRotate().asVec4();
+    ofVec4f offsetRotation = targetRotation - currRotation;
+    currRotation += (offsetRotation * lerpRatio);
+    newCameraTransform.setTranslation(currTranslation);
+    newCameraTransform.setRotate(ofQuaternion(currRotation));
+    camera.setTransformMatrix(newCameraTransform);
 
     for (int i = 0; i < rainPages.size(); i++) {
         rainPages[i]->update();
@@ -171,43 +198,48 @@ void testApp::bendFreshTogglePressed(bool& pressed)
 }
 
 //--------------------------------------------------------------
-void testApp::keyPressed(int key)
+void testApp::cameraZoomChanged(float& amount)
 {
-    if (key == 'r') {
-        addRainPages(20);
-    }
-    else if (key == ' ') {
+    ofVec3f startTranslation = longShotCameraMatrix.getTranslation();
+    ofVec3f targetTranslation = closeUpCameraMatrix.getTranslation();
+    ofVec3f offsetTranslation = targetTranslation - startTranslation;
+    startTranslation += (offsetTranslation * amount);
+    targetCameraMatrix.setTranslation(startTranslation);
+
+    ofVec4f startRotation = longShotCameraMatrix.getRotate().asVec4();
+    ofVec4f targetRotation = closeUpCameraMatrix.getRotate().asVec4();
+    ofVec4f offsetRotation = targetRotation - startRotation;
+    startRotation += (offsetRotation * amount);
+    targetCameraMatrix.setRotate(ofQuaternion(startRotation));
+}
+
+//--------------------------------------------------------------
+void testApp::addOneButtonPressed(bool& pressed)
+{
+    if (pressed) addRainPages(1);
+}
+
+//--------------------------------------------------------------
+void testApp::addTenButtonPressed(bool& pressed)
+{
+    if (pressed) addRainPages(10);
+}
+
+//--------------------------------------------------------------
+void testApp::clearButtonPressed(bool& pressed)
+{
+    if (pressed) {
         for (int i = 0; i < rainPages.size(); i++) {
             delete rainPages[i];
         }
         rainPages.clear();
     }
+}
 
-    else if (key >= '1' && key <= '6') {
-        int pageMode = key - 48;
-        for (int i = 0; i < rainPages.size(); i++) {
-            rainPages[i]->begin(pageMode);
-        }
-//        bShowAll = false;
-    }
-
-    else if (key == 'q') {
-        for (int i = 0; i < rainPages.size(); i++) {
-            rainPages[i]->begin(ofRandom(NumPageModes));
-            rainPages[i]->bRains = true;
-        }
-        bShowAll = true;
-        targetCameraMatrix = longShotCameraMatrix;
-    }
-    else if (key == 'w') {
-        for (int i = 0; i < rainPages.size(); i++) {
-            rainPages[i]->end();
-            rainPages[i]->bRains = false;
-        }
-//        targetCameraMatrix = closeUpCameraMatrix;
-    }
-
-    else if (key == 'z') {
+//--------------------------------------------------------------
+void testApp::keyPressed(int key)
+{
+    if (key == 'z') {
         longShotCameraMatrix = camera.getLocalTransformMatrix();
     }
     else if (key == 'x') {

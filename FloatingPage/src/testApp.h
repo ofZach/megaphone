@@ -25,6 +25,11 @@ class testApp : public ofBaseApp
         void bendTailTogglePressed(bool& pressed);
         void bendWingsTogglePressed(bool& pressed);
         void bendFreshTogglePressed(bool& pressed);
+        void tornadoAmountChanged(float& amount);
+        void cameraZoomChanged(float& amount);
+        void addOneButtonPressed(bool& pressed);
+        void addTenButtonPressed(bool& pressed);
+        void clearButtonPressed(bool& pressed);
 
         void addRainPages(int num);
 
@@ -38,4 +43,13 @@ class testApp : public ofBaseApp
         ofMatrix4x4 longShotCameraMatrix;
 
         ofxPanel gui;
+        ofxFloatSlider twirlAmountTarget;
+        ofxFloatSlider tiltAmountTarget;
+        ofxFloatSlider flipAmountTarget;
+        ofxFloatSlider swayAmountTarget;
+        ofxFloatSlider tornadoAmountTarget;
+        ofxFloatSlider cameraZoom;
+        ofxButton addOneButton;
+        ofxButton addTenButton;
+        ofxButton clearButton;
 };

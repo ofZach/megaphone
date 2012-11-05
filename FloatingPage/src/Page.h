@@ -11,80 +11,20 @@
 #include "ofMain.h"
 #include "ofxGui.h"
 
-extern ofxFloatSlider swayAmount;
-extern ofxFloatSlider twirlAmount;
-extern ofxFloatSlider tiltAmount;
-extern ofxFloatSlider flipAmount;
+extern float twirlAmount;
+extern float tiltAmount;
+extern float flipAmount;
+extern float swayAmount;
 extern ofxToggle bendTail;
 extern ofxToggle bendWings;
 extern ofxToggle bendFresh;
 extern ofxFloatSlider topBendAmount;
 extern ofxFloatSlider bottomBendAmount;
+extern float tornadoAmount;
 
 static int groundSize = 300;
 static int pageSize = 16;
 static int apex = 200;
-
-//--------------------------------------------------------------
-//--------------------------------------------------------------
-enum PageMode
-{
-    PageModeStatic = 0,
-    PageModeFlat,
-    PageModeVert,
-    PageModeSway,
-    PageModeFlex,
-    PageModeFlip,
-    PageModeAll,
-
-    NumPageModes
-};
-
-//--------------------------------------------------------------
-//--------------------------------------------------------------
-enum PagePhase
-{
-    PagePhaseIdle = 0,
-    PagePhaseSegue,
-    PagePhaseAnimate
-};
-
-//--------------------------------------------------------------
-//--------------------------------------------------------------
-struct PageKeyframe
-{
-    bool bPosComplete;
-    ofPoint pos;
-
-    bool bVertComplete;
-    float vertOffsetY;
-    float vertAngle;
-    float vertBendPct;
-
-    bool bBendComplete;
-    float topBendPct;
-    float bottomBendPct;
-
-    bool bTwirlComplete;
-    float twirlAngle;
-
-    bool bTiltComplete;
-    float tiltAngle;
-
-    bool bFlipComplete;
-    float flipAngle;
-
-    bool bSwayComplete;
-    float swayAngle;
-    ofPoint swayPos;
-
-    int onCompletePhase;
-    int onCompleteMode;
-
-    bool isComplete() {
-        return (bPosComplete && bVertComplete && bBendComplete && bTwirlComplete && bTiltComplete && bFlipComplete && bSwayComplete);
-    }
-};
 
 //--------------------------------------------------------------
 //--------------------------------------------------------------
@@ -93,15 +33,6 @@ class Page
     public:
         Page();
 
-        void setMode(int newMode);
-        int mode;
-
-        void begin(int newMode);
-        void end();
-
-        PageKeyframe keyframe;
-        int phase;
-
         void rebuild();
         void rebuild(float bendPct);
         void rebuild(float bendTopPct, float bendBottomPct);
@@ -109,28 +40,20 @@ class Page
         void update();
         void draw();
 
-        int  animateDuration;
+        int animateDuration;
 
-        bool bRains;
+        bool bGoingUp;
         float posInc;
         float posSpeed;
         ofPoint startPos;
         ofPoint pos;
         ofPoint rainSpeed;
         float tornadoAngle;
-        float flightAngle;
-        ofPoint tornadoSpeed;
+        ofPoint tornadoOffset;
 
         float rotInc;
-        float rotSpeed;
-
-        bool bTwirls;
         float twirlAngle;
-
-        bool bTilts;
         float tiltAngle;
-
-        bool bFlips;
         float flipAngle;
 
         float vertAngle;
@@ -140,7 +63,6 @@ class Page
         float topBendPct;
         float bottomBendPct;
 
-        bool bSways;
         float swayInc;
         float swaySpeed;
         float swayAngle;
