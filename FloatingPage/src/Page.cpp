@@ -151,7 +151,6 @@ void Page::update()
         ofVec3f posFromCenter(pos.x, 0, pos.z);
         float distFromCenter = posFromCenter.length();
         if ((int)distFromCenter < 1) {
-            cout << "away " << distFromCenter << " " << tornadoRadius / 2 << endl;
             // move away from the center
             pos.x += cos(tornadoAngle);
             pos.z += sin(tornadoAngle);

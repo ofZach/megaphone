@@ -30,6 +30,9 @@ class testApp : public ofBaseApp
         void addOneButtonPressed(bool& pressed);
         void addTenButtonPressed(bool& pressed);
         void clearButtonPressed(bool& pressed);
+        void cameraMouseTogglePressed(bool& pressed);
+        void snapCloseUpPressed(bool& pressed);
+        void snapLongShotPressed(bool& pressed);
 
         void addRainPages(int num);
 
@@ -43,12 +46,16 @@ class testApp : public ofBaseApp
         ofMatrix4x4 longShotCameraMatrix;
 
         ofxPanel gui;
+        ofxLabel spacerLabel;
         ofxFloatSlider twirlAmountTarget;
         ofxFloatSlider tiltAmountTarget;
         ofxFloatSlider flipAmountTarget;
         ofxFloatSlider swayAmountTarget;
         ofxFloatSlider tornadoAmountTarget;
         ofxFloatSlider cameraZoom;
+        ofxToggle cameraMouseToggle;
+        ofxButton snapCloseUp;
+        ofxButton snapLongShot;
         ofxButton addOneButton;
         ofxButton addTenButton;
         ofxButton clearButton;

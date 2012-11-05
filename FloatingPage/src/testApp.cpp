@@ -25,22 +25,33 @@ void testApp::setup()
     addRainPages(1);
 
     gui.setup("Controls");
+    gui.add(spacerLabel.setup("spacer", ""));
 	gui.add(twirlAmountTarget.setup("twirl", 0.1, 0, 1));
 	gui.add(tiltAmountTarget.setup("tilt", 0, 0, 1));
 	gui.add(flipAmountTarget.setup("flip", 0, 0, 1));
 	gui.add(swayAmountTarget.setup("sway", 1, 0, 1));
+	gui.add(spacerLabel.setup("spacer", ""));
 	gui.add(bendTail.setup("bend tail", true));
     gui.add(bendWings.setup("bend wings", false));
     gui.add(bendFresh.setup("bend fresh", false));
     gui.add(topBendAmount.setup("top bend", 0, 0, 1));
     gui.add(bottomBendAmount.setup("bottom bend", 0.5, 0, 1));
-    gui.add(tornadoAmountTarget.setup("tornado", 0, 0, 1));
+    gui.add(spacerLabel.setup("spacer", ""));
+	gui.add(tornadoAmountTarget.setup("tornado", 0, 0, 1));
+    gui.add(spacerLabel.setup("spacer", ""));
     gui.add(cameraZoom.setup("camera zoom", 0, 0, 1));
-    gui.add(addOneButton.setup("add one page"));
+    gui.add(cameraMouseToggle.setup("mouse control", false));
+	gui.add(snapCloseUp.setup("save close up"));
+	gui.add(snapLongShot.setup("save long shot"));
+	gui.add(spacerLabel.setup("spacer", ""));
+	gui.add(addOneButton.setup("add one page"));
     gui.add(addTenButton.setup("add ten pages"));
     gui.add(clearButton.setup("clear all pages"));
 
     cameraZoom.addListener(this, &testApp::cameraZoomChanged);
+    cameraMouseToggle.addListener(this, &testApp::cameraMouseTogglePressed);
+    snapCloseUp.addListener(this, &testApp::snapCloseUpPressed);
+    snapLongShot.addListener(this, &testApp::snapLongShotPressed);
     addOneButton.addListener(this, &testApp::addOneButtonPressed);
     addTenButton.addListener(this, &testApp::addTenButtonPressed);
     clearButton.addListener(this, &testApp::clearButtonPressed);
@@ -86,32 +97,21 @@ void testApp::update()
     swayAmount = ofLerp(swayAmount, swayAmountTarget, lerpRatio);
     tornadoAmount = ofLerp(tornadoAmount, tornadoAmountTarget, lerpRatio);
 
-    // tween the camera to its target position
-//    ofMatrix4x4 currCameraMatrix = camera.getLocalTransformMatrix();
-//    ofVec3f currTranslation = currCameraMatrix.getTranslation();
-//    ofVec3f targetTranslation = targetCameraMatrix.getTranslation();
-//    ofVec3f offsetTranslation = targetTranslation - currTranslation;
-//    currTranslation += (offsetTranslation * 0.2f);
-//    ofVec4f currRotation = currCameraMatrix.getRotate().asVec4();
-//    ofVec4f targetRotation = targetCameraMatrix.getRotate().asVec4();
-//    ofVec4f offsetRotation = targetRotation - currRotation;
-//    currRotation += (offsetRotation * 0.2f);
-//    currCameraMatrix.setTranslation(currTranslation);
-//    currCameraMatrix.setRotate(ofQuaternion(currRotation));
-//    camera.setTransformMatrix(currCameraMatrix);
-
-    ofMatrix4x4 newCameraTransform = camera.getLocalTransformMatrix();
-    ofVec3f currTranslation = newCameraTransform.getTranslation();
-    ofVec3f targetTranslation = targetCameraMatrix.getTranslation();
-    ofVec3f offsetTranslation = targetTranslation - currTranslation;
-    currTranslation += (offsetTranslation * lerpRatio);
-    ofVec4f currRotation = newCameraTransform.getRotate().asVec4();
-    ofVec4f targetRotation = targetCameraMatrix.getRotate().asVec4();
-    ofVec4f offsetRotation = targetRotation - currRotation;
-    currRotation += (offsetRotation * lerpRatio);
-    newCameraTransform.setTranslation(currTranslation);
-    newCameraTransform.setRotate(ofQuaternion(currRotation));
-    camera.setTransformMatrix(newCameraTransform);
+    if (!camera.getMouseInputEnabled()) {
+        // tween the camera to its target position
+        ofMatrix4x4 newCameraTransform = camera.getLocalTransformMatrix();
+        ofVec3f currTranslation = newCameraTransform.getTranslation();
+        ofVec3f targetTranslation = targetCameraMatrix.getTranslation();
+        ofVec3f offsetTranslation = targetTranslation - currTranslation;
+        currTranslation += (offsetTranslation * lerpRatio);
+        ofVec4f currRotation = newCameraTransform.getRotate().asVec4();
+        ofVec4f targetRotation = targetCameraMatrix.getRotate().asVec4();
+        ofVec4f offsetRotation = targetRotation - currRotation;
+        currRotation += (offsetRotation * lerpRatio);
+        newCameraTransform.setTranslation(currTranslation);
+        newCameraTransform.setRotate(ofQuaternion(currRotation));
+        camera.setTransformMatrix(newCameraTransform);
+    }
 
     for (int i = 0; i < rainPages.size(); i++) {
         rainPages[i]->update();
@@ -211,6 +211,29 @@ void testApp::cameraZoomChanged(float& amount)
     ofVec4f offsetRotation = targetRotation - startRotation;
     startRotation += (offsetRotation * amount);
     targetCameraMatrix.setRotate(ofQuaternion(startRotation));
+}
+
+//--------------------------------------------------------------
+void testApp::cameraMouseTogglePressed(bool& pressed)
+{
+    if (pressed)
+        camera.enableMouseInput();
+    else
+        camera.disableMouseInput();
+}
+
+//--------------------------------------------------------------
+void testApp::snapCloseUpPressed(bool& pressed)
+{
+    if (pressed)
+        closeUpCameraMatrix = camera.getLocalTransformMatrix();
+}
+
+//--------------------------------------------------------------
+void testApp::snapLongShotPressed(bool& pressed)
+{
+    if (pressed)
+        longShotCameraMatrix = camera.getLocalTransformMatrix();
 }
 
 //--------------------------------------------------------------
