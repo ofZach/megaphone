@@ -5,7 +5,6 @@
 
 class testApp : public ofBaseApp
 {
-
 	public:
 		void setup();
 		void update();
@@ -21,17 +20,24 @@ class testApp : public ofBaseApp
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 
+        void addToggleListeners();
+        void removeToggleListeners();
+        void bendTailTogglePressed(bool& pressed);
+        void bendWingsTogglePressed(bool& pressed);
+        void bendFreshTogglePressed(bool& pressed);
+        void tornadoAmountChanged(float& amount);
+        void cameraZoomChanged(float& amount);
+        void addOneButtonPressed(bool& pressed);
+        void addTenButtonPressed(bool& pressed);
+        void clearButtonPressed(bool& pressed);
+        void cameraMouseTogglePressed(bool& pressed);
+        void snapCloseUpPressed(bool& pressed);
+        void snapLongShotPressed(bool& pressed);
+
         void addRainPages(int num);
 
         ofEasyCam camera;
 
-        Page flatPage;
-        Page flexPage;
-        Page swayPage;
-        Page vertPage;
-        Page flipPage;
-
-        bool bShowRain;
         bool bShowAll;
         vector<Page *> rainPages;
 
@@ -39,4 +45,18 @@ class testApp : public ofBaseApp
         ofMatrix4x4 closeUpCameraMatrix;
         ofMatrix4x4 longShotCameraMatrix;
 
+        ofxPanel gui;
+        ofxLabel spacerLabel;
+        ofxFloatSlider twirlAmountTarget;
+        ofxFloatSlider tiltAmountTarget;
+        ofxFloatSlider flipAmountTarget;
+        ofxFloatSlider swayAmountTarget;
+        ofxFloatSlider tornadoAmountTarget;
+        ofxFloatSlider cameraZoom;
+        ofxToggle cameraMouseToggle;
+        ofxButton snapCloseUp;
+        ofxButton snapLongShot;
+        ofxButton addOneButton;
+        ofxButton addTenButton;
+        ofxButton clearButton;
 };

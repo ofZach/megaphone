@@ -8,29 +8,32 @@
 
 #include "Page.h"
 
+float twirlAmount;
+float tiltAmount;
+float flipAmount;
+float swayAmount;
+ofxToggle bendTail;
+ofxToggle bendWings;
+ofxToggle bendFresh;
+ofxFloatSlider topBendAmount;
+ofxFloatSlider bottomBendAmount;
+float tornadoAmount;
+
 //--------------------------------------------------------------
 Page::Page()
 {
-    animateDuration = 0;
+    animateDuration = ofRandom(10);
 
-    bRains = false;
+    bGoingUp = true;
     startPos.set(0, 10, 0);
     pos.set(startPos);
     posInc = 0;
     posSpeed = 0.01;
     rainSpeed.set(0, -5, 0);
     tornadoAngle = ofRandom(M_TWO_PI);
-    flightAngle = 0;
 
-    rotSpeed = 0.001;
-
-    bTwirls = true;
     twirlAngle = 0;
-
-    bTilts = true;
     tiltAngle = 0;
-
-    bFlips = false;
     flipAngle = 0;
 
     vertAngle = 0;
@@ -40,63 +43,12 @@ Page::Page()
     topBendPct = 0;
     bottomBendPct = 0;
 
-    bSways = false;
     swayInc = 0;
     swayAngle = -M_PI/2;
     swaySpeed = 0.05;
     swayRadius = 50;
 
-    mode = PageModeStatic;
-    phase = PagePhaseIdle;
-
     rebuild();
-}
-
-//--------------------------------------------------------------
-void Page::setMode(int newMode)
-{
-    mode = newMode;
-
-    if (mode == PageModeFlat) {
-        bTwirls = true;
-        bTilts = true;
-        bSways = false;
-        bFlips = false;
-
-        rebuild();
-    }
-    else if (mode == PageModeVert) {
-        bTwirls = false;
-        bTilts = false;
-        bSways = false;
-        bFlips = false;
-    }
-    else if (mode == PageModeSway) {
-        bTwirls = true;
-        bTilts = false;
-        bSways = true;
-        bFlips = false;
-
-        rebuild();
-    }
-    else if (mode == PageModeFlex) {
-        bTwirls = true;
-        bTilts = false;
-        bSways = false;
-        bFlips = false;
-    }
-    else if (mode == PageModeFlip) {
-        bTwirls = true;
-        bTilts = true;
-        bSways = false;
-        bFlips = true;
-    }
-    else if (mode == PageModeAll) {
-        bTwirls = true;
-        bTilts = true;
-        bSways = true;
-        bFlips = true;
-    }
 }
 
 //--------------------------------------------------------------
@@ -116,7 +68,7 @@ void Page::rebuild(float bendPct)
     path.clear();
 
     float bendY = pageSize * bendPct;
-    float bendZ = ABS(pageSize * bendPct * 4);
+    float bendZ = ABS(pageSize * bendPct * 2);
 
     path.moveTo(ofPoint(-pageSize, 0, -pageSize));
     path.lineTo(ofPoint(pageSize, 0, -pageSize));
@@ -161,227 +113,44 @@ void Page::rebuild(float bendTopPct, float bendBottomPct)
 }
 
 //--------------------------------------------------------------
-void Page::begin(int newMode)
-{
-//    if (mode == newMode) return;
-
-    keyframe.bPosComplete = true;
-
-    if (newMode == PageModeVert) {
-        keyframe.bVertComplete = false;
-        keyframe.vertOffsetY = pageSize;
-        keyframe.vertAngle = 90;
-        keyframe.vertBendPct = 0;
-    }
-    else {
-        keyframe.bVertComplete = false;
-        keyframe.vertOffsetY = 0;
-        keyframe.vertAngle = 0;
-        keyframe.vertBendPct = 0;
-    }
-
-    keyframe.bBendComplete = false;
-    keyframe.topBendPct    = 0;
-    keyframe.bottomBendPct = 0;
-
-    keyframe.bTwirlComplete = false;
-    keyframe.twirlAngle = 0;
-
-    keyframe.bTiltComplete = false;
-    keyframe.tiltAngle = 0;
-
-    keyframe.bFlipComplete = false;
-    keyframe.flipAngle = 0;
-
-    keyframe.bSwayComplete = false;
-    keyframe.swayAngle = -M_PI/2;
-    keyframe.swayPos.set(0, 0, 0);
-
-    keyframe.onCompleteMode = newMode;
-    keyframe.onCompletePhase = PagePhaseAnimate;
-
-    phase = PagePhaseSegue;
-}
-
-//--------------------------------------------------------------
-void Page::end()
-{
-//    if (mode == PageModeStatic) return;
-
-    bRains = false;
-
-    keyframe.bPosComplete = false;
-    keyframe.pos.set(startPos);
-
-    keyframe.bVertComplete = false;
-    keyframe.vertOffsetY = 0;
-    keyframe.vertAngle = 0;
-    keyframe.vertBendPct = 0;
-
-    keyframe.bBendComplete = false;
-    keyframe.topBendPct = 0;
-    keyframe.bottomBendPct = 0;
-
-    keyframe.bTwirlComplete = false;
-    keyframe.twirlAngle = 0;
-
-    keyframe.bTiltComplete = false;
-    keyframe.tiltAngle = 0;
-
-    keyframe.bFlipComplete = false;
-    keyframe.flipAngle = 0;
-
-    keyframe.bSwayComplete = false;
-    keyframe.swayAngle = -M_PI/2;
-    keyframe.swayPos.set(0, 0, 0);
-
-    keyframe.onCompleteMode = PageModeStatic;
-    keyframe.onCompletePhase = PagePhaseIdle;
-
-    phase = PagePhaseSegue;
-}
-
-//--------------------------------------------------------------
 void Page::update()
 {
-    if (phase == PagePhaseIdle) return;
+    ++animateDuration;
 
-    else if (phase == PagePhaseSegue) {
-        // transition to the keyframe values
-        static float lerpRatio = 0.02;
+    rotInc = sin(animateDuration * 0.1);
 
-        if (!keyframe.bPosComplete) {
-            ofPoint offset = keyframe.pos - pos;
-            pos += offset * lerpRatio;
+    // twirl, tilt, and flip around
+    twirlAngle += rotInc * twirlAmount;
+    tiltAngle = sin(rotInc * 0.01) * 100 * tiltAmount;
+    flipAngle += MAX(rotInc, 0.02) * flipAmount;
 
-            if (pos.distance(keyframe.pos) < 1) {
-                pos.set(keyframe.pos);
-                keyframe.bPosComplete = true;
-            }
-        }
+    // sway back and forth
+    swayInc += swaySpeed;
+    swayAngle = (sin(swayInc) * swayAmount) - M_PI / 2;
+    swayPos.x = cos(swayAngle) * swayRadius;
+    swayPos.y = sin(swayAngle) * swayRadius + swayRadius;
+    swayPos *= swayAmount;
 
-        if (!keyframe.bVertComplete) {
-            // move and rotate the page back
-            vertOffsetY = ofLerp(vertOffsetY, keyframe.vertOffsetY, lerpRatio);
-            vertAngle = ofLerp(vertAngle, keyframe.vertAngle, lerpRatio);
-
-            // bend the page back flat
-            vertBendPct = ofLerp(vertBendPct, keyframe.vertBendPct, lerpRatio);
-
-            if (ABS(vertOffsetY - keyframe.vertOffsetY) < 1 && ABS(vertAngle - keyframe.vertAngle) < 1 && (vertBendPct - keyframe.vertBendPct) < 1) {
-                vertOffsetY = keyframe.vertOffsetY;
-                vertAngle = keyframe.vertAngle;
-                vertBendPct = keyframe.vertBendPct;
-                keyframe.bVertComplete = true;
-            }
-        }
-
-        if (!keyframe.bBendComplete) {
-            // bend the page back flat
-            topBendPct = ofLerp(topBendPct, keyframe.topBendPct, lerpRatio);
-            bottomBendPct = ofLerp(bottomBendPct, keyframe.bottomBendPct, lerpRatio);
-
-            if (ABS(topBendPct - keyframe.topBendPct) < 1 && ABS(bottomBendPct - keyframe.bottomBendPct) < 1) {
-                topBendPct = keyframe.topBendPct;
-                bottomBendPct = keyframe.bottomBendPct;
-                keyframe.bBendComplete = true;
-            }
-        }
-
-        if (!keyframe.bTwirlComplete) {
-            while (twirlAngle > M_TWO_PI) twirlAngle -= M_TWO_PI;
-            twirlAngle = ofLerp(twirlAngle, keyframe.twirlAngle, lerpRatio);
-
-            if (ABS(twirlAngle - keyframe.twirlAngle) < 1) {
-                twirlAngle = keyframe.twirlAngle;
-                keyframe.bTwirlComplete = true;
-            }
-        }
-
-        if (!keyframe.bTiltComplete) {
-            while (tiltAngle > M_TWO_PI) tiltAngle -= M_TWO_PI;
-            tiltAngle = ofLerp(tiltAngle, keyframe.tiltAngle, lerpRatio);
-
-            if (ABS(tiltAngle - keyframe.tiltAngle) < 1) {
-                tiltAngle = keyframe.tiltAngle;
-                keyframe.bTiltComplete = true;
-            }
-        }
-
-        if (!keyframe.bFlipComplete) {
-            while (flipAngle > M_TWO_PI) flipAngle -= M_TWO_PI;
-            flipAngle = ofLerp(flipAngle, keyframe.flipAngle, lerpRatio);
-
-            if (ABS(flipAngle - keyframe.flipAngle) < 1) {
-                flipAngle = keyframe.flipAngle;
-                keyframe.bFlipComplete = true;
-            }
-        }
-
-        if (!keyframe.bSwayComplete) {
-            while (swayAngle > M_TWO_PI) swayAngle -= M_TWO_PI;
-            swayAngle = ofLerp(swayAngle, keyframe.swayAngle, lerpRatio);
-            ofPoint offset = keyframe.swayPos - swayPos;
-            swayPos += offset * lerpRatio;
-
-            if (ABS(swayAngle - keyframe.swayAngle) < 1 && swayPos.distance(keyframe.swayPos) < 1) {
-                swayAngle = keyframe.swayAngle;
-                swayPos = keyframe.swayPos;
-                keyframe.bSwayComplete = true;
-            }
-        }
-
-        if (keyframe.isComplete()) {
-            // set up the next state
-            setMode(keyframe.onCompleteMode);
-            phase = keyframe.onCompletePhase;
-
-            // reset incrementing vars
-            animateDuration = 0;
-            rotInc = 0;
-            swayInc = 0;
-        }
+    if (bendTail) {
+        // bend the bottom of the page
+        vertBendPct = sin(animateDuration * 0.1) * bottomBendAmount;
     }
-    else {  // phase == PagePhaseAnimate
-        ++animateDuration;
-
-        rotInc = sin(animateDuration) * rotSpeed;
-        
-        if (bTwirls) twirlAngle += rotInc;
-        if (bTilts) tiltAngle = sin(rotInc) * 2;
-
-        // flip around
-        if (bFlips) flipAngle += MAX(rotInc, 0.02);
-
-        // sway back and forth
-        if (bSways) {
-            swayInc += swaySpeed;
-            swayAngle = sin(swayInc) - M_PI / 2;
-            swayPos.x = cos(swayAngle) * swayRadius;
-            swayPos.y = sin(swayAngle) * swayRadius + swayRadius;
-        }
-
-        if (mode == PageModeVert || mode == PageModeAll) {
-            // bend the bottom of the page
-            vertBendPct = sin(animateDuration * 0.1) * 0.5;
-        }
-        else if (mode == PageModeFlex) {
-            // bend more 
-            topBendPct = -sin(animateDuration * 0.1);
-            bottomBendPct = sin(animateDuration * 0.07);
-        }
-        else if (mode == PageModeFlip) {
-            // funky fresh bending
-            topBendPct = sin(animateDuration * 0.1);
-            bottomBendPct = -rotInc * 2;
-        }
+    else if (bendWings) {
+        // bend more 
+        topBendPct = sin(animateDuration * 0.1) * topBendAmount;
+        bottomBendPct = sin(animateDuration * 0.1) * bottomBendAmount;
+    }
+    else if (bendFresh) {
+        // funky fresh bending
+        topBendPct = sin(animateDuration * 0.1) * topBendAmount;
+        bottomBendPct = -rotInc * 2 * bottomBendAmount;
     }
 
-    if (bRains) {
+    if (tornadoAmount > 0) {
         float tornadoRadius = MIN(pos.y, groundSize);
-        float distFromCenter = ofVec2f(pos.x, pos.z).length();
-        if (distFromCenter < 2) {
-//            cout << "away" << endl;
+        ofVec3f posFromCenter(pos.x, 0, pos.z);
+        float distFromCenter = posFromCenter.length();
+        if ((int)distFromCenter < 1) {
             // move away from the center
             pos.x += cos(tornadoAngle);
             pos.z += sin(tornadoAngle);
@@ -389,55 +158,31 @@ void Page::update()
         else {
             // tornado!
             ofPoint center(0, pos.y, 0);
-            tornadoSpeed = pos.getPerpendicular(center);
-            tornadoSpeed.normalize();
-            tornadoSpeed *= (pos.y * 0.1);
+            tornadoOffset = pos.getPerpendicular(center);
+            tornadoOffset.normalize();
+            tornadoOffset *= (pos.y * 0.1);
             
-            if (distFromCenter < tornadoRadius) {
-//                cout << "tornado" << endl;
-                tornadoSpeed.y += tornadoAngle;
-                pos += tornadoSpeed;
+            if (bGoingUp) {
+                tornadoOffset.y += tornadoAngle;
+                if (tornadoRadius >= groundSize) {
+                    bGoingUp = false;
+                }
             }
             else {
-//                cout << "rain " << "radius=" << tornadoRadius << ", dist=" << distFromCenter << endl;
-                tornadoSpeed.y += rainSpeed.y;
-                pos += tornadoSpeed;
-                if (pos.y < startPos.y) pos.y = startPos.y;
-
-                ofPoint offsetFromStart = startPos - pos;
-                offsetFromStart.y = 0;
-
-                // move towards the center
-                pos += offsetFromStart * 0.01;
-                
-                // rain down, repeat
-//                pos.y += rainSpeed.y;
-//                if (pos.y < startPos.y) pos.y = startPos.y;//pos = (startPos); //pos.y = apex * 2;
-    //            if (pos.x < -groundSize) pos.x += groundSize * 2;
-    //            else if (pos.x > groundSize) pos.x -= groundSize * 2;
-    //            if (pos.z < -groundSize) pos.z += groundSize * 2;
-    //            else if (pos.z > groundSize) pos.z -= groundSize * 2;
-//                ofPoint offsetFromStart = startPos - pos;
-//                offsetFromStart.y = 0;
-
-                // move towards the center
-//                pos += offsetFromStart * 0.01;
+                tornadoOffset.y -= tornadoAngle;
+                tornadoOffset -= (posFromCenter * 0.01);
+                if (tornadoRadius < startPos.y) {
+                    bGoingUp = true;
+                }
             }
+            pos += tornadoOffset;
         }
-
-
-//        cout << "tornado radius = " << tornadoRadius << ", ground size = " << groundSize << ", dist from center = " << distFromCenter << endl;
     }
 
-    flightAngle = ofLerp(0, tornadoAngle, pos.y / groundSize);
-    if (ABS(pos.y / groundSize - flightAngle) < 1) {
-        flightAngle = pos.y / groundSize;
-    }
-
-    if (mode == PageModeVert || mode == PageModeAll) {
+    if (bendTail) {
         rebuild(vertBendPct);
     }
-    else if (mode == PageModeFlex || mode == PageModeFlip) {
+    else if (bendWings || bendFresh) {
         rebuild(topBendPct, bottomBendPct);
     }
 }
@@ -446,10 +191,12 @@ void Page::update()
 void Page::draw()
 {
     ofPushMatrix();
-    ofTranslate(pos);
 
-    // flight tilt
-    ofRotate(RAD_TO_DEG * flightAngle, 1, 0, 0);
+    ofPoint currPos;
+    currPos.x = ofLerp(startPos.x, pos.x, tornadoAmount);
+    currPos.y = ofLerp(startPos.y, pos.y, tornadoAmount);
+    currPos.z = ofLerp(startPos.z, pos.z, tornadoAmount);
+    ofTranslate(currPos);
 
     // sway
     ofTranslate(swayPos);

@@ -7,10 +7,9 @@ void testApp::setup()
     ofSetVerticalSync(true);
     ofBackground(0);
 
-    bShowRain = true;
     bShowAll = true;
 
-    camera.enableMouseInput();
+    camera.disableMouseInput();
     camera.tilt(-30);
     camera.rotate(20, 0, 1, 0);
 
@@ -21,27 +20,58 @@ void testApp::setup()
     longShotCameraMatrix.setRotate(ofQuaternion(-0.254887, 0.167731, 0.0449435, 0.951251));
 
     targetCameraMatrix = longShotCameraMatrix;
-
-    flatPage.pos.set(-70, 0, 70);
-    flatPage.path.setFillColor(ofColor(200, 0, 0));
-
-    flexPage.pos.set(70, 0, -70);
-    flexPage.path.setFillColor(ofColor(200, 200, 0));
-    flexPage.setMode(PageModeFlex);
-
-    swayPage.pos.set(-70, 0, -70);
-    swayPage.path.setFillColor(ofColor(0, 200, 200));
-    swayPage.setMode(PageModeSway);
-
-    vertPage.path.setFillColor(ofColor(0, 200, 0));
-    vertPage.setMode(PageModeVert);
-
-    flipPage.pos.set(70, 0, 70);
-    flipPage.path.setFillColor(ofColor(200, 0, 200));
-    flipPage.setMode(PageModeFlip);
+    camera.setTransformMatrix(targetCameraMatrix);
 
     addRainPages(1);
-    rainPages.back()->begin(PageModeAll);
+
+    gui.setup("Controls");
+    gui.add(spacerLabel.setup("spacer", ""));
+	gui.add(twirlAmountTarget.setup("twirl", 0.1, 0, 1));
+	gui.add(tiltAmountTarget.setup("tilt", 0, 0, 1));
+	gui.add(flipAmountTarget.setup("flip", 0, 0, 1));
+	gui.add(swayAmountTarget.setup("sway", 1, 0, 1));
+	gui.add(spacerLabel.setup("spacer", ""));
+	gui.add(bendTail.setup("bend tail", true));
+    gui.add(bendWings.setup("bend wings", false));
+    gui.add(bendFresh.setup("bend fresh", false));
+    gui.add(topBendAmount.setup("top bend", 0, 0, 1));
+    gui.add(bottomBendAmount.setup("bottom bend", 0.5, 0, 1));
+    gui.add(spacerLabel.setup("spacer", ""));
+	gui.add(tornadoAmountTarget.setup("tornado", 0, 0, 1));
+    gui.add(spacerLabel.setup("spacer", ""));
+    gui.add(cameraZoom.setup("camera zoom", 0, 0, 1));
+    gui.add(cameraMouseToggle.setup("mouse control", false));
+	gui.add(snapCloseUp.setup("save close up"));
+	gui.add(snapLongShot.setup("save long shot"));
+	gui.add(spacerLabel.setup("spacer", ""));
+	gui.add(addOneButton.setup("add one page"));
+    gui.add(addTenButton.setup("add ten pages"));
+    gui.add(clearButton.setup("clear all pages"));
+
+    cameraZoom.addListener(this, &testApp::cameraZoomChanged);
+    cameraMouseToggle.addListener(this, &testApp::cameraMouseTogglePressed);
+    snapCloseUp.addListener(this, &testApp::snapCloseUpPressed);
+    snapLongShot.addListener(this, &testApp::snapLongShotPressed);
+    addOneButton.addListener(this, &testApp::addOneButtonPressed);
+    addTenButton.addListener(this, &testApp::addTenButtonPressed);
+    clearButton.addListener(this, &testApp::clearButtonPressed);
+    addToggleListeners();
+}
+
+//--------------------------------------------------------------
+void testApp::addToggleListeners()
+{
+    bendTail.addListener(this, &testApp::bendTailTogglePressed);
+    bendWings.addListener(this, &testApp::bendWingsTogglePressed);
+    bendFresh.addListener(this, &testApp::bendFreshTogglePressed);
+}
+
+//--------------------------------------------------------------
+void testApp::removeToggleListeners()
+{
+    bendTail.removeListener(this, &testApp::bendTailTogglePressed);
+    bendWings.removeListener(this, &testApp::bendWingsTogglePressed);
+    bendFresh.removeListener(this, &testApp::bendFreshTogglePressed);
 }
 
 //--------------------------------------------------------------
@@ -59,26 +89,29 @@ void testApp::addRainPages(int num)
 //--------------------------------------------------------------
 void testApp::update()
 {
-    // tween the camera to its target position
-    ofMatrix4x4 currCameraMatrix = camera.getLocalTransformMatrix();
-    ofVec3f currTranslation = currCameraMatrix.getTranslation();
-    ofVec3f targetTranslation = targetCameraMatrix.getTranslation();
-    ofVec3f offsetTranslation = targetTranslation - currTranslation;
-    currTranslation += (offsetTranslation * 0.2f);
-    ofVec4f currRotation = currCameraMatrix.getRotate().asVec4();
-    ofVec4f targetRotation = targetCameraMatrix.getRotate().asVec4();
-    ofVec4f offsetRotation = targetRotation - currRotation;
-    currRotation += (offsetRotation * 0.2f);
-    currCameraMatrix.setTranslation(currTranslation);
-    currCameraMatrix.setRotate(ofQuaternion(currRotation));
-    camera.setTransformMatrix(currCameraMatrix);
+    static float lerpRatio = 0.2;
 
+    twirlAmount = ofLerp(twirlAmount, twirlAmountTarget, lerpRatio);
+    tiltAmount = ofLerp(tiltAmount, tiltAmountTarget, lerpRatio);
+    flipAmount = ofLerp(flipAmount, flipAmountTarget, lerpRatio);
+    swayAmount = ofLerp(swayAmount, swayAmountTarget, lerpRatio);
+    tornadoAmount = ofLerp(tornadoAmount, tornadoAmountTarget, lerpRatio);
 
-    flatPage.update();
-    flexPage.update();
-    swayPage.update();
-    vertPage.update();
-    flipPage.update();
+    if (!camera.getMouseInputEnabled()) {
+        // tween the camera to its target position
+        ofMatrix4x4 newCameraTransform = camera.getLocalTransformMatrix();
+        ofVec3f currTranslation = newCameraTransform.getTranslation();
+        ofVec3f targetTranslation = targetCameraMatrix.getTranslation();
+        ofVec3f offsetTranslation = targetTranslation - currTranslation;
+        currTranslation += (offsetTranslation * lerpRatio);
+        ofVec4f currRotation = newCameraTransform.getRotate().asVec4();
+        ofVec4f targetRotation = targetCameraMatrix.getRotate().asVec4();
+        ofVec4f offsetRotation = targetRotation - currRotation;
+        currRotation += (offsetRotation * lerpRatio);
+        newCameraTransform.setTranslation(currTranslation);
+        newCameraTransform.setRotate(ofQuaternion(currRotation));
+        camera.setTransformMatrix(newCameraTransform);
+    }
 
     for (int i = 0; i < rainPages.size(); i++) {
         rainPages[i]->update();
@@ -103,22 +136,13 @@ void testApp::draw()
     ofEndShape(true);
 
     // draw the pages
-    if (bShowRain) {
-        if (bShowAll) {
-            for (int i = 0; i < rainPages.size(); i++) {
-                rainPages[i]->draw();
-            }
-        }
-        else if (rainPages.size() > 0) {
-            rainPages[0]->draw();
+    if (bShowAll) {
+        for (int i = 0; i < rainPages.size(); i++) {
+            rainPages[i]->draw();
         }
     }
-    else {
-//        flatPage.draw();
-//        flexPage.draw();
-//        swayPage.draw();
-//        vertPage.draw();
-//        flipPage.draw();
+    else if (rainPages.size() > 0) {
+        rainPages[0]->draw();
     }
 
 //    // draw the 3d origin
@@ -131,51 +155,114 @@ void testApp::draw()
 //    ofLine(0, 0, 0, 0, 0, axisLength);
 
     camera.end();
+
+    // draw the controls
+    glDisable(GL_DEPTH_TEST);
+    gui.draw();
 }
 
 //--------------------------------------------------------------
-void testApp::keyPressed(int key)
+void testApp::bendTailTogglePressed(bool& pressed)
 {
-    if (key == 'r') {
-        bShowRain = true;
-        addRainPages(20);
-    }
-    else if (key == ' ') {
-        bShowRain = false;
+    // radio button hack
+    removeToggleListeners();
 
+    bendWings = false;
+    bendFresh = false;
+
+    addToggleListeners();
+}
+
+//--------------------------------------------------------------
+void testApp::bendWingsTogglePressed(bool& pressed)
+{
+    // radio button hack
+    removeToggleListeners();
+
+    bendTail  = false;
+    bendFresh = false;
+
+    addToggleListeners();
+}
+
+//--------------------------------------------------------------
+void testApp::bendFreshTogglePressed(bool& pressed)
+{
+    // radio button hack
+    removeToggleListeners();
+
+    bendTail  = false;
+    bendWings = false;
+
+    addToggleListeners();
+}
+
+//--------------------------------------------------------------
+void testApp::cameraZoomChanged(float& amount)
+{
+    ofVec3f startTranslation = longShotCameraMatrix.getTranslation();
+    ofVec3f targetTranslation = closeUpCameraMatrix.getTranslation();
+    ofVec3f offsetTranslation = targetTranslation - startTranslation;
+    startTranslation += (offsetTranslation * amount);
+    targetCameraMatrix.setTranslation(startTranslation);
+
+    ofVec4f startRotation = longShotCameraMatrix.getRotate().asVec4();
+    ofVec4f targetRotation = closeUpCameraMatrix.getRotate().asVec4();
+    ofVec4f offsetRotation = targetRotation - startRotation;
+    startRotation += (offsetRotation * amount);
+    targetCameraMatrix.setRotate(ofQuaternion(startRotation));
+}
+
+//--------------------------------------------------------------
+void testApp::cameraMouseTogglePressed(bool& pressed)
+{
+    if (pressed)
+        camera.enableMouseInput();
+    else
+        camera.disableMouseInput();
+}
+
+//--------------------------------------------------------------
+void testApp::snapCloseUpPressed(bool& pressed)
+{
+    if (pressed)
+        closeUpCameraMatrix = camera.getLocalTransformMatrix();
+}
+
+//--------------------------------------------------------------
+void testApp::snapLongShotPressed(bool& pressed)
+{
+    if (pressed)
+        longShotCameraMatrix = camera.getLocalTransformMatrix();
+}
+
+//--------------------------------------------------------------
+void testApp::addOneButtonPressed(bool& pressed)
+{
+    if (pressed) addRainPages(1);
+}
+
+//--------------------------------------------------------------
+void testApp::addTenButtonPressed(bool& pressed)
+{
+    if (pressed) addRainPages(10);
+}
+
+//--------------------------------------------------------------
+void testApp::clearButtonPressed(bool& pressed)
+{
+    if (pressed) {
         for (int i = 0; i < rainPages.size(); i++) {
             delete rainPages[i];
         }
         rainPages.clear();
     }
-    
-    
+}
 
-    else if (key >= '1' && key <= '6') {
-        int pageMode = key - 48;
-        for (int i = 0; i < rainPages.size(); i++) {
-            rainPages[i]->begin(pageMode);
-        }
-        bShowAll = false;
-    }
-
-    else if (key == 'q') {
-        for (int i = 0; i < rainPages.size(); i++) {
-            rainPages[i]->begin(ofRandom(NumPageModes));
-            rainPages[i]->bRains = true;
-        }
-        bShowAll = true;
-        targetCameraMatrix = longShotCameraMatrix;
-    }
-    else if (key == 'w') {
-        for (int i = 0; i < rainPages.size(); i++) {
-            rainPages[i]->end();
-            rainPages[i]->bRains = false;
-        }
-        //targetCameraMatrix = closeUpCameraMatrix;
-    }
-
-    else if (key == 'z') {
+//--------------------------------------------------------------
+void testApp::keyPressed(int key)
+{
+    if (key == 'z') {
         longShotCameraMatrix = camera.getLocalTransformMatrix();
     }
     else if (key == 'x') {
