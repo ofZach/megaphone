@@ -248,7 +248,7 @@ void Page::update()
 
     else if (phase == PagePhaseSegue) {
         // transition to the keyframe values
-        static float lerpRatio = 0.2;
+        static float lerpRatio = 0.02;
 
         if (!keyframe.bPosComplete) {
             ofPoint offset = keyframe.pos - pos;

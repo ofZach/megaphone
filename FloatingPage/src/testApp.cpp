@@ -148,6 +148,8 @@ void testApp::keyPressed(int key)
         }
         rainPages.clear();
     }
+    
+    
 
     else if (key >= '1' && key <= '6') {
         int pageMode = key - 48;
@@ -170,7 +172,7 @@ void testApp::keyPressed(int key)
             rainPages[i]->end();
             rainPages[i]->bRains = false;
         }
-        targetCameraMatrix = closeUpCameraMatrix;
+        //targetCameraMatrix = closeUpCameraMatrix;
     }
 
     else if (key == 'z') {
