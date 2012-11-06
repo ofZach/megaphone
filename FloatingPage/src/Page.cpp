@@ -90,10 +90,10 @@ void Page::rebuild(float bendTopPct, float bendBottomPct)
     // try to keep the page area the same as it bends...
 
     float bendTopY = pageSize * 0.5 * bendTopPct;
-    float bendTopZ = -pageSize * (1 - bendTopPct * 0.5);
+    float bendTopZ = -pageSize * (1 - ABS(bendTopPct) * 0.5);
     
     float bendBottomY = pageSize * 0.5 * bendBottomPct;
-    float bendBottomZ = pageSize * (1 - bendBottomPct * 0.5);
+    float bendBottomZ = pageSize * (1 - ABS(bendBottomPct) * 0.5);
 
     path.moveTo(ofPoint(-pageSize, bendTopY, bendTopZ));
     path.lineTo(ofPoint(pageSize, bendTopY, bendTopZ));
