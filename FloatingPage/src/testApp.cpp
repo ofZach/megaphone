@@ -28,6 +28,7 @@ void testApp::setup()
     gui.add(drawGroundToggle.setup("draw ground", true));
     gui.add(fillGroundToggle.setup("fill ground", true));
     gui.add(drawAxesToggle.setup("draw axes", false));
+    gui.add(maskToggle.setup("mask", false));
     gui.add(spacerLabel.setup("spacer", ""));
 	gui.add(twirlAmountTarget.setup("twirl", 0.1, 0, 1));
 	gui.add(tiltAmountTarget.setup("tilt", 0, 0, 1));
@@ -194,6 +195,21 @@ void testApp::draw()
     }
 
     camera.end();
+
+    if (maskToggle) {
+        // mask out the edges to end up with a 3:8 ratio display (2 x 3:4)
+        int maskHeight = ofGetHeight();
+        int windowWidth = maskHeight * 3 / 8;
+        int maskWidth = (ofGetWidth() - windowWidth) / 2;
+
+        ofPushStyle();
+        ofSetColor(0);
+
+        ofRect(0, 0, maskWidth, maskHeight);
+        ofRect(ofGetWidth() - maskWidth, 0, maskWidth, maskHeight);
+
+        ofPopStyle();
+    }
 
     // draw the controls
     glDisable(GL_DEPTH_TEST);
