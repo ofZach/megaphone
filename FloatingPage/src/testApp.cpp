@@ -98,13 +98,28 @@ void testApp::update()
     static float lerpRatio = 0.2;
 
     twirlAmount = ofLerp(twirlAmount, twirlAmountTarget, lerpRatio);
+    if (ABS(twirlAmountTarget - twirlAmount) < 0.01) twirlAmount = twirlAmountTarget;
+
     tiltAmount = ofLerp(tiltAmount, tiltAmountTarget, lerpRatio);
+    if (ABS(tiltAmountTarget - tiltAmount) < 0.01) tiltAmount = tiltAmountTarget;
+
     flipAmount = ofLerp(flipAmount, flipAmountTarget, lerpRatio);
+    if (ABS(flipAmountTarget - flipAmount) < 0.01) flipAmount = flipAmountTarget;
+
     swayAmount = ofLerp(swayAmount, swayAmountTarget, lerpRatio);
+    if (ABS(swayAmountTarget - swayAmount) < 0.01) swayAmount = swayAmountTarget;
+
     tornadoAmount = ofLerp(tornadoAmount, tornadoAmountTarget, lerpRatio);
+    if (ABS(tornadoAmountTarget - tornadoAmount) < 0.01) tornadoAmount = tornadoAmountTarget;
+
     speedAmount = ofLerp(speedAmount, speedAmountTarget, lerpRatio);
+    if (ABS(speedAmountTarget - speedAmount) < 0.01) speedAmount = speedAmountTarget;
+
     expandAmount = ofLerp(expandAmount, expandAmountTarget, lerpRatio);
+    if (ABS(expandAmountTarget - expandAmount) < 0.01) expandAmount = expandAmountTarget;
+
     liftAmount = ofLerp(liftAmount, liftAmountTarget, lerpRatio);
+    if (ABS(liftAmountTarget - liftAmount) < 0.01) liftAmount = liftAmountTarget;
 
     if (!camera.getMouseInputEnabled()) {
         // tween the camera to its target position
