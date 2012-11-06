@@ -47,6 +47,9 @@ class testApp : public ofBaseApp
 
         ofxPanel gui;
         ofxLabel spacerLabel;
+        ofxToggle drawGroundToggle;
+        ofxToggle fillGroundToggle;
+        ofxToggle drawAxesToggle;
         ofxFloatSlider twirlAmountTarget;
         ofxFloatSlider tiltAmountTarget;
         ofxFloatSlider flipAmountTarget;

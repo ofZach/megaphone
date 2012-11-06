@@ -25,7 +25,7 @@ Page::Page()
     animateDuration = ofRandom(10);
 
     bGoingUp = true;
-    startPos.set(0, 10, 0);
+    startPos.set(0, 20, 0);
     pos.set(startPos);
     posInc = 0;
     posSpeed = 0.01;

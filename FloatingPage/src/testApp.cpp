@@ -25,6 +25,9 @@ void testApp::setup()
     addRainPages(1);
 
     gui.setup("Controls");
+    gui.add(drawGroundToggle.setup("draw ground", true));
+    gui.add(fillGroundToggle.setup("fill ground", true));
+    gui.add(drawAxesToggle.setup("draw axes", false));
     gui.add(spacerLabel.setup("spacer", ""));
 	gui.add(twirlAmountTarget.setup("twirl", 0.1, 0, 1));
 	gui.add(tiltAmountTarget.setup("tilt", 0, 0, 1));
@@ -126,14 +129,23 @@ void testApp::draw()
     glEnable(GL_DEPTH_TEST);
     glDepthMask(GL_TRUE);
 
-    // draw the ground
-    ofSetColor(128);
-    ofBeginShape();
-    ofVertex(-groundSize, 0, -groundSize);
-    ofVertex(-groundSize, 0, groundSize);
-    ofVertex(groundSize, 0, groundSize);
-    ofVertex(groundSize, 0, -groundSize);
-    ofEndShape(true);
+    if (drawGroundToggle) {
+        ofPushStyle();
+        
+        if (fillGroundToggle) ofFill();
+        else ofNoFill();
+        
+        // draw the ground
+        ofSetColor(128);
+        ofBeginShape();
+        ofVertex(-groundSize, 0, -groundSize);
+        ofVertex(-groundSize, 0, groundSize);
+        ofVertex(groundSize, 0, groundSize);
+        ofVertex(groundSize, 0, -groundSize);
+        ofEndShape(true);
+
+        ofPopStyle();
+    }
 
     // draw the pages
     if (bShowAll) {
@@ -145,14 +157,20 @@ void testApp::draw()
         rainPages[0]->draw();
     }
 
-//    // draw the 3d origin
-//    static int axisLength = 10;
-//    ofSetColor(255, 0, 0);
-//    ofLine(0, 0, 0, axisLength, 0, 0);
-//    ofSetColor(0, 255, 0);
-//    ofLine(0, 0, 0, 0, axisLength, 0);
-//    ofSetColor(0, 0, 255);
-//    ofLine(0, 0, 0, 0, 0, axisLength);
+    if (drawAxesToggle) {
+        ofPushStyle();
+        ofSetLineWidth(2);
+
+        // draw the 3d axes
+        ofSetColor(255, 0, 0);
+        ofLine(0, 0, 0, groundSize, 0, 0);
+        ofSetColor(0, 255, 0);
+        ofLine(0, 0, 0, 0, groundSize, 0);
+        ofSetColor(0, 0, 255);
+        ofLine(0, 0, 0, 0, 0, groundSize);
+
+        ofPopStyle();
+    }
 
     camera.end();
 
