@@ -198,6 +198,8 @@ void testApp::draw()
     // draw the controls
     glDisable(GL_DEPTH_TEST);
     gui.draw();
+
+    ofDrawBitmapString(ofToString(ofGetFrameRate(), 2) + " fps", ofGetWidth() - 50, ofGetHeight() - 10);
 }
 
 //--------------------------------------------------------------
