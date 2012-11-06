@@ -41,6 +41,9 @@ void testApp::setup()
     gui.add(bottomBendAmount.setup("bottom bend", 0.5, 0, 1));
     gui.add(spacerLabel.setup("spacer", ""));
 	gui.add(tornadoAmountTarget.setup("tornado", 0, 0, 1));
+	gui.add(speedAmountTarget.setup("speed", 1, 0, 1));
+	gui.add(expandAmountTarget.setup("expand", 1, 0, 1));
+	gui.add(liftAmountTarget.setup("lift", 1, 0, 1));
     gui.add(spacerLabel.setup("spacer", ""));
     gui.add(cameraZoom.setup("camera zoom", 0, 0, 1));
     gui.add(cameraMouseToggle.setup("mouse control", false));
@@ -99,6 +102,9 @@ void testApp::update()
     flipAmount = ofLerp(flipAmount, flipAmountTarget, lerpRatio);
     swayAmount = ofLerp(swayAmount, swayAmountTarget, lerpRatio);
     tornadoAmount = ofLerp(tornadoAmount, tornadoAmountTarget, lerpRatio);
+    speedAmount = ofLerp(speedAmount, speedAmountTarget, lerpRatio);
+    expandAmount = ofLerp(expandAmount, expandAmountTarget, lerpRatio);
+    liftAmount = ofLerp(liftAmount, liftAmountTarget, lerpRatio);
 
     if (!camera.getMouseInputEnabled()) {
         // tween the camera to its target position

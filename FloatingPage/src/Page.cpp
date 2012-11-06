@@ -18,6 +18,9 @@ ofxToggle bendFresh;
 ofxFloatSlider topBendAmount;
 ofxFloatSlider bottomBendAmount;
 float tornadoAmount;
+float speedAmount;
+float expandAmount;
+float liftAmount;
 
 //--------------------------------------------------------------
 Page::Page()
@@ -161,7 +164,7 @@ void Page::update()
             tornadoOffset = pos.getPerpendicular(center);
             tornadoOffset.normalize();
             tornadoOffset *= (pos.y * 0.1);
-            
+
             if (bGoingUp) {
                 tornadoOffset.y += tornadoAngle;
                 if (tornadoRadius >= groundSize) {
@@ -175,7 +178,16 @@ void Page::update()
                     bGoingUp = true;
                 }
             }
-            pos += tornadoOffset;
+
+            tornadoOffset.y *= liftAmount;
+            pos += tornadoOffset * speedAmount;
+            
+            ofVec3f newPosFromCenter(pos.x, 0, pos.z);
+            float newDistFromCenter = newPosFromCenter.length();
+            float deltaDistFromCenter = newDistFromCenter - distFromCenter;
+            newPosFromCenter.scale(distFromCenter + deltaDistFromCenter * expandAmount);
+            pos.x = newPosFromCenter.x;
+            pos.z = newPosFromCenter.z;
         }
     }
 

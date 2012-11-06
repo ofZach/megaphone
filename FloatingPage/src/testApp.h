@@ -55,6 +55,9 @@ class testApp : public ofBaseApp
         ofxFloatSlider flipAmountTarget;
         ofxFloatSlider swayAmountTarget;
         ofxFloatSlider tornadoAmountTarget;
+        ofxFloatSlider speedAmountTarget;
+        ofxFloatSlider expandAmountTarget;
+        ofxFloatSlider liftAmountTarget;
         ofxFloatSlider cameraZoom;
         ofxToggle cameraMouseToggle;
         ofxButton snapCloseUp;
