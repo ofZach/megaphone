@@ -2,8 +2,10 @@
 
 #include "ofMain.h"
 #include "audioManager.h"
-#include "Glyph.h"
-#include "angleLengthLine.h"
+#include "baseScene.h"
+#include "typeScene.h"
+#include "audioSampleLoader.h"
+
 
 
 class testApp : public ofBaseApp{
@@ -24,7 +26,7 @@ class testApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
         void exit();
     
-    
+        void audioOut(float * output, int bufferSize, int nChannels); 
         void audioIn(float * input, int bufferSize, int nChannels); 
         float * left;
         float * right;
@@ -32,24 +34,6 @@ class testApp : public ofBaseApp{
         ofSoundStream soundStream;
         audioManager AM;
     
-    
-        
-    
-        float pitch;
-        float volume;
-        bool bLoudEnough;
-        float pitchSmooth;      // non aubio needs some love -- works well w/ whisteling. 
-        
-        
-        vector < float > angleDiffs;
-        vector < float > distances;
-        ofPolyline total;
-        float angle;
-        float angleSmooth;
-        ofPoint catchPoint;
-        
-        vector < Glyph *  > glyphs;
-        
         int nBuffersRecorded;
         float * audioDataThread;
         float * audioDataMainThread;
@@ -58,5 +42,20 @@ class testApp : public ofBaseApp{
         ofMutex mutex;
 
     
+        vector < baseScene *  > scenes;
+        
+        audioSampleLoader ASL;
     
+    
+    
+        ofFbo world;
+    
+    
+        ofMesh mesh;
+    
+    
+        ofEasyCam cam;
+    
+    
+        
 };

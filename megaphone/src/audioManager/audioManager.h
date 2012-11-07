@@ -6,6 +6,8 @@
 #include "fft.h"
 #include "fftOctaveAnalyzer.h"
 #include "AubioOnsetDetector.h"
+#include "statistics.h"
+
 
 //---------------------------------------------------------
 typedef struct {
@@ -13,9 +15,13 @@ typedef struct {
     float aubioPitch;
     float aubioRMS;
     float RMS;              // root mean square
-    
+    float pitchStdDev;      // how "pitchy" are we
     float * fftOctaves; 
     int nFftOctaves;
+    
+    float spectralCentroid;
+    
+    bool bVox;              // are we loud enough?
     
     
 } analysisResults;
@@ -23,6 +29,7 @@ typedef struct {
 
 class valueChart{
 public: 
+    
     int maxValues;
     vector < float > values;
     bool bAutoMinMax;
@@ -44,14 +51,20 @@ public:
     }
     
     void draw(){
-        ofNoFill();
+        ofEnableAlphaBlending();
+        ofSetColor(127, 50);
+        ofFill();
         ofRect(bounds);
+        ofNoFill();
+        ofSetColor(255, 255);
         ofBeginShape();
         for (int i = 0; i < values.size(); i++){
            ofVertex( ofMap(i, 0, values.size()-1, bounds.x, bounds.x + bounds.width), 
                     ofMap(values[i], min, max, bounds.y + bounds.height, bounds.y, true));
         }
         ofEndShape();
+        
+        ofDrawBitmapStringHighlight(name, ofPoint(bounds.x, bounds.y) + ofPoint(0,bounds.height + 18));
     }
     
 };
@@ -102,6 +115,14 @@ public:
     
     valueChart volume;
     valueChart onset;
+    valueChart pitch;
+    valueChart vox;
+    valueChart spectralCentroid;
+    
+    vector < valueChart * > charts;
+    
+    
+    void draw();
     
     
 };

@@ -52,10 +52,10 @@ void aubioAnalyzer::processAudio (float * input, int bufferSize){
 	amplitude = rmsAmplitude;
 	
 	//don't update the pitch if the sound is very quiet
-	if( amplitude > 0.01 ){
+	//if( amplitude > 0.01 ){
 		//finally get the pitch of the sound
 		pitch = aubio_pitchdetection(pitch_output,in);	
-	}
+	//}
     
     
    
