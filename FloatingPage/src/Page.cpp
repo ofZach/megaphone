@@ -196,13 +196,15 @@ void Page::update()
             tornadoOffset *= (pos.y * 0.1);
 
             if (bGoingUp) {
-                tornadoOffset.y += tornadoAngle;
+                // ease up the angle
+                tornadoOffset.y += ofMap(pos.y, startPos.y, startPos.y + 10, tornadoAngle / 10, tornadoAngle, true);
                 if (tornadoRadius >= groundSize) {
                     bGoingUp = false;
                 }
             }
             else {
-                tornadoOffset.y -= tornadoAngle;
+                // ease down the angle
+                tornadoOffset.y -= ofMap(pos.y, startPos.y + 10, startPos.y, tornadoAngle, tornadoAngle / 10, true);
                 tornadoOffset -= (posFromCenter * 0.01);
                 if (tornadoRadius < startPos.y) {
                     bGoingUp = true;
