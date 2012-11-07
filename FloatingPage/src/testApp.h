@@ -47,11 +47,18 @@ class testApp : public ofBaseApp
 
         ofxPanel gui;
         ofxLabel spacerLabel;
+        ofxToggle drawGroundToggle;
+        ofxToggle fillGroundToggle;
+        ofxToggle drawAxesToggle;
+        ofxToggle maskToggle;
         ofxFloatSlider twirlAmountTarget;
         ofxFloatSlider tiltAmountTarget;
         ofxFloatSlider flipAmountTarget;
         ofxFloatSlider swayAmountTarget;
         ofxFloatSlider tornadoAmountTarget;
+        ofxFloatSlider speedAmountTarget;
+        ofxFloatSlider expandAmountTarget;
+        ofxFloatSlider liftAmountTarget;
         ofxFloatSlider cameraZoom;
         ofxToggle cameraMouseToggle;
         ofxButton snapCloseUp;

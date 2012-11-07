@@ -25,6 +25,10 @@ void testApp::setup()
     addRainPages(1);
 
     gui.setup("Controls");
+    gui.add(drawGroundToggle.setup("draw ground", true));
+    gui.add(fillGroundToggle.setup("fill ground", true));
+    gui.add(drawAxesToggle.setup("draw axes", false));
+    gui.add(maskToggle.setup("mask", false));
     gui.add(spacerLabel.setup("spacer", ""));
 	gui.add(twirlAmountTarget.setup("twirl", 0.1, 0, 1));
 	gui.add(tiltAmountTarget.setup("tilt", 0, 0, 1));
@@ -38,6 +42,9 @@ void testApp::setup()
     gui.add(bottomBendAmount.setup("bottom bend", 0.5, 0, 1));
     gui.add(spacerLabel.setup("spacer", ""));
 	gui.add(tornadoAmountTarget.setup("tornado", 0, 0, 1));
+	gui.add(speedAmountTarget.setup("speed", 1, 0, 1));
+	gui.add(expandAmountTarget.setup("expand", 1, 0, 1));
+	gui.add(liftAmountTarget.setup("lift", 1, 0, 1));
     gui.add(spacerLabel.setup("spacer", ""));
     gui.add(cameraZoom.setup("camera zoom", 0, 0, 1));
     gui.add(cameraMouseToggle.setup("mouse control", false));
@@ -92,10 +99,28 @@ void testApp::update()
     static float lerpRatio = 0.2;
 
     twirlAmount = ofLerp(twirlAmount, twirlAmountTarget, lerpRatio);
+    if (ABS(twirlAmountTarget - twirlAmount) < 0.01) twirlAmount = twirlAmountTarget;
+
     tiltAmount = ofLerp(tiltAmount, tiltAmountTarget, lerpRatio);
+    if (ABS(tiltAmountTarget - tiltAmount) < 0.01) tiltAmount = tiltAmountTarget;
+
     flipAmount = ofLerp(flipAmount, flipAmountTarget, lerpRatio);
+    if (ABS(flipAmountTarget - flipAmount) < 0.01) flipAmount = flipAmountTarget;
+
     swayAmount = ofLerp(swayAmount, swayAmountTarget, lerpRatio);
+    if (ABS(swayAmountTarget - swayAmount) < 0.01) swayAmount = swayAmountTarget;
+
     tornadoAmount = ofLerp(tornadoAmount, tornadoAmountTarget, lerpRatio);
+    if (ABS(tornadoAmountTarget - tornadoAmount) < 0.01) tornadoAmount = tornadoAmountTarget;
+
+    speedAmount = ofLerp(speedAmount, speedAmountTarget, lerpRatio);
+    if (ABS(speedAmountTarget - speedAmount) < 0.01) speedAmount = speedAmountTarget;
+
+    expandAmount = ofLerp(expandAmount, expandAmountTarget, lerpRatio);
+    if (ABS(expandAmountTarget - expandAmount) < 0.01) expandAmount = expandAmountTarget;
+
+    liftAmount = ofLerp(liftAmount, liftAmountTarget, lerpRatio);
+    if (ABS(liftAmountTarget - liftAmount) < 0.01) liftAmount = liftAmountTarget;
 
     if (!camera.getMouseInputEnabled()) {
         // tween the camera to its target position
@@ -126,14 +151,23 @@ void testApp::draw()
     glEnable(GL_DEPTH_TEST);
     glDepthMask(GL_TRUE);
 
-    // draw the ground
-    ofSetColor(128);
-    ofBeginShape();
-    ofVertex(-groundSize, 0, -groundSize);
-    ofVertex(-groundSize, 0, groundSize);
-    ofVertex(groundSize, 0, groundSize);
-    ofVertex(groundSize, 0, -groundSize);
-    ofEndShape(true);
+    if (drawGroundToggle) {
+        ofPushStyle();
+        
+        if (fillGroundToggle) ofFill();
+        else ofNoFill();
+        
+        // draw the ground
+        ofSetColor(128);
+        ofBeginShape();
+        ofVertex(-groundSize, 0, -groundSize);
+        ofVertex(-groundSize, 0, groundSize);
+        ofVertex(groundSize, 0, groundSize);
+        ofVertex(groundSize, 0, -groundSize);
+        ofEndShape(true);
+
+        ofPopStyle();
+    }
 
     // draw the pages
     if (bShowAll) {
@@ -145,20 +179,43 @@ void testApp::draw()
         rainPages[0]->draw();
     }
 
-//    // draw the 3d origin
-//    static int axisLength = 10;
-//    ofSetColor(255, 0, 0);
-//    ofLine(0, 0, 0, axisLength, 0, 0);
-//    ofSetColor(0, 255, 0);
-//    ofLine(0, 0, 0, 0, axisLength, 0);
-//    ofSetColor(0, 0, 255);
-//    ofLine(0, 0, 0, 0, 0, axisLength);
+    if (drawAxesToggle) {
+        ofPushStyle();
+        ofSetLineWidth(2);
+
+        // draw the 3d axes
+        ofSetColor(255, 0, 0);
+        ofLine(0, 0, 0, groundSize, 0, 0);
+        ofSetColor(0, 255, 0);
+        ofLine(0, 0, 0, 0, groundSize, 0);
+        ofSetColor(0, 0, 255);
+        ofLine(0, 0, 0, 0, 0, groundSize);
+
+        ofPopStyle();
+    }
 
     camera.end();
+
+    if (maskToggle) {
+        // mask out the edges to end up with a 3:8 ratio display (2 x 3:4)
+        int maskHeight = ofGetHeight();
+        int windowWidth = maskHeight * 3 / 8;
+        int maskWidth = (ofGetWidth() - windowWidth) / 2;
+
+        ofPushStyle();
+        ofSetColor(0);
+
+        ofRect(0, 0, maskWidth, maskHeight);
+        ofRect(ofGetWidth() - maskWidth, 0, maskWidth, maskHeight);
+
+        ofPopStyle();
+    }
 
     // draw the controls
     glDisable(GL_DEPTH_TEST);
     gui.draw();
+
+    ofDrawBitmapString(ofToString(ofGetFrameRate(), 2) + " fps", ofGetWidth() - 50, ofGetHeight() - 10);
 }
 
 //--------------------------------------------------------------

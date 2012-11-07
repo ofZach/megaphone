@@ -21,6 +21,9 @@ extern ofxToggle bendFresh;
 extern ofxFloatSlider topBendAmount;
 extern ofxFloatSlider bottomBendAmount;
 extern float tornadoAmount;
+extern float speedAmount;
+extern float expandAmount;
+extern float liftAmount;
 
 static int groundSize = 300;
 static int pageSize = 16;
