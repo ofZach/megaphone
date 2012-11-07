@@ -51,6 +51,7 @@ class testApp : public ofBaseApp
         ofxToggle fillGroundToggle;
         ofxToggle drawAxesToggle;
         ofxToggle maskToggle;
+        ofxFloatSlider offsetAmountTarget;
         ofxFloatSlider twirlAmountTarget;
         ofxFloatSlider tiltAmountTarget;
         ofxFloatSlider flipAmountTarget;

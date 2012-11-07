@@ -30,6 +30,8 @@ void testApp::setup()
     gui.add(drawAxesToggle.setup("draw axes", false));
     gui.add(maskToggle.setup("mask", false));
     gui.add(spacerLabel.setup("spacer", ""));
+    gui.add(offsetAmountTarget.setup("offset", 0, 0, 1));
+    gui.add(spacerLabel.setup("spacer", ""));
 	gui.add(twirlAmountTarget.setup("twirl", 0.1, 0, 1));
 	gui.add(tiltAmountTarget.setup("tilt", 0, 0, 1));
 	gui.add(flipAmountTarget.setup("flip", 0, 0, 1));
@@ -97,6 +99,9 @@ void testApp::addRainPages(int num)
 void testApp::update()
 {
     static float lerpRatio = 0.2;
+
+    offsetAmount = ofLerp(offsetAmount, offsetAmountTarget, lerpRatio);
+    if (ABS(offsetAmountTarget - offsetAmount) < 0.01) offsetAmount = offsetAmountTarget;
 
     twirlAmount = ofLerp(twirlAmount, twirlAmountTarget, lerpRatio);
     if (ABS(twirlAmountTarget - twirlAmount) < 0.01) twirlAmount = twirlAmountTarget;
