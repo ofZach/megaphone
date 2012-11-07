@@ -123,28 +123,23 @@ void Page::update()
     rotInc = sin(animateDuration * 0.1);
 
     // twirl, tilt, and flip around
-    if (twirlAmount > 0) {
-        twirlAngle += rotInc * twirlAmount;
-    }
-    else if (twirlAngle > 0) {
-        while (twirlAngle > M_TWO_PI) twirlAngle -= M_TWO_PI;
-        twirlAngle -= MAX(rotInc, 0.02);
-    }
-    else {
-        twirlAngle = 0;
-    }
+    twirlAngle = rotInc * 5 * twirlAmount;
 
     tiltAngle = sin(rotInc * 0.01) * 100 * tiltAmount;
 
     if (flipAmount > 0) {
         flipAngle += MAX(rotInc, 0.02) * flipAmount;
     }
-    else if (flipAngle > 0) {
-        while (flipAngle > M_TWO_PI) flipAngle -= M_TWO_PI;
-        flipAngle -= MAX(rotInc, 0.02);
-    }
     else {
-        flipAngle = 0;
+        if (flipAngle != 0) {
+            while (flipAngle > M_TWO_PI) flipAngle -= M_TWO_PI;
+            if (flipAngle + 0.2 < M_TWO_PI) {
+                flipAngle += 0.2;
+            }
+            else {
+                flipAngle = 0;
+            }
+        }
     }
 
     // sway back and forth
