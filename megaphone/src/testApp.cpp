@@ -1,5 +1,5 @@
 #include "testApp.h"
-#include "typeScene2.h"
+#include "paperScene.h"
 
 //--------------------------------------------------------------
 void testApp::setup(){
@@ -16,7 +16,7 @@ void testApp::setup(){
     audioDataThread = new float[ bufferSize * 100]; // almost half a second
     audioDataMainThread = new float [ bufferSize * 100];        
     soundStream.setup(this, 2, 2, 44100, bufferSize, 4);
-    scenes.push_back(new typeScene());
+    scenes.push_back(new paperScene());
     for (int i = 0; i < scenes.size(); i++){
         scenes[i]->results = &AM.results;
     }
@@ -241,13 +241,13 @@ void testApp::mouseMoved(int x, int y ){
 //--------------------------------------------------------------
 void testApp::mouseDragged(int x, int y, int button){
 
-    blender.setup(PROJECTOR_WIDTH, PROJECTOR_HEIGHT, PROJECTOR_COUNT, x);
+    //blender.setup(PROJECTOR_WIDTH, PROJECTOR_HEIGHT, PROJECTOR_COUNT, x);
 	
 }
 
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button){
-_mapping->mousePressed(x, y, button);
+//_mapping->mousePressed(x, y, button);
 }
 
 //--------------------------------------------------------------
