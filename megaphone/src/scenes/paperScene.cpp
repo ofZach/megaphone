@@ -79,8 +79,8 @@ void paperScene::setup(){
 	gui.add(flipAmountTarget.setup("flip", 0, 0, 1));
 	gui.add(swayAmountTarget.setup("sway", 1, 0, 1));
 	gui.add(spacerLabel.setup("spacer", ""));
-	gui.add(bendTail.setup("bend tail", true));
-    gui.add(bendWings.setup("bend wings", false));
+	gui.add(bendTail.setup("bend tail", false));
+    gui.add(bendWings.setup("bend wings", true));
     gui.add(bendFresh.setup("bend fresh", false));
     gui.add(topBendAmount.setup("top bend", 0, 0, 1));
     gui.add(bottomBendAmount.setup("bottom bend", 0.5, 0, 1));
@@ -107,6 +107,22 @@ void paperScene::setup(){
     addTenButton.addListener(this, &paperScene::addTenButtonPressed);
     clearButton.addListener(this, &paperScene::clearButtonPressed);
     addToggleListeners();
+    
+    
+    //gui.saveToFile("settings/paperSettings.xml");
+    
+    gui.loadFromFile("settings/paperSettings.xml");
+    
+    bendWings = true;
+    
+     addPages(10);
+     addPages(10);
+     addPages(10);
+     addPages(10);
+    
+    
+    rmsSmooth = 0;
+    
 }
 
 //--------------------------------------------------------------
@@ -140,6 +156,26 @@ void paperScene::addPages(int num)
 //--------------------------------------------------------------
 void paperScene::update()
 {
+    
+    rmsSmooth = 0.97f * rmsSmooth + 0.03f * ofMap(results->aubioRMS,0,0.06, 0,1, true);;
+    
+    //flipAmountTarget = (results->fftOctaves[15] * 0.2) * rmsSmooth;
+    
+    
+    tornadoAmountTarget = rmsSmooth;
+    
+    
+    speedAmountTarget = 0.3 + 0.4 * rmsSmooth;
+    
+    cameraZoom = 1 - rmsSmooth * 0.35;
+    
+    offsetAmountTarget = 0.5 * rmsSmooth;
+    
+    twirlAmountTarget = 0.3 * rmsSmooth;
+    
+    tiltAmountTarget = 0.6 * rmsSmooth;
+    
+    
     static float lerpRatio = 0.2;
 
     offsetAmount = ofLerp(offsetAmount, offsetAmountTarget, lerpRatio);

@@ -70,4 +70,11 @@ class paperScene : public baseScene {
         ofxButton addOneButton;
         ofxButton addTenButton;
         ofxButton clearButton;
+    
+    
+    
+        float rmsSmooth;
+    
+    
+    
 };

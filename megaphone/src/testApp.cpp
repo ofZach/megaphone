@@ -171,7 +171,10 @@ void testApp::draw(){
 void testApp::keyPressed(int key){
 
     
-    
+    if (key == 'S'){
+        
+        ((paperScene *)scenes[0])->gui.saveToFile("settings/paperSettings.xml");
+    }
     
     
     _mapping->keyPressed(key);
