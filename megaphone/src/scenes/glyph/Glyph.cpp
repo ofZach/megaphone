@@ -43,8 +43,8 @@ void Glyph::setup(){
         _limbs.push_back(newLimb);
         _bounds.growToInclude(_limbs.back().bounds());
         _limbs.back().mesh = bWhich ? GS->meshA[i] : GS->meshB[i];
-        float rand = ofRandom(255,100);
-        _limbs.back().setColor(ofColor(rand, rand,rand));
+        float rand = ofRandom(255,230);
+        _limbs.back().setColor(ofColor(ofRandom(255,200), ofRandom(255,200), ofRandom(255,170)));
 
 
     }    

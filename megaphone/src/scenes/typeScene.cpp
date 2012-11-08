@@ -101,21 +101,15 @@ void typeScene::update(){
             
             while (angle < -PI) angle += TWO_PI;
             while (angle > PI) angle -= TWO_PI;
-            
-            
-            
-            
+
             if (total.size()> 2){
-            
                 glyphDistance = 0;
-                
                 if (currentBlob.particles.size() > 2){
                     blobs.push_back(currentBlob);
                     blobs.back().setupSprings();
                     blobs.back().originalSize= total.getPerimeter();
                 }
                 total.getVertices().erase(total.getVertices().begin(), total.getVertices().end()-2);
-                
             }
             //total.clear();
             currentBlob.particles.clear();

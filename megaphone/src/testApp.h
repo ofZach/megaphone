@@ -5,6 +5,15 @@
 #include "baseScene.h"
 #include "typeScene.h"
 #include "audioSampleLoader.h"
+#include "ofxProjectorBlend.h"
+#include "mtl2dMapping.h"
+
+
+#define PIXEL_OVERLAP 40
+#define PROJECTOR_COUNT 2
+#define PROJECTOR_WIDTH 1024
+#define PROJECTOR_HEIGHT 768
+
 
 
 
@@ -33,29 +42,24 @@ class testApp : public ofBaseApp{
         
         ofSoundStream soundStream;
         audioManager AM;
+        bool bDrawAudioManager;
+    
     
         int nBuffersRecorded;
         float * audioDataThread;
         float * audioDataMainThread;
     
-    
         ofMutex mutex;
-
-    
         vector < baseScene *  > scenes;
-        
         audioSampleLoader ASL;
     
     
+        // rendering things: 
+        ofxProjectorBlend blender;
+        mtl2dMapping* _mapping;
     
-        ofFbo world;
-    
-    
-        ofMesh mesh;
-    
-    
-        ofEasyCam cam;
-    
-    
+        //bool bDrawForProjector
         
+    
+
 };

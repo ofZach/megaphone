@@ -4,96 +4,51 @@
 //--------------------------------------------------------------
 void testApp::setup(){
     
+    
+    //---------------------------------------------------
+    // setup audio
     soundStream.listDevices();
-    
 	int bufferSize = 256;
-    
 	left = new float[bufferSize];
     right = new float[bufferSize];
-        
     AM.setup();
-
     nBuffersRecorded = 0;
     audioDataThread = new float[ bufferSize * 100]; // almost half a second
-    audioDataMainThread = new float [ bufferSize * 100];
-        
+    audioDataMainThread = new float [ bufferSize * 100];        
     soundStream.setup(this, 2, 2, 44100, bufferSize, 4);
-    
     scenes.push_back(new typeScene());
     for (int i = 0; i < scenes.size(); i++){
         scenes[i]->results = &AM.results;
     }
-    scenes[0]->setup();    
+    scenes[0]->setup();   
+    bDrawAudioManager = false;
+
     
-    ofSetFrameRate(1000);
+    //---------------------------------------------------
+    // 
+    ofSetFrameRate(1000);  // as fast as possible
     ofSetVerticalSync(false);
     
-    
+    //---------------------------------------------------
+    // audio samples for testing
     ASL.loadFile("samples/1-1.wav");
     ASL.bPlaying = false;
     
     ofBackground(0,0,0);
     
     
-    world.allocate(768, 2048);
     
     
-    mesh.setMode(OF_PRIMITIVE_TRIANGLES);
-    
-    float w = 768;
-    float h = 1024*2;
-    
-    float wSize = 8*100;
-    float hSize = 3*100 / 2.0;
+    //---------------------------------------------------
+    blender.setup(PROJECTOR_WIDTH, PROJECTOR_HEIGHT, PROJECTOR_COUNT, PIXEL_OVERLAP);
+	blender.gamma = .5;
+	blender.blendPower = 1;
+	blender.luminance = 0;
     
     
-    //float pinchAmount = ofMap(mouseX, 0, ofGetWidth(), 0,1);
-    float pinchAmount = 0.1f;
+    _mapping = new mtl2dMapping();
+    _mapping->init(ofGetWidth(), ofGetHeight());
     
-    mesh.addTexCoord(ofPoint(w/2, pinchAmount*h));
-    mesh.addVertex(ofPoint(0,0,0));
-    mesh.addTexCoord(ofPoint(w/2, h));
-    mesh.addVertex(ofPoint(0,wSize,0));
-    mesh.addTexCoord(ofPoint(w, h));
-    mesh.addVertex(ofPoint(0,wSize,hSize));
-    
-    
-    mesh.addTexCoord(ofPoint(w/2, pinchAmount*h));
-    mesh.addVertex(ofPoint(0,0,0));
-    mesh.addTexCoord(ofPoint(w, 0));
-    mesh.addVertex(ofPoint(0,0,hSize));
-    mesh.addTexCoord(ofPoint(w, h));
-    mesh.addVertex(ofPoint(0,wSize,hSize));
-    
-    mesh.addTexCoord(ofPoint(w/2, pinchAmount*h));
-    mesh.addVertex(ofPoint(0,0,0));
-    mesh.addTexCoord(ofPoint(w/2, h));
-    mesh.addVertex(ofPoint(0,wSize,0));
-    mesh.addTexCoord(ofPoint(0, h));
-    mesh.addVertex(ofPoint(hSize,wSize,0));
-    
-    mesh.addTexCoord(ofPoint(w/2, pinchAmount*h));
-    mesh.addVertex(ofPoint(0,0,0));
-    mesh.addTexCoord(ofPoint(0, 0));
-    mesh.addVertex(ofPoint(hSize,0,0));
-    mesh.addTexCoord(ofPoint(0,h));
-    mesh.addVertex(ofPoint(hSize,wSize,0));
-
-    
-    
-    
-    
-//    mesh.addVertex(ofPoint(0,0,0));
-//    mesh.addVertex(ofPoint(0,8,0));
-//    mesh.addVertex(ofPoint(1.5,8,0));
-//    
-//    mesh.addVertex(ofPoint(0,8,0));
-//    mesh.addVertex(ofPoint(0,0,0));
-//    mesh.addVertex(ofPoint(1.5,0,0));
-//    
-    
-    
-    cam.setupPerspective();
     
 }
 
@@ -108,8 +63,9 @@ void testApp::exit(){
 void testApp::update(){
 
     
-    //int nFramesAudio = 0; 
-    
+#ifdef USE_MUTEX_SYSTEM
+// this is disabled for now.  not really sure
+//int nFramesAudio = 0;     
 //    if (mutex.tryLock(10)){
 //        memcpy( audioDataMainThread, audioDataThread, nBuffersRecorded * 256 * sizeof(float));
 //        nFramesAudio = nBuffersRecorded;
@@ -120,16 +76,15 @@ void testApp::update(){
 //    for (int i = 0; i < nFramesAudio; i++){
 //        AM.update(audioDataMainThread + i * 256, 256);
 //    }
-    
 //    AM.update(left, bufferSize);
-    
+#endif
     
     
     ofClear(0,0,0,255);
     scenes[0]->update();
     
-    
-    
+    _mapping->update();
+
     
 }
 
@@ -140,44 +95,136 @@ void testApp::draw(){
     
     if (ofGetFrameNum() < 10) return;
     
-    //AM.draw();
+    if (bDrawAudioManager) AM.draw();
     
     scenes[0]->draw(); 
-
     //ofBackground(127,127,127);
+
     
-//    world.begin();
-//    ofClear(0,0,0, 255);
-//    scenes[0]->draw();
-//    world.end();
+   
+    /*
+    //call blender.begin() to draw onto the blendable canvas
+	blender.begin();
+	
+	//light gray backaground
+	ofSetColor(100, 100, 100);
+	ofRect(0, 0, blender.getCanvasWidth(), blender.getCanvasHeight());
+	
+	//thick grid lines for blending
+	ofSetColor(255, 255, 255);
+	ofSetLineWidth(3);
+	
+	//vertical line
+	for(int i = 0; i <= blender.getCanvasWidth(); i+=40){
+		ofLine(i, 0, i, blender.getCanvasHeight());
+	}
+	
+	//horizontal lines
+	for(int j = 0; j <= blender.getCanvasHeight(); j+=40){
+		ofLine(0, j, blender.getCanvasWidth(), j);		
+	}
+	
+	//instructions
+	ofSetColor(255, 255, 255);
+	ofRect(10, 10, 300, 100);
+	ofSetColor(0, 0, 0);
+	ofDrawBitmapString("SPACE - toggle show blend\n[g/G] - adjust gamma\n[p/P] - adjust blend power\n[l/L] adjust luminance", 15, 35);
+	
+	//call when you are finished drawing
+	blender.end();
+	
+	//this draws to the main window
+    
+    ofPushMatrix();
+    float scale = ofGetWidth() / 2048.0f;
+    ofScale(scale, scale);
+	blender.draw();
+    ofPopMatrix();
+    
+    */
+    
+//    
+//    // ----
+//    _mapping->bind();
+//    
+//    // draw a test pattern
+//    _mapping->chessBoard( ofGetWidth() / 100);
+//    
+//    _mapping->unbind();
 //    
 //    
-//    ofSetColor(255,255,255);
-//    cam.begin();
-//    world.getTextureReference().bind();
-//    mesh.draw();
-//    world.getTextureReference().unbind();
-//    ofSetColor(255,255,255,10);
-//    mesh.drawWireframe();
-//    cam.end();
+//    //-------- mapping of the towers/shapes
+//    _mapping->draw();
+//    //_mapping->drawFbo();
+//    
+//    
+//    // Draw some instructions.
+//    ofSetColor(0);
+//    ofDrawBitmapString("'m' open the mapping controls.\n", 20, 20);
+//    
+//    ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), ofGetWidth()-100, 100);
     
-    ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), ofGetWidth()-100, 100);
-    
+
 }
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
 
     
-    if (key == 'l'){
-        ofSetWindowShape(1400, (3/8.0) * 1400);
-    }
+    
+    
+    
+    _mapping->keyPressed(key);
+    
+//    if (key == 'l'){
+//        ofSetWindowShape(1400, (3/8.0) * 1400);
+//    }
     
     if (key == 's'){
         ASL.bPlaying = true;
         ASL.playbackCount = 0;
     }
     
+    if (key == 'a'){
+        bDrawAudioManager = !bDrawAudioManager;
+    }
+    
+    
+    
+    //hit spacebar to toggle the blending strip
+	if(key == ' '){
+		//toggling this variable effects whether the blend strip is shown
+		blender.showBlend = !blender.showBlend;
+	}
+	
+	// more info here on what these variables do
+	// http://local.wasp.uwa.edu.au/~pbourke/texture_colour/edgeblend/
+	
+	else if(key == 'g'){
+		blender.gamma  -= .05;
+		blender.gamma2 -= .05;
+	}
+	else if(key == 'G'){
+		blender.gamma  += .05;
+		blender.gamma2 += .05;
+	}
+	else if(key == 'l'){
+		blender.luminance  -= .05;
+		blender.luminance2 -= .05;
+	}
+	else if(key == 'L'){
+		blender.luminance  += .05;
+		blender.luminance2 += .05;
+	}
+	else if(key == 'p'){
+		blender.blendPower  -= .05;
+		blender.blendPower2 -= .05;
+	}
+	else if(key == 'P'){
+		blender.blendPower  += .05;
+		blender.blendPower2 += .05;
+	}
+
     
 }
 
@@ -194,11 +241,13 @@ void testApp::mouseMoved(int x, int y ){
 //--------------------------------------------------------------
 void testApp::mouseDragged(int x, int y, int button){
 
+    blender.setup(PROJECTOR_WIDTH, PROJECTOR_HEIGHT, PROJECTOR_COUNT, x);
+	
 }
 
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button){
-
+_mapping->mousePressed(x, y, button);
 }
 
 //--------------------------------------------------------------
@@ -230,8 +279,8 @@ void testApp::audioOut(float * output, int bufferSize, int nChannels){
                 right[i] = output[i*2+1] = ASL.audioData[ASL.playbackCount * ASL.channels + 0];
                 ASL.playbackCount++;
             } else {
-                output[i*2] = 0;
-                output[i*2 + 1] = 0;
+                output[i*2] = 0; //left[i];  // ouput = input
+                output[i*2 + 1] = 0; //left[i];
             }
             
             if (ASL.playbackCount >= ASL.audioData.size()/ASL.channels){
@@ -260,7 +309,7 @@ void testApp::audioIn(float * input, int bufferSize, int nChannels){
     }
     
     
-
+#ifdef USE_MUTEX_SYSTEM
 //    mutex.lock();
 //        if (nBuffersRecorded < 100){
 //            memcpy( audioDataThread + nBuffersRecorded * bufferSize, left, bufferSize * sizeof(float));
@@ -270,6 +319,9 @@ void testApp::audioIn(float * input, int bufferSize, int nChannels){
 //        }
 //        mutex.unlock();
 //    
+#endif    
+    
+    
     AM.update(left, 256);
       
 }

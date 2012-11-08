@@ -1,0 +1,53 @@
+<root>
+    <shape id="0">
+        <setting key="type">quad</setting>
+        <setting key="textureHeight">720</setting>
+        <setting key="textureWidth">80</setting>
+        <outputVertices>
+            <vertex x="99" y="101"></vertex>
+            <vertex x="278" y="6"></vertex>
+            <vertex x="255" y="417"></vertex>
+            <vertex x="35" y="416"></vertex>
+        </outputVertices>
+        <inputQuad>
+            <vertex x="737" y="65"></vertex>
+            <vertex x="945" y="61"></vertex>
+            <vertex x="954" y="623"></vertex>
+            <vertex x="737" y="611"></vertex>
+        </inputQuad>
+    </shape>
+    <shape id="1">
+        <setting key="type">triangle</setting>
+        <setting key="textureHeight">720</setting>
+        <setting key="textureWidth">25</setting>
+        <outputVertices>
+            <vertex x="964" y="317"></vertex>
+            <vertex x="1116" y="2"></vertex>
+            <vertex x="1289" y="330"></vertex>
+        </outputVertices>
+        <inputQuad>
+            <vertex x="2" y="248"></vertex>
+            <vertex x="3" y="20"></vertex>
+            <vertex x="253" y="244"></vertex>
+        </inputQuad>
+    </shape>
+    <shape id="2">
+        <setting key="type">poly</setting>
+        <setting key="textureHeight">720</setting>
+        <setting key="textureWidth">80</setting>
+        <outputVertices>
+            <vertex x="717" y="164"></vertex>
+            <vertex x="890" y="162"></vertex>
+            <vertex x="893" y="639"></vertex>
+            <vertex x="712" y="637"></vertex>
+            <vertex x="537" y="396"></vertex>
+        </outputVertices>
+        <inputQuad>
+            <vertex x="514" y="209"></vertex>
+            <vertex x="639" y="209"></vertex>
+            <vertex x="640" y="593"></vertex>
+            <vertex x="512" y="592"></vertex>
+            <vertex x="384" y="400"></vertex>
+        </inputQuad>
+    </shape>
+</root>
