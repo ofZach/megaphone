@@ -10,6 +10,7 @@
 
 ofxToggle debugMesh;
 float offsetAmount;
+float alignAmount;
 float twirlAmount;
 float tiltAmount;
 float flipAmount;
@@ -31,6 +32,8 @@ int Page::sharedLastFlipFrame = 0;
 Page::Page()
 {
     animateOffset = ofRandom(50);
+
+    alignAngle = ofRandom(M_TWO_PI);
 
     bGoingUp = true;
     startPos.set(0, 20, 0);
@@ -224,9 +227,11 @@ void Page::update()
         bottomBendPct = -rotInc * 2 * bottomBendAmount;
     }
 
+    ofVec3f posFromCenter(pos.x, 0, pos.z);
+    alignPivot = posFromCenter;
+
     if (tornadoAmount > 0) {
         float tornadoRadius = MIN(pos.y, groundSize);
-        ofVec3f posFromCenter(pos.x, 0, pos.z);
         float distFromCenter = posFromCenter.length();
         if ((int)distFromCenter < 1) {
             // move away from the center
@@ -306,6 +311,9 @@ void Page::draw()
 
     // tilt
     ofRotate(RAD_TO_DEG * tiltAngle, 1, 0, 1);
+
+    // axis
+    ofRotate(RAD_TO_DEG * alignAngle * alignAmount, alignPivot.x, alignPivot.y, alignPivot.z);
 
     if (debugMesh) {
         ofSetColor(255);

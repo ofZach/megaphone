@@ -73,6 +73,7 @@ void paperScene::setup(){
     gui.add(debugMesh.setup("debug mesh", false));
     gui.add(spacerLabel.setup("spacer", ""));
     gui.add(offsetAmountTarget.setup("offset", 0, 0, 1));
+    gui.add(alignAmountTarget.setup("align", 0, 0, 1));
     gui.add(spacerLabel.setup("spacer", ""));
 	gui.add(twirlAmountTarget.setup("twirl", 0.1, 0, 1));
 	gui.add(tiltAmountTarget.setup("tilt", 0, 0, 1));
@@ -178,6 +179,9 @@ void paperScene::update()
 
     offsetAmount = ofLerp(offsetAmount, offsetAmountTarget, lerpRatio);
     if (ABS(offsetAmountTarget - offsetAmount) < 0.01) offsetAmount = offsetAmountTarget;
+
+    alignAmount = ofLerp(alignAmount, alignAmountTarget, lerpRatio);
+    if (ABS(alignAmountTarget - alignAmount) < 0.01) alignAmount = alignAmountTarget;
 
     twirlAmount = ofLerp(twirlAmount, twirlAmountTarget, lerpRatio);
     if (ABS(twirlAmountTarget - twirlAmount) < 0.01) twirlAmount = twirlAmountTarget;

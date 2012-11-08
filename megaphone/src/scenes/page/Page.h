@@ -13,6 +13,7 @@
 
 extern ofxToggle debugMesh;
 extern float offsetAmount;
+extern float alignAmount;
 extern float twirlAmount;
 extern float tiltAmount;
 extern float flipAmount;
@@ -53,6 +54,9 @@ class Page
 
         float animateOffset;
         float animateCounter;
+
+        float alignAngle;
+        ofPoint alignPivot;
 
         bool bGoingUp;
         float posInc;

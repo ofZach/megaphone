@@ -55,6 +55,7 @@ class paperScene : public baseScene {
         ofxToggle drawLightToggle;
         ofxFloatSlider lightPos;
         ofxFloatSlider offsetAmountTarget;
+        ofxFloatSlider alignAmountTarget;
         ofxFloatSlider twirlAmountTarget;
         ofxFloatSlider tiltAmountTarget;
         ofxFloatSlider flipAmountTarget;
