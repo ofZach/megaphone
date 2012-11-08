@@ -61,7 +61,7 @@ void paperScene::setup(){
 
     addPages(1);
 
-    gui.setup("Controls");
+    gui.setup("Controls", "settings/paperSettings.xml");
     gui.add(drawGroundToggle.setup("draw ground", true));
     gui.add(fillGroundToggle.setup("fill ground", true));
     gui.add(drawAxesToggle.setup("draw axes", false));
@@ -108,8 +108,6 @@ void paperScene::setup(){
     clearButton.addListener(this, &paperScene::clearButtonPressed);
     addToggleListeners();
     
-    
-    //gui.saveToFile("settings/paperSettings.xml");
     
     gui.loadFromFile("settings/paperSettings.xml");
     
