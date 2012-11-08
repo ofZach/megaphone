@@ -34,14 +34,14 @@ class testApp : public ofBaseApp
         void snapCloseUpPressed(bool& pressed);
         void snapLongShotPressed(bool& pressed);
 
-        void addRainPages(int num);
+        void addPages(int num);
 
         ofEasyCam camera;
 
         ofLight pointLight;
         ofMaterial material;
     
-        vector<Page *> rainPages;
+        vector<Page *> pages;
         ofMesh groundMesh;
 
         ofMatrix4x4 targetCameraMatrix;

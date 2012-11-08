@@ -49,7 +49,7 @@ void testApp::setup()
     groundMesh.addNormals(normals, 4);
     groundMesh.addIndices(indices, 6);
 
-    addRainPages(1);
+    addPages(1);
 
     gui.setup("Controls");
     gui.add(drawGroundToggle.setup("draw ground", true));
@@ -116,14 +116,14 @@ void testApp::removeToggleListeners()
 }
 
 //--------------------------------------------------------------
-void testApp::addRainPages(int num)
+void testApp::addPages(int num)
 {
     for (int i = 0; i < num; i++) {
         Page *page = new Page();
         page->path.setFillColor(ofColor(255));
         page->rainSpeed.set(ofRandom(-2, -5), -1 * ofRandom(2, 10), ofRandom(10));
 
-        rainPages.push_back(page);
+        pages.push_back(page);
     }
 }
 
@@ -177,8 +177,8 @@ void testApp::update()
 
     pointLight.setPosition(0, groundSize * lightPos, 0);
 
-    for (int i = 0; i < rainPages.size(); i++) {
-        rainPages[i]->update();
+    for (int i = 0; i < pages.size(); i++) {
+        pages[i]->update();
     }
 }
 
@@ -210,8 +210,8 @@ void testApp::draw()
     ofSetColor(255);
 
     // draw the pages
-    for (int i = 0; i < rainPages.size(); i++) {
-        rainPages[i]->draw();
+    for (int i = 0; i < pages.size(); i++) {
+        pages[i]->draw();
     }
 
     if (enableLightToggle) {
@@ -337,23 +337,23 @@ void testApp::snapLongShotPressed(bool& pressed)
 //--------------------------------------------------------------
 void testApp::addOneButtonPressed(bool& pressed)
 {
-    if (pressed) addRainPages(1);
+    if (pressed) addPages(1);
 }
 
 //--------------------------------------------------------------
 void testApp::addTenButtonPressed(bool& pressed)
 {
-    if (pressed) addRainPages(10);
+    if (pressed) addPages(10);
 }
 
 //--------------------------------------------------------------
 void testApp::clearButtonPressed(bool& pressed)
 {
     if (pressed) {
-        for (int i = 0; i < rainPages.size(); i++) {
-            delete rainPages[i];
+        for (int i = 0; i < pages.size(); i++) {
+            delete pages[i];
         }
-        rainPages.clear();
+        pages.clear();
     }
 }
 
