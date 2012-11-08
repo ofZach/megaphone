@@ -8,6 +8,7 @@
 
 #include "Page.h"
 
+ofxToggle debugMesh;
 float offsetAmount;
 float twirlAmount;
 float tiltAmount;
@@ -66,9 +67,11 @@ void Page::rebuild()
     path.clear();
 
     path.moveTo(ofPoint(-pageSize, 0, -pageSize));
-    path.lineTo(ofPoint(-pageSize, 0, pageSize));
-    path.lineTo(ofPoint(pageSize, 0, pageSize));
-    path.lineTo(ofPoint(pageSize, 0, -pageSize));
+    path.lineTo(ofPoint( pageSize, 0, -pageSize));
+    path.lineTo(ofPoint( pageSize, 0,  pageSize));
+    path.lineTo(ofPoint(-pageSize, 0,  pageSize));
+
+    remesh();
 }
 
 //--------------------------------------------------------------
@@ -86,6 +89,8 @@ void Page::rebuild(float bendPct)
     path.lineTo(ofPoint(-pageSize, bendY, pageSize));
     path.bezierTo(ofPoint(-pageSize, bendY * 0.5, pageSize), ofPoint(-pageSize, 0, pageSize - bendZ * 0.5), ofPoint(-pageSize, 0, pageSize - bendZ));
     path.lineTo(ofPoint(-pageSize, 0, -pageSize));
+
+    remesh();
 }
 
 //--------------------------------------------------------------
@@ -119,6 +124,34 @@ void Page::rebuild(float bendTopPct, float bendBottomPct)
     path.bezierTo(ofPoint(-pageSize, 0, bendTopZ * 0.5),
                   ofPoint(-pageSize, bendTopY * 0.5, bendTopZ),
                   ofPoint(-pageSize, bendTopY, bendTopZ));
+
+    remesh();
+}
+
+//--------------------------------------------------------------
+void Page::remesh()
+{
+    mesh = path.getTessellation();
+
+    // add a bunch of dummy normals
+    for (int i=0; i < mesh.getNumVertices(); i++) {
+        mesh.addNormal(ofVec3f());
+    }
+
+    // calculate the real normal for each vertex
+    for (int i=0; i < mesh.getNumIndices(); i += 3) {
+        ofVec3f a = mesh.getVertex(mesh.getIndex(i + 0));
+        ofVec3f b = mesh.getVertex(mesh.getIndex(i + 1));
+        ofVec3f c = mesh.getVertex(mesh.getIndex(i + 2));
+
+        ofVec3f ab = b - a;
+        ofVec3f ac = c - a;
+
+        ofVec3f n = ab.cross(ac).normalized() * -1;  // gotta flip it, guess i'm winding backwards...
+        mesh.setNormal(mesh.getIndex(i + 0), n);
+        mesh.setNormal(mesh.getIndex(i + 1), n);
+        mesh.setNormal(mesh.getIndex(i + 2), n);
+    }
 }
 
 //--------------------------------------------------------------
@@ -223,11 +256,14 @@ void Page::update()
         }
     }
 
-    if (bendTail) {
+    if (bendTail && vertBendPct > 0) {
         rebuild(vertBendPct);
     }
-    else if (bendWings || bendFresh) {
+    else if ((bendWings || bendFresh) && topBendPct > 0 && bottomBendPct > 0) {
         rebuild(topBendPct, bottomBendPct);
+    }
+    else {
+        rebuild();
     }
 }
 
@@ -259,7 +295,20 @@ void Page::draw()
     // tilt
     ofRotate(RAD_TO_DEG * tiltAngle, 1, 0, 1);
 
-    path.draw();
-    
+    if (debugMesh) {
+        ofSetColor(255);
+        mesh.drawWireframe();
+        ofSetColor(255, 0, 0);
+        for (int i=0; i < mesh.getNumIndices(); i++) {
+            ofVec3f coord = mesh.getVertex(mesh.getIndex(i));
+            ofVec3f norm = mesh.getNormal(mesh.getIndex(i));
+
+            ofLine(coord, coord + (norm * 10));
+        }
+    }
+    else {
+        mesh.draw();
+    }
+
     ofPopMatrix();
 }

@@ -11,6 +11,7 @@
 #include "ofMain.h"
 #include "ofxGui.h"
 
+extern ofxToggle debugMesh;
 extern float offsetAmount;
 extern float twirlAmount;
 extern float tiltAmount;
@@ -40,7 +41,8 @@ class Page
         void rebuild();
         void rebuild(float bendPct);
         void rebuild(float bendTopPct, float bendBottomPct);
-    
+        void remesh();
+
         void update();
         void draw();
 
@@ -79,4 +81,5 @@ class Page
         ofPoint swayPos;
 
         ofPath path;
+        ofMesh mesh;
 };

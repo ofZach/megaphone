@@ -38,8 +38,11 @@ class testApp : public ofBaseApp
 
         ofEasyCam camera;
 
-        bool bShowAll;
+        ofLight pointLight;
+        ofMaterial material;
+    
         vector<Page *> rainPages;
+        ofMesh groundMesh;
 
         ofMatrix4x4 targetCameraMatrix;
         ofMatrix4x4 closeUpCameraMatrix;
@@ -51,6 +54,9 @@ class testApp : public ofBaseApp
         ofxToggle fillGroundToggle;
         ofxToggle drawAxesToggle;
         ofxToggle maskToggle;
+        ofxToggle enableLightToggle;
+        ofxToggle drawLightToggle;
+        ofxFloatSlider lightPos;
         ofxFloatSlider offsetAmountTarget;
         ofxFloatSlider twirlAmountTarget;
         ofxFloatSlider tiltAmountTarget;

@@ -7,8 +7,6 @@ void testApp::setup()
     ofSetVerticalSync(true);
     ofBackground(0);
 
-    bShowAll = true;
-
     camera.disableMouseInput();
     camera.tilt(-30);
     camera.rotate(20, 0, 1, 0);
@@ -22,6 +20,35 @@ void testApp::setup()
     targetCameraMatrix = longShotCameraMatrix;
     camera.setTransformMatrix(targetCameraMatrix);
 
+    ofSetSmoothLighting(true);
+    pointLight.setPosition(0, groundSize, 0);
+    pointLight.setDiffuseColor( ofColor(255.f, 255.f, 255.f));
+	pointLight.setSpecularColor( ofColor(255.f, 255.f, 255.f));
+
+	material.setShininess(64);
+	material.setSpecularColor(ofFloatColor(1.0, 1.0, 1.0));
+
+    // build the ground
+    ofVec3f vertices[] = {
+        ofPoint(-groundSize, 0, -groundSize),
+        ofPoint(-groundSize, 0,  groundSize),
+        ofPoint( groundSize, 0,  groundSize),
+        ofPoint( groundSize, 0, -groundSize)
+    };
+    ofVec3f normals[] = {
+        ofPoint(0, 1, 0),
+        ofPoint(0, 1, 0),
+        ofPoint(0, 1, 0),
+        ofPoint(0, 1, 0)
+    };
+    ofIndexType indices[] = {
+        0, 1, 2,
+        2, 3, 0
+    };
+    groundMesh.addVertices(vertices, 4);
+    groundMesh.addNormals(normals, 4);
+    groundMesh.addIndices(indices, 6);
+
     addRainPages(1);
 
     gui.setup("Controls");
@@ -29,6 +56,11 @@ void testApp::setup()
     gui.add(fillGroundToggle.setup("fill ground", true));
     gui.add(drawAxesToggle.setup("draw axes", false));
     gui.add(maskToggle.setup("mask", false));
+    gui.add(spacerLabel.setup("spacer", ""));
+    gui.add(enableLightToggle.setup("enable light", true));
+    gui.add(drawLightToggle.setup("draw light", false));
+    gui.add(lightPos.setup("light pos", 1, 0, 1));
+    gui.add(debugMesh.setup("debug mesh", false));
     gui.add(spacerLabel.setup("spacer", ""));
     gui.add(offsetAmountTarget.setup("offset", 0, 0, 1));
     gui.add(spacerLabel.setup("spacer", ""));
@@ -143,6 +175,8 @@ void testApp::update()
         camera.setTransformMatrix(newCameraTransform);
     }
 
+    pointLight.setPosition(0, groundSize * lightPos, 0);
+
     for (int i = 0; i < rainPages.size(); i++) {
         rainPages[i]->update();
     }
@@ -156,32 +190,33 @@ void testApp::draw()
     glEnable(GL_DEPTH_TEST);
     glDepthMask(GL_TRUE);
 
-    if (drawGroundToggle) {
-        ofPushStyle();
-        
-        if (fillGroundToggle) ofFill();
-        else ofNoFill();
-        
-        // draw the ground
-        ofSetColor(128);
-        ofBeginShape();
-        ofVertex(-groundSize, 0, -groundSize);
-        ofVertex(-groundSize, 0, groundSize);
-        ofVertex(groundSize, 0, groundSize);
-        ofVertex(groundSize, 0, -groundSize);
-        ofEndShape(true);
-
-        ofPopStyle();
+    if (drawLightToggle) {
+        ofSetColor(pointLight.getDiffuseColor());
+        ofSphere(pointLight.getPosition(), 10.f);
     }
+
+    if (enableLightToggle) {
+        ofEnableLighting();
+        pointLight.enable();
+        material.begin();
+    }
+
+    if (drawGroundToggle) {
+        ofSetColor(128);
+        if (fillGroundToggle) groundMesh.draw();
+        else groundMesh.drawWireframe();
+    }
+
+    ofSetColor(255);
 
     // draw the pages
-    if (bShowAll) {
-        for (int i = 0; i < rainPages.size(); i++) {
-            rainPages[i]->draw();
-        }
+    for (int i = 0; i < rainPages.size(); i++) {
+        rainPages[i]->draw();
     }
-    else if (rainPages.size() > 0) {
-        rainPages[0]->draw();
+
+    if (enableLightToggle) {
+        material.end();
+        ofDisableLighting();
     }
 
     if (drawAxesToggle) {
@@ -216,10 +251,11 @@ void testApp::draw()
         ofPopStyle();
     }
 
-    // draw the controls
     glDisable(GL_DEPTH_TEST);
-    gui.draw();
 
+    // draw the controls
+    ofSetColor(255);
+    gui.draw();
     ofDrawBitmapString(ofToString(ofGetFrameRate(), 2) + " fps", ofGetWidth() - 50, ofGetHeight() - 10);
 }
 
