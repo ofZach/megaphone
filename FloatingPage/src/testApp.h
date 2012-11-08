@@ -34,12 +34,15 @@ class testApp : public ofBaseApp
         void snapCloseUpPressed(bool& pressed);
         void snapLongShotPressed(bool& pressed);
 
-        void addRainPages(int num);
+        void addPages(int num);
 
         ofEasyCam camera;
 
-        bool bShowAll;
-        vector<Page *> rainPages;
+        ofLight pointLight;
+        ofMaterial material;
+    
+        vector<Page *> pages;
+        ofMesh groundMesh;
 
         ofMatrix4x4 targetCameraMatrix;
         ofMatrix4x4 closeUpCameraMatrix;
@@ -51,6 +54,10 @@ class testApp : public ofBaseApp
         ofxToggle fillGroundToggle;
         ofxToggle drawAxesToggle;
         ofxToggle maskToggle;
+        ofxToggle enableLightToggle;
+        ofxToggle drawLightToggle;
+        ofxFloatSlider lightPos;
+        ofxFloatSlider offsetAmountTarget;
         ofxFloatSlider twirlAmountTarget;
         ofxFloatSlider tiltAmountTarget;
         ofxFloatSlider flipAmountTarget;
