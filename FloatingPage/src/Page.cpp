@@ -256,10 +256,10 @@ void Page::update()
         }
     }
 
-    if (bendTail && vertBendPct > 0) {
+    if (bendTail) {
         rebuild(vertBendPct);
     }
-    else if ((bendWings || bendFresh) && topBendPct > 0 && bottomBendPct > 0) {
+    else if (bendWings || bendFresh) {
         rebuild(topBendPct, bottomBendPct);
     }
     else {
