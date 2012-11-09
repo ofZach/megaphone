@@ -13,11 +13,11 @@
 
 extern ofxToggle debugMesh;
 extern float offsetAmount;
+extern float alignAmount;
 extern float twirlAmount;
 extern float tiltAmount;
 extern float flipAmount;
 extern float swayAmount;
-extern float alignAmount;
 extern ofxToggle bendTail;
 extern ofxToggle bendWings;
 extern ofxToggle bendFresh;
@@ -34,59 +34,67 @@ static int apex = 200;
 
 //--------------------------------------------------------------
 //--------------------------------------------------------------
+enum PageOverwriteMode
+{
+    PageOverwriteNone,
+    PageOverwriteFirst,
+    PageOverwriteLast,
+    PageOverwriteAll
+};
+
+//--------------------------------------------------------------
+//--------------------------------------------------------------
 class Page
 {
-    public:
-        Page();
-
-        void rebuild();
-        void rebuild(float bendPct);
-        void rebuild(float bendTopPct, float bendBottomPct);
-        void remesh();
-
-        void update();
-        void draw();
-
-        static float sharedFlipAngle;
-        static int sharedLastFlipFrame;
-        float localFlipAngle;
-        float flipAngle;
-        float flipSpeed;
-
-        float animateOffset;
-        float animateCounter;
-
-        bool bGoingUp;
-        float posInc;
-        float posSpeed;
-        ofPoint startPos;
-        ofPoint pos;
-        ofPoint rainSpeed;
-        float tornadoAngle;
-        ofPoint tornadoOffset;
-        ofPoint alignPivot;
+public:
+    Page();
     
-        
+    void rebuild();
+    void rebuild(float bendPct);
+    void rebuild(float bendTopPct, float bendBottomPct);
+    void remesh(enum PageOverwriteMode mode);
     
-        float alignAngle;
-        
-        float rotInc;
-        float twirlAngle;
-        float tiltAngle;
-
-        float vertAngle;
-        float vertOffsetY;
-        float vertBendPct;
-
-        float topBendPct;
-        float bottomBendPct;
-
-        float swayInc;
-        float swaySpeed;
-        float swayAngle;
-        float swayRadius;
-        ofPoint swayPos;
-
-        ofPath path;
-        ofMesh mesh;
+    void update();
+    void draw();
+    
+    static float sharedFlipAngle;
+    static int sharedLastFlipFrame;
+    float localFlipAngle;
+    float flipAngle;
+    float flipSpeed;
+    
+    float animateOffset;
+    float animateCounter;
+    
+    float alignAngle;
+    ofPoint alignPivot;
+    
+    bool bGoingUp;
+    float posInc;
+    float posSpeed;
+    ofPoint startPos;
+    ofPoint pos;
+    ofPoint rainSpeed;
+    float tornadoAngle;
+    ofPoint tornadoOffset;
+    
+    float rotInc;
+    float twirlAngle;
+    float tiltAngle;
+    
+    float vertAngle;
+    float vertOffsetY;
+    float vertBendPct;
+    
+    float topBendPct;
+    float bottomBendPct;
+    
+    float swayInc;
+    float swaySpeed;
+    float swayAngle;
+    float swayRadius;
+    ofPoint swayPos;
+    
+    ofPath path;
+    ofMesh mesh;
 };

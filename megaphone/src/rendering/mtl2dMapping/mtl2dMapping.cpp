@@ -167,15 +167,16 @@ void mtl2dMapping::draw()
 //--------------------------------------------------------------
 void mtl2dMapping::bind()
 {
-    _fbo.bind();
+    _fbo.begin();
     ofClear(.0f, .0f, .0f, .0f);
     ofClearAlpha();
+    
 }
 
 //--------------------------------------------------------------
 void mtl2dMapping::unbind()
 {
-    _fbo.unbind();
+    _fbo.end();
 }
 
 //--------------------------------------------------------------
@@ -190,6 +191,10 @@ void mtl2dMapping::drawFbo()
 //--------------------------------------------------------------
 void mtl2dMapping::render()
 {
+	
+	ofDisableAlphaBlending();
+	ofSetColor(255,255,255);
+	
     _fbo.getTextureReference().bind();
     list<mtl2dMappingShape*>::iterator it;
     for (it=_pmShapes.begin(); it!=_pmShapes.end(); it++) {
@@ -609,8 +614,8 @@ void mtl2dMapping::chessBoard(int nbOfCol)
     
     ofSeedRandom(0);
     
-    int boardWidth = ofGetWidth();
-    int boardHeight = ofGetHeight();
+    int boardWidth = _fbo.getWidth();
+    int boardHeight = _fbo.getHeight();
     
     float squareSize = boardWidth / nbOfCol;
     int nbOfRow = ceil(boardHeight / squareSize);

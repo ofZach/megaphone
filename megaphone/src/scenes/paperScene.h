@@ -13,6 +13,8 @@ class paperScene : public baseScene {
 		void setup();
 		void update();
 		void draw();
+    void drawGui();
+    
 
         void addPages(int num);
 

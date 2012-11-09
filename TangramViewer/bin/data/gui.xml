@@ -1,0 +1,13 @@
+<mic>
+    <x>5</x>
+    <y>20</y>
+    <width>100</width>
+    <height>10</height>
+    <thr>0.079999998</thr>
+    <min>0.000000000</min>
+    <max>0.100000001</max>
+</mic>
+<position_amount>0.100000001</position_amount>
+<rotation_amount>0.097000003</rotation_amount>
+<camera_amount>0.100000001</camera_amount>
+<wakeUpDist>500</wakeUpDist>

@@ -6,6 +6,13 @@
 void testApp::setup(){
     
     
+	//---------------------------------------------------
+    // audio samples for testing
+    ASL.loadFile("samples/1-1.wav");
+    ASL.bPlaying = false;
+    
+	
+	
     //---------------------------------------------------
     // setup audio
     soundStream.listDevices();
@@ -17,7 +24,7 @@ void testApp::setup(){
     audioDataThread = new float[ bufferSize * 100]; // almost half a second
     audioDataMainThread = new float [ bufferSize * 100];        
     soundStream.setup(this, 2, 2, 44100, bufferSize, 4);
-    scenes.push_back(new paperScene());
+    scenes.push_back(new tanagramScene());
     for (int i = 0; i < scenes.size(); i++){
         scenes[i]->results = &AM.results;
     }
@@ -30,16 +37,9 @@ void testApp::setup(){
     ofSetFrameRate(1000);  // as fast as possible
     ofSetVerticalSync(false);
     
-    //---------------------------------------------------
-    // audio samples for testing
-    ASL.loadFile("samples/1-1.wav");
-    ASL.bPlaying = false;
     
     ofBackground(0,0,0);
-    
-    
-    
-    
+
     //---------------------------------------------------
     blender.setup(PROJECTOR_WIDTH, PROJECTOR_HEIGHT, PROJECTOR_COUNT, PIXEL_OVERLAP);
 	blender.gamma = 2.45;
@@ -51,6 +51,10 @@ void testApp::setup(){
     _mapping = new mtl2dMapping();
     _mapping->init(blender.getDisplayWidth(), blender.getDisplayHeight());
     
+    
+    grabScreen.allocate(768 * (3.0/8.0), 768, GL_RGBA);
+    
+    blah.allocate(768, 2048);
     
 }
 
@@ -95,15 +99,55 @@ void testApp::update(){
 //--------------------------------------------------------------
 void testApp::draw(){
     
+    ofBackground(0);
+    
     if (ofGetFrameNum() < 10) return;
     
     if (bDrawAudioManager) AM.draw();
     
+    
+    blah.begin();
+    ofClear(0,0,0,255);
+    
+    ofPushMatrix();
+    
+    //ofTranslate(-mouseX, -mouseY);
     scenes[0]->draw(); 
+    
+    ofPopMatrix();
+    
+	ofClearAlpha();
+    blah.end();
+    
+    ofSetColor(255,255,255);
+    blah.draw(500, 800,300, -800);
+    
+    
+    scenes[0]->drawGui();
+    
+    
+    ///grabScreen.loadScreenData(300, 0, 768*(3.0/8.0), 768);
+    
     //ofBackground(127,127,127);
 
     
-    /*
+    //cout << _mapping->_fbo.getWidth() << endl;
+    // ----
+    _mapping->bind();
+    //_mapping->chessBoard(40);
+    
+    ofSetColor(255,255,255);
+    ofRotate(-90, 0,0,1);
+    ofTranslate(-768,0);
+	
+	
+    blah.draw(0, 2048,768,-2048);
+	
+    _mapping->unbind();
+    
+       
+    
+   
     ofSetBackgroundAuto(false);
   
     //call blender.begin() to draw onto the blendable canvas
@@ -154,7 +198,7 @@ void testApp::draw(){
     scale = 1024.0  / 2048.0f;
     
     ofScale(scale, scale);
-	blender.draw();
+	//blender.draw();
     ofPopMatrix();
     
     
@@ -165,31 +209,7 @@ void testApp::draw(){
     
     
     
-    // ----
-    _mapping->bind();
-    
-    // draw a test pattern
-    _mapping->chessBoard( ofGetWidth() / 20);
-    
-//    ofSetColor(0, 0, 0);
-//	ofRect(0, 0, blender.getCanvasWidth(), blender.getCanvasHeight());
-//	
-//	//thick grid lines for blending
-//	ofSetColor(255, 255, 255);
-//	ofSetLineWidth(3);
-    
-//    //vertical line
-//	for(int i = 0; i <= blender.getCanvasWidth(); i+= MAX(5, 40 + 20 * sin(ofGetElapsedTimef()/2.0))){
-//		ofLine(i, 0, i, blender.getCanvasHeight());
-//	}
-//	
-//	//horizontal lines
-//	for(int j = 0; j <= blender.getCanvasHeight(); j+=MAX(5, 40 + 20 * sin(ofGetElapsedTimef()/2.0))){
-//		ofLine(0, j, blender.getCanvasWidth(), j);		
-//	}
-    
-    
-    _mapping->unbind();
+   
     
     if (ControlsMapping::controlsMapping()->mappingMode() == MAPPING_MODE_INPUT) {
         ofPushMatrix();
@@ -209,7 +229,7 @@ void testApp::draw(){
     ofDrawBitmapString("'m' open the mapping controls.\n", 20, 20);
     
     ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), ofGetWidth()-100, 100);
-    */
+   
 
     ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), ofGetWidth()-100, 100);
 

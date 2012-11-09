@@ -44,10 +44,13 @@
 		11ADB21E164C1EB80058EF98 /* ofxSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 11ADB216164C1EB80058EF98 /* ofxSlider.cpp */; };
 		11ADB21F164C1EB80058EF98 /* ofxToggle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 11ADB218164C1EB80058EF98 /* ofxToggle.cpp */; };
 		11ADB224164C6E2D0058EF98 /* ofxMSAInteractiveObjectMod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 11ADB222164C6E2D0058EF98 /* ofxMSAInteractiveObjectMod.cpp */; };
-		5a4349e9754d6fa14c0f2a3a1abc30b6 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = fc5da1c87211d4f6377da7199d8c5a1e /* tinyxmlparser.cpp */; };
-		63b57ac5bf4ef088491e0317dbb2ecaa /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50df87d612c5aae17aafa6c02c6bc570 /* ofxXmlSettings.cpp */; };
-		933a2227713c720ceff80fd967d0a8ee /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2b40eda85beb63e46785bc299a638898 /* tinyxml.cpp */; };
-		9d44dc88ef9e7991b4a09951e2e4769f /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 832bdc407620cdba568b713d2252c43c /* tinyxmlerror.cpp */; };
+		54462FDC164D153000510397 /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54462FCC164D153000510397 /* ofxXmlSettings.cpp */; };
+		54462FDD164D153000510397 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54462FCF164D153000510397 /* tinyxml.cpp */; };
+		54462FDE164D153000510397 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54462FD1164D153000510397 /* tinyxmlerror.cpp */; };
+		54462FDF164D153000510397 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54462FD2164D153000510397 /* tinyxmlparser.cpp */; };
+		544631AB164D53AC00510397 /* tanagramScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 544631A9164D53AC00510397 /* tanagramScene.cpp */; };
+		544631B1164D540B00510397 /* Shape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 544631AD164D540B00510397 /* Shape.cpp */; };
+		544631B2164D540B00510397 /* Tangram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 544631AF164D540B00510397 /* Tangram.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
@@ -101,7 +104,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		01dcc0911400f9acf5b65578af4ec8f9 /* ofxXmlSettings.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxXmlSettings.h; path = ../../../addons/ofxXmlSettings/src/ofxXmlSettings.h; sourceTree = SOURCE_ROOT; };
 		110D3A2F164786B50065EAC2 /* binner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = binner.cpp; sourceTree = "<group>"; };
 		110D3A30164786B50065EAC2 /* binner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = binner.h; sourceTree = "<group>"; };
 		110D3A31164786B50065EAC2 /* particle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = particle.cpp; sourceTree = "<group>"; };
@@ -260,9 +262,18 @@
 		11ADB219164C1EB80058EF98 /* ofxToggle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxToggle.h; sourceTree = "<group>"; };
 		11ADB222164C6E2D0058EF98 /* ofxMSAInteractiveObjectMod.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxMSAInteractiveObjectMod.cpp; sourceTree = "<group>"; };
 		11ADB223164C6E2D0058EF98 /* ofxMSAInteractiveObjectMod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxMSAInteractiveObjectMod.h; sourceTree = "<group>"; };
-		2b40eda85beb63e46785bc299a638898 /* tinyxml.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = tinyxml.cpp; path = ../../../addons/ofxXmlSettings/libs/tinyxml.cpp; sourceTree = SOURCE_ROOT; };
-		50df87d612c5aae17aafa6c02c6bc570 /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxXmlSettings.cpp; path = ../../../addons/ofxXmlSettings/src/ofxXmlSettings.cpp; sourceTree = SOURCE_ROOT; };
-		832bdc407620cdba568b713d2252c43c /* tinyxmlerror.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = tinyxmlerror.cpp; path = ../../../addons/ofxXmlSettings/libs/tinyxmlerror.cpp; sourceTree = SOURCE_ROOT; };
+		54462FCC164D153000510397 /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxXmlSettings.cpp; path = ../../../addons/ofxXmlSettings/src/ofxXmlSettings.cpp; sourceTree = SOURCE_ROOT; };
+		54462FCD164D153000510397 /* ofxXmlSettings.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxXmlSettings.h; path = ../../../addons/ofxXmlSettings/src/ofxXmlSettings.h; sourceTree = SOURCE_ROOT; };
+		54462FCF164D153000510397 /* tinyxml.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = tinyxml.cpp; path = ../../../addons/ofxXmlSettings/libs/tinyxml.cpp; sourceTree = SOURCE_ROOT; };
+		54462FD0164D153000510397 /* tinyxml.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = tinyxml.h; path = ../../../addons/ofxXmlSettings/libs/tinyxml.h; sourceTree = SOURCE_ROOT; };
+		54462FD1164D153000510397 /* tinyxmlerror.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = tinyxmlerror.cpp; path = ../../../addons/ofxXmlSettings/libs/tinyxmlerror.cpp; sourceTree = SOURCE_ROOT; };
+		54462FD2164D153000510397 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = tinyxmlparser.cpp; path = ../../../addons/ofxXmlSettings/libs/tinyxmlparser.cpp; sourceTree = SOURCE_ROOT; };
+		544631A9164D53AC00510397 /* tanagramScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tanagramScene.cpp; sourceTree = "<group>"; };
+		544631AA164D53AC00510397 /* tanagramScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tanagramScene.h; sourceTree = "<group>"; };
+		544631AD164D540B00510397 /* Shape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shape.cpp; sourceTree = "<group>"; };
+		544631AE164D540B00510397 /* Shape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shape.h; sourceTree = "<group>"; };
+		544631AF164D540B00510397 /* Tangram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tangram.cpp; sourceTree = "<group>"; };
+		544631B0164D540B00510397 /* Tangram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tangram.h; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -274,7 +285,7 @@
 		E45BE9770E8CC7DD009D7055 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
 		E45BE9790E8CC7DD009D7055 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		E45BE97A0E8CC7DD009D7055 /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
-		E4B69B5B0A3A1756003C02F2 /* megaphoneDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = megaphoneDebug.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4B69B5B0A3A1756003C02F2 /* megaphone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = megaphone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4B69E1D0A3A1BDC003C02F2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
 		E4B69E1E0A3A1BDC003C02F2 /* testApp.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = testApp.cpp; path = src/testApp.cpp; sourceTree = SOURCE_ROOT; };
 		E4B69E1F0A3A1BDC003C02F2 /* testApp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = testApp.h; path = src/testApp.h; sourceTree = SOURCE_ROOT; };
@@ -287,8 +298,6 @@
 		E7E077E415D3B63C0020DFD4 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = /System/Library/Frameworks/CoreVideo.framework; sourceTree = "<absolute>"; };
 		E7E077E715D3B6510020DFD4 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
 		E7F985F515E0DE99003869B5 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = /System/Library/Frameworks/Accelerate.framework; sourceTree = "<absolute>"; };
-		b21e7e5f548eea92f368040bb1aa2f69 /* tinyxml.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = tinyxml.h; path = ../../../addons/ofxXmlSettings/libs/tinyxml.h; sourceTree = SOURCE_ROOT; };
-		fc5da1c87211d4f6377da7199d8c5a1e /* tinyxmlparser.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = tinyxmlparser.cpp; path = ../../../addons/ofxXmlSettings/libs/tinyxmlparser.cpp; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -551,6 +560,7 @@
 		1192B78016471C91006163DC /* scenes */ = {
 			isa = PBXGroup;
 			children = (
+				544631AC164D540B00510397 /* tanagram */,
 				11ADB1FE164C1DD50058EF98 /* page */,
 				110D3A2E164786B50065EAC2 /* physics */,
 				1192B7841647209E006163DC /* glyph */,
@@ -562,6 +572,8 @@
 				1177F9C716484CA500713505 /* typeScene2.h */,
 				11ADB206164C1E320058EF98 /* paperScene.cpp */,
 				11ADB207164C1E320058EF98 /* paperScene.h */,
+				544631A9164D53AC00510397 /* tanagramScene.cpp */,
+				544631AA164D53AC00510397 /* tanagramScene.h */,
 			);
 			path = scenes;
 			sourceTree = "<group>";
@@ -733,33 +745,44 @@
 			path = rendering/modifiedMSA;
 			sourceTree = "<group>";
 		};
-		1f4fb5c423662b96adfdcc0badec1cb0 /* ofxXmlSettings */ = {
+		54462FCE164D153000510397 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				6ecef0d76bc33727823eadffc320c44d /* src */,
-				6e54289412d2d94f45a051132369530c /* libs */,
+				54462FCC164D153000510397 /* ofxXmlSettings.cpp */,
+				54462FCD164D153000510397 /* ofxXmlSettings.h */,
 			);
-			name = ofxXmlSettings;
+			name = src;
 			sourceTree = "<group>";
 		};
-		6e54289412d2d94f45a051132369530c /* libs */ = {
+		54462FD3164D153000510397 /* libs */ = {
 			isa = PBXGroup;
 			children = (
-				2b40eda85beb63e46785bc299a638898 /* tinyxml.cpp */,
-				b21e7e5f548eea92f368040bb1aa2f69 /* tinyxml.h */,
-				832bdc407620cdba568b713d2252c43c /* tinyxmlerror.cpp */,
-				fc5da1c87211d4f6377da7199d8c5a1e /* tinyxmlparser.cpp */,
+				54462FCF164D153000510397 /* tinyxml.cpp */,
+				54462FD0164D153000510397 /* tinyxml.h */,
+				54462FD1164D153000510397 /* tinyxmlerror.cpp */,
+				54462FD2164D153000510397 /* tinyxmlparser.cpp */,
 			);
 			name = libs;
 			sourceTree = "<group>";
 		};
-		6ecef0d76bc33727823eadffc320c44d /* src */ = {
+		54462FD4164D153000510397 /* ofxXmlSettings */ = {
 			isa = PBXGroup;
 			children = (
-				50df87d612c5aae17aafa6c02c6bc570 /* ofxXmlSettings.cpp */,
-				01dcc0911400f9acf5b65578af4ec8f9 /* ofxXmlSettings.h */,
+				54462FCE164D153000510397 /* src */,
+				54462FD3164D153000510397 /* libs */,
 			);
-			name = src;
+			name = ofxXmlSettings;
+			sourceTree = "<group>";
+		};
+		544631AC164D540B00510397 /* tanagram */ = {
+			isa = PBXGroup;
+			children = (
+				544631AD164D540B00510397 /* Shape.cpp */,
+				544631AE164D540B00510397 /* Shape.h */,
+				544631AF164D540B00510397 /* Tangram.cpp */,
+				544631B0164D540B00510397 /* Tangram.h */,
+			);
+			path = tanagram;
 			sourceTree = "<group>";
 		};
 		BB4B014C10F69532006C3DED /* addons */ = {
@@ -769,7 +792,7 @@
 				1177FAF8164AAAD500713505 /* ofxProjectorBlend */,
 				1177FAF3164AAA2300713505 /* ofxUI */,
 				1177FAC2164AAA0D00713505 /* ofxMSAInteractiveObject */,
-				1f4fb5c423662b96adfdcc0badec1cb0 /* ofxXmlSettings */,
+				54462FD4164D153000510397 /* ofxXmlSettings */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -830,7 +853,7 @@
 				E4EEC9E9138DF44700A80321 /* openFrameworks */,
 				BB4B014C10F69532006C3DED /* addons */,
 				E45BE5980E8CC70C009D7055 /* frameworks */,
-				E4B69B5B0A3A1756003C02F2 /* megaphoneDebug.app */,
+				E4B69B5B0A3A1756003C02F2 /* megaphone.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -876,7 +899,7 @@
 			);
 			name = megaphone;
 			productName = myOFApp;
-			productReference = E4B69B5B0A3A1756003C02F2 /* megaphoneDebug.app */;
+			productReference = E4B69B5B0A3A1756003C02F2 /* megaphone.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -886,7 +909,6 @@
 			isa = PBXProject;
 			buildConfigurationList = E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "megaphone" */;
 			compatibilityVersion = "Xcode 2.4";
-			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				English,
@@ -943,10 +965,10 @@
 			files = (
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* testApp.cpp in Sources */,
-				63b57ac5bf4ef088491e0317dbb2ecaa /* ofxXmlSettings.cpp in Sources */,
-				933a2227713c720ceff80fd967d0a8ee /* tinyxml.cpp in Sources */,
-				9d44dc88ef9e7991b4a09951e2e4769f /* tinyxmlerror.cpp in Sources */,
-				5a4349e9754d6fa14c0f2a3a1abc30b6 /* tinyxmlparser.cpp in Sources */,
+				54462FDC164D153000510397 /* ofxXmlSettings.cpp in Sources */,
+				54462FDD164D153000510397 /* tinyxml.cpp in Sources */,
+				54462FDE164D153000510397 /* tinyxmlerror.cpp in Sources */,
+				54462FDF164D153000510397 /* tinyxmlparser.cpp in Sources */,
 				1137D669163DB0F50043A11D /* audioManager.cpp in Sources */,
 				1137D66A163DB0F50043A11D /* dywapitchtrack.c in Sources */,
 				119A1BBE163F987B0003D223 /* aubioAnalyzer.cpp in Sources */,
@@ -983,6 +1005,9 @@
 				11ADB21E164C1EB80058EF98 /* ofxSlider.cpp in Sources */,
 				11ADB21F164C1EB80058EF98 /* ofxToggle.cpp in Sources */,
 				11ADB224164C6E2D0058EF98 /* ofxMSAInteractiveObjectMod.cpp in Sources */,
+				544631AB164D53AC00510397 /* tanagramScene.cpp in Sources */,
+				544631B1164D540B00510397 /* Shape.cpp in Sources */,
+				544631B2164D540B00510397 /* Tangram.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

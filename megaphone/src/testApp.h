@@ -8,6 +8,8 @@
 #include "ofxProjectorBlend.h"
 #include "mtl2dMapping.h"
 #include "ControlsMapping.h"
+#include "tanagramScene.h"
+
 
 #define PIXEL_OVERLAP 30
 #define PROJECTOR_COUNT 2
@@ -60,6 +62,10 @@ class testApp : public ofBaseApp{
     
         //bool bDrawForProjector
         
+        ofTexture grabScreen;
+    
+    
+        ofFbo blah;
     
 
 };

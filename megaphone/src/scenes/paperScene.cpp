@@ -152,6 +152,8 @@ void paperScene::addPages(int num)
     }
 }
 
+
+float flipSmooth = 0;
 //--------------------------------------------------------------
 void paperScene::update()
 {
@@ -161,7 +163,11 @@ void paperScene::update()
     //flipAmountTarget = (results->fftOctaves[15] * 0.2) * rmsSmooth;
 
     // ELIE BEGIN
-    flipAmountTarget = (results->fftOctaves[15] * 0.2) * rmsSmooth;
+    
+    flipSmooth =  0.97f * flipSmooth + 0.03 * ofMap((results->fftOctaves[15] + results->fftOctaves[14]) * 0.01, 0.09, 0.16, 0,1,true);
+    cout << flipSmooth << endl;
+    
+    flipAmountTarget = (flipSmooth);
     alignAmountTarget = rmsSmooth;
     // ELIE END
     
@@ -221,6 +227,7 @@ void paperScene::update()
 
     if (!camera.getMouseInputEnabled()) {
         // tween the camera to its target position
+
         ofMatrix4x4 newCameraTransform = camera.getLocalTransformMatrix();
         ofVec3f currTranslation = newCameraTransform.getTranslation();
         ofVec3f targetTranslation = targetCameraMatrix.getTranslation();
@@ -233,6 +240,9 @@ void paperScene::update()
         newCameraTransform.setTranslation(currTranslation);
         newCameraTransform.setRotate(ofQuaternion(currRotation));
         camera.setTransformMatrix(newCameraTransform);
+        
+//        
+//        camera.rotate(ofGetMouse, 1,0,0);
     }
 
     pointLight.setPosition(0, groundSize * lightPos * 10, 0);
@@ -245,21 +255,40 @@ void paperScene::update()
     }
 }
 
+
+void paperScene::drawGui(){
+    
+    //ofViewport(ofRectangle(0,0,1024, 768));
+    
+    ofSetColor(255);
+    gui.draw();
+    
+    //ofViewport();
+    
+}
 //--------------------------------------------------------------
-void paperScene::draw()
-{
+void paperScene::draw(){
     
+    
+    
+    
+    //ofViewport(ofRectangle(0,0,768, 2048));
     //cameraLight.setPosition(camera.getPosition());
+    //cout << ofGetViewportWidth() << endl;
     
-    
+    ofSetColor(255,255,255);
     
     camera.begin();
-
+    
+    ofPushMatrix();
+    
+    ofTranslate(-5,-30);
+    
     glEnable(GL_DEPTH_TEST);
 //    glCullFace(GL_FRONT); 
 //    glEnable(GL_CULL_FACE);
     glDepthMask(GL_TRUE);
-    glDepthFunc(GL_GEQUAL);
+    glDepthFunc(GL_LEQUAL);
     
     if (drawLightToggle) {
         ofSetColor(pointLight.getDiffuseColor());
@@ -308,28 +337,30 @@ void paperScene::draw()
         ofPopStyle();
     }
 
+    ofPopMatrix();
     camera.end();
 
-    if (maskToggle) {
-        // mask out the edges to end up with a 3:8 ratio display (2 x 3:4)
-        int maskHeight = ofGetHeight();
-        int windowWidth = maskHeight * 3 / 8;
-        int maskWidth = (ofGetWidth() - windowWidth) / 2;
-
-        ofPushStyle();
-        ofSetColor(0);
-
-        ofRect(0, 0, maskWidth, maskHeight);
-        ofRect(ofGetWidth() - maskWidth, 0, maskWidth, maskHeight);
-
-        ofPopStyle();
-    }
+//    if (maskToggle) {
+//        // mask out the edges to end up with a 3:8 ratio display (2 x 3:4)
+//        int maskHeight = ofGetHeight();
+//        int windowWidth = maskHeight * 3 / 8;
+//        int maskWidth = (ofGetWidth() - windowWidth) / 2;
+//
+//        ofPushStyle();
+//        ofSetColor(0);
+//
+//        ofRect(0, 0, maskWidth, maskHeight);
+//        ofRect(ofGetWidth() - maskWidth, 0, maskWidth, maskHeight);
+//
+//        ofPopStyle();
+//    }
 
     glDisable(GL_DEPTH_TEST);
 
+    
+    //ofViewport(0,0,ofGetWidth(), ofGetHeight());
     // draw the controls
-    ofSetColor(255);
-    gui.draw();
+    
     //ofDrawBitmapString(ofToString(ofGetFrameRate(), 2) + " fps", ofGetWidth() - 50, ofGetHeight() - 10);
 }
 

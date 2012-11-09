@@ -48,7 +48,7 @@ class mtl2dMapping {
     
         void chessBoard(int nbOfCol = 10);
 
-    private:
+    //private:
         ofFbo _fbo;
         ofxXmlSettings _shapesListXML;
         list<mtl2dMappingShape*> _pmShapes;

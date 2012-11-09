@@ -15,6 +15,9 @@ class baseScene {
 	virtual void update(){};
 	virtual void draw(){};
     virtual void clear(){};
+    
+    virtual void drawGui(){};
+    
 	
     analysisResults * results;
     
