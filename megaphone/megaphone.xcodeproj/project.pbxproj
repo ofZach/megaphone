@@ -43,6 +43,7 @@
 		11ADB21D164C1EB80058EF98 /* ofxPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 11ADB214164C1EB80058EF98 /* ofxPanel.cpp */; };
 		11ADB21E164C1EB80058EF98 /* ofxSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 11ADB216164C1EB80058EF98 /* ofxSlider.cpp */; };
 		11ADB21F164C1EB80058EF98 /* ofxToggle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 11ADB218164C1EB80058EF98 /* ofxToggle.cpp */; };
+		11ADB224164C6E2D0058EF98 /* ofxMSAInteractiveObjectMod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 11ADB222164C6E2D0058EF98 /* ofxMSAInteractiveObjectMod.cpp */; };
 		5a4349e9754d6fa14c0f2a3a1abc30b6 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = fc5da1c87211d4f6377da7199d8c5a1e /* tinyxmlparser.cpp */; };
 		63b57ac5bf4ef088491e0317dbb2ecaa /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50df87d612c5aae17aafa6c02c6bc570 /* ofxXmlSettings.cpp */; };
 		933a2227713c720ceff80fd967d0a8ee /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2b40eda85beb63e46785bc299a638898 /* tinyxml.cpp */; };
@@ -257,6 +258,8 @@
 		11ADB217164C1EB80058EF98 /* ofxSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxSlider.h; sourceTree = "<group>"; };
 		11ADB218164C1EB80058EF98 /* ofxToggle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxToggle.cpp; sourceTree = "<group>"; };
 		11ADB219164C1EB80058EF98 /* ofxToggle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxToggle.h; sourceTree = "<group>"; };
+		11ADB222164C6E2D0058EF98 /* ofxMSAInteractiveObjectMod.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxMSAInteractiveObjectMod.cpp; sourceTree = "<group>"; };
+		11ADB223164C6E2D0058EF98 /* ofxMSAInteractiveObjectMod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxMSAInteractiveObjectMod.h; sourceTree = "<group>"; };
 		2b40eda85beb63e46785bc299a638898 /* tinyxml.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = tinyxml.cpp; path = ../../../addons/ofxXmlSettings/libs/tinyxml.cpp; sourceTree = SOURCE_ROOT; };
 		50df87d612c5aae17aafa6c02c6bc570 /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxXmlSettings.cpp; path = ../../../addons/ofxXmlSettings/src/ofxXmlSettings.cpp; sourceTree = SOURCE_ROOT; };
 		832bdc407620cdba568b713d2252c43c /* tinyxmlerror.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = tinyxmlerror.cpp; path = ../../../addons/ofxXmlSettings/libs/tinyxmlerror.cpp; sourceTree = SOURCE_ROOT; };
@@ -366,6 +369,7 @@
 		1177FA91164AA45500713505 /* rendering */ = {
 			isa = PBXGroup;
 			children = (
+				11ADB221164C6E2D0058EF98 /* modifiedMSA */,
 				1177FA9A164AA9EC00713505 /* mtl2dMapping */,
 				1177FAB1164AA9EC00713505 /* mtlUtils */,
 				1177FA99164AA5B100713505 /* buildingPreview.h */,
@@ -719,6 +723,16 @@
 			path = src;
 			sourceTree = "<group>";
 		};
+		11ADB221164C6E2D0058EF98 /* modifiedMSA */ = {
+			isa = PBXGroup;
+			children = (
+				11ADB222164C6E2D0058EF98 /* ofxMSAInteractiveObjectMod.cpp */,
+				11ADB223164C6E2D0058EF98 /* ofxMSAInteractiveObjectMod.h */,
+			);
+			name = modifiedMSA;
+			path = rendering/modifiedMSA;
+			sourceTree = "<group>";
+		};
 		1f4fb5c423662b96adfdcc0badec1cb0 /* ofxXmlSettings */ = {
 			isa = PBXGroup;
 			children = (
@@ -968,6 +982,7 @@
 				11ADB21D164C1EB80058EF98 /* ofxPanel.cpp in Sources */,
 				11ADB21E164C1EB80058EF98 /* ofxSlider.cpp in Sources */,
 				11ADB21F164C1EB80058EF98 /* ofxToggle.cpp in Sources */,
+				11ADB224164C6E2D0058EF98 /* ofxMSAInteractiveObjectMod.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
