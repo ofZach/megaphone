@@ -17,6 +17,7 @@ extern float twirlAmount;
 extern float tiltAmount;
 extern float flipAmount;
 extern float swayAmount;
+extern float alignAmount;
 extern ofxToggle bendTail;
 extern ofxToggle bendWings;
 extern ofxToggle bendFresh;
@@ -50,6 +51,7 @@ class Page
         static int sharedLastFlipFrame;
         float localFlipAngle;
         float flipAngle;
+        float flipSpeed;
 
         float animateOffset;
         float animateCounter;
@@ -62,7 +64,12 @@ class Page
         ofPoint rainSpeed;
         float tornadoAngle;
         ofPoint tornadoOffset;
-
+        ofPoint alignPivot;
+    
+        
+    
+        float alignAngle;
+        
         float rotInc;
         float twirlAngle;
         float tiltAngle;
