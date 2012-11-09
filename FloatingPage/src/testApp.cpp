@@ -51,7 +51,7 @@ void testApp::setup()
 
     addPages(1);
 
-    gui.setup("Controls");
+    gui.setup("Controls", "settings/paperSettings.xml");
     gui.add(drawGroundToggle.setup("draw ground", true));
     gui.add(fillGroundToggle.setup("fill ground", true));
     gui.add(drawAxesToggle.setup("draw axes", false));
@@ -97,6 +97,8 @@ void testApp::setup()
     addTenButton.addListener(this, &testApp::addTenButtonPressed);
     clearButton.addListener(this, &testApp::clearButtonPressed);
     addToggleListeners();
+
+    gui.loadFromFile("settings/paperSettings.xml");
 }
 
 //--------------------------------------------------------------

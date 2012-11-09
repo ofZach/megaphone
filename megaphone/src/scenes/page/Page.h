@@ -13,6 +13,7 @@
 
 extern ofxToggle debugMesh;
 extern float offsetAmount;
+extern float alignAmount;
 extern float twirlAmount;
 extern float tiltAmount;
 extern float flipAmount;
@@ -33,6 +34,16 @@ static int apex = 200;
 
 //--------------------------------------------------------------
 //--------------------------------------------------------------
+enum PageOverwriteMode
+{
+    PageOverwriteNone,
+    PageOverwriteFirst,
+    PageOverwriteLast,
+    PageOverwriteAll
+};
+
+//--------------------------------------------------------------
+//--------------------------------------------------------------
 class Page
 {
     public:
@@ -41,7 +52,7 @@ class Page
         void rebuild();
         void rebuild(float bendPct);
         void rebuild(float bendTopPct, float bendBottomPct);
-        void remesh();
+        void remesh(enum PageOverwriteMode mode);
 
         void update();
         void draw();
@@ -53,6 +64,9 @@ class Page
 
         float animateOffset;
         float animateCounter;
+
+        float alignAngle;
+        ofPoint alignPivot;
 
         bool bGoingUp;
         float posInc;

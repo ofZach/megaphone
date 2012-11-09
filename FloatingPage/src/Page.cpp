@@ -148,9 +148,19 @@ void Page::remesh()
         ofVec3f ac = c - a;
 
         ofVec3f n = ab.cross(ac).normalized();  // gotta flip it, guess i'm winding backwards...
-        mesh.setNormal(mesh.getIndex(i + 0), n);
-        mesh.setNormal(mesh.getIndex(i + 1), n);
-        mesh.setNormal(mesh.getIndex(i + 2), n);
+
+        if (i < mesh.getNumVertices() / 2) {
+            // overwrite the first half of the normals
+            mesh.setNormal(mesh.getIndex(i + 0), n);
+            mesh.setNormal(mesh.getIndex(i + 1), n);
+            mesh.setNormal(mesh.getIndex(i + 2), n);
+        }
+        else {
+            // don't overwrite the second half
+            if (mesh.getNormal(mesh.getIndex(i + 0)).length() == 0) mesh.setNormal(mesh.getIndex(i + 0), n);
+            if (mesh.getNormal(mesh.getIndex(i + 1)).length() == 0) mesh.setNormal(mesh.getIndex(i + 1), n);
+            if (mesh.getNormal(mesh.getIndex(i + 2)).length() == 0) mesh.setNormal(mesh.getIndex(i + 2), n);
+        }
     }
 }
 
