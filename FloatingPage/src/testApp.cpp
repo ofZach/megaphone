@@ -175,7 +175,7 @@ void testApp::update()
         camera.setTransformMatrix(newCameraTransform);
     }
 
-    pointLight.setPosition(0, groundSize * lightPos, 0);
+    pointLight.setPosition(0, groundSize * lightPos * 10, 0);
 
     for (int i = 0; i < pages.size(); i++) {
         pages[i]->update();
@@ -199,6 +199,8 @@ void testApp::draw()
         ofEnableLighting();
         pointLight.enable();
         material.begin();
+        
+        glLightModeli(GL_LIGHT_MODEL_TWO_SIDE,1);
     }
 
     if (drawGroundToggle) {

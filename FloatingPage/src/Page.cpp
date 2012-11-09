@@ -147,7 +147,7 @@ void Page::remesh()
         ofVec3f ab = b - a;
         ofVec3f ac = c - a;
 
-        ofVec3f n = ab.cross(ac).normalized() * -1;  // gotta flip it, guess i'm winding backwards...
+        ofVec3f n = ab.cross(ac).normalized();  // gotta flip it, guess i'm winding backwards...
         mesh.setNormal(mesh.getIndex(i + 0), n);
         mesh.setNormal(mesh.getIndex(i + 1), n);
         mesh.setNormal(mesh.getIndex(i + 2), n);
