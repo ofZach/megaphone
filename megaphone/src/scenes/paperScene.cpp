@@ -73,7 +73,7 @@ void paperScene::setup(){
     gui.add(debugMesh.setup("debug mesh", false));
     gui.add(spacerLabel.setup("spacer", ""));
     gui.add(offsetAmountTarget.setup("offset", 0, 0, 1));
-    gui.add(alignAmountTarget.setup("align", 0, 0, 1));
+    //gui.add(alignAmountTarget.setup("align", 0, 0, 1));
     gui.add(spacerLabel.setup("spacer", ""));
 	gui.add(twirlAmountTarget.setup("twirl", 0.1, 0, 1));
 	gui.add(tiltAmountTarget.setup("tilt", 0, 0, 1));
@@ -161,6 +161,9 @@ void paperScene::update()
     //flipAmountTarget = (results->fftOctaves[15] * 0.2) * rmsSmooth;
     
     
+    pointLight.setAmbientColor(ofColor(100 + 155*(1-rmsSmooth),100 + 155*(1-rmsSmooth),100 + 155*(1-rmsSmooth)));
+    
+    
     tornadoAmountTarget = rmsSmooth;
     
     
@@ -180,8 +183,8 @@ void paperScene::update()
     offsetAmount = ofLerp(offsetAmount, offsetAmountTarget, lerpRatio);
     if (ABS(offsetAmountTarget - offsetAmount) < 0.01) offsetAmount = offsetAmountTarget;
 
-    alignAmount = ofLerp(alignAmount, alignAmountTarget, lerpRatio);
-    if (ABS(alignAmountTarget - alignAmount) < 0.01) alignAmount = alignAmountTarget;
+    //alignAmount = ofLerp(alignAmount, alignAmountTarget, lerpRatio);
+    //if (ABS(alignAmountTarget - alignAmount) < 0.01) alignAmount = alignAmountTarget;
 
     twirlAmount = ofLerp(twirlAmount, twirlAmountTarget, lerpRatio);
     if (ABS(twirlAmountTarget - twirlAmount) < 0.01) twirlAmount = twirlAmountTarget;
@@ -244,8 +247,11 @@ void paperScene::draw()
     camera.begin();
 
     glEnable(GL_DEPTH_TEST);
+//    glCullFace(GL_FRONT); 
+//    glEnable(GL_CULL_FACE);
     glDepthMask(GL_TRUE);
-
+    glDepthFunc(GL_GEQUAL);
+    
     if (drawLightToggle) {
         ofSetColor(pointLight.getDiffuseColor());
         ofSphere(pointLight.getPosition(), 10.f);
@@ -315,7 +321,7 @@ void paperScene::draw()
     // draw the controls
     ofSetColor(255);
     gui.draw();
-    ofDrawBitmapString(ofToString(ofGetFrameRate(), 2) + " fps", ofGetWidth() - 50, ofGetHeight() - 10);
+    //ofDrawBitmapString(ofToString(ofGetFrameRate(), 2) + " fps", ofGetWidth() - 50, ofGetHeight() - 10);
 }
 
 //--------------------------------------------------------------

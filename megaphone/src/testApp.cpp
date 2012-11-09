@@ -21,7 +21,7 @@ void testApp::setup(){
     for (int i = 0; i < scenes.size(); i++){
         scenes[i]->results = &AM.results;
     }
-    //scenes[0]->setup();   
+    scenes[0]->setup();   
     bDrawAudioManager = false;
 
     
@@ -83,7 +83,7 @@ void testApp::update(){
     
     
     ofClear(0,0,0,255);
-    //scenes[0]->update();
+    scenes[0]->update();
     
     _mapping->update();
 
@@ -99,11 +99,11 @@ void testApp::draw(){
     
     if (bDrawAudioManager) AM.draw();
     
-    //scenes[0]->draw(); 
+    scenes[0]->draw(); 
     //ofBackground(127,127,127);
 
     
-        
+    /*
     ofSetBackgroundAuto(false);
   
     //call blender.begin() to draw onto the blendable canvas
@@ -209,7 +209,7 @@ void testApp::draw(){
     ofDrawBitmapString("'m' open the mapping controls.\n", 20, 20);
     
     ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), ofGetWidth()-100, 100);
-    
+    */
 
     ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), ofGetWidth()-100, 100);
 

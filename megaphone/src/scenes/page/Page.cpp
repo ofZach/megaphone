@@ -10,7 +10,6 @@
 
 ofxToggle debugMesh;
 float offsetAmount;
-float alignAmount;
 float twirlAmount;
 float tiltAmount;
 float flipAmount;
@@ -32,8 +31,6 @@ int Page::sharedLastFlipFrame = 0;
 Page::Page()
 {
     animateOffset = ofRandom(50);
-
-    alignAngle = ofRandom(M_TWO_PI);
 
     bGoingUp = true;
     startPos.set(0, 20, 0);
@@ -70,11 +67,11 @@ void Page::rebuild()
     path.clear();
 
     path.moveTo(ofPoint(-pageSize, 0, -pageSize));
-    path.lineTo(ofPoint(-pageSize, 0,  pageSize));
-    path.lineTo(ofPoint( pageSize, 0,  pageSize));
     path.lineTo(ofPoint( pageSize, 0, -pageSize));
+    path.lineTo(ofPoint( pageSize, 0,  pageSize));
+    path.lineTo(ofPoint(-pageSize, 0,  pageSize));
 
-    remesh(PageOverwriteNone);
+    remesh();
 }
 
 //--------------------------------------------------------------
@@ -86,14 +83,14 @@ void Page::rebuild(float bendPct)
     float bendZ = ABS(pageSize * bendPct * 2);
 
     path.moveTo(ofPoint(-pageSize, 0, -pageSize));
-    path.lineTo(ofPoint(-pageSize, 0, pageSize - bendZ));
-    path.bezierTo(ofPoint(-pageSize, 0, pageSize - bendZ * 0.5), ofPoint(-pageSize, bendY * 0.5, pageSize), ofPoint(-pageSize, bendY, pageSize));
-    path.lineTo(ofPoint(pageSize, bendY, pageSize));
-    path.bezierTo(ofPoint(pageSize, bendY * 0.5, pageSize), ofPoint(pageSize, 0, pageSize - bendZ * 0.5), ofPoint(pageSize, 0, pageSize - bendZ));
     path.lineTo(ofPoint(pageSize, 0, -pageSize));
+    path.lineTo(ofPoint(pageSize, 0, pageSize - bendZ));
+    path.bezierTo(ofPoint(pageSize, 0, pageSize - bendZ * 0.5), ofPoint(pageSize, bendY * 0.5, pageSize), ofPoint(pageSize, bendY, pageSize));
+    path.lineTo(ofPoint(-pageSize, bendY, pageSize));
+    path.bezierTo(ofPoint(-pageSize, bendY * 0.5, pageSize), ofPoint(-pageSize, 0, pageSize - bendZ * 0.5), ofPoint(-pageSize, 0, pageSize - bendZ));
     path.lineTo(ofPoint(-pageSize, 0, -pageSize));
 
-    remesh(PageOverwriteAll);
+    remesh();
 }
 
 //--------------------------------------------------------------
@@ -110,28 +107,29 @@ void Page::rebuild(float bendTopPct, float bendBottomPct)
     float bendBottomZ = pageSize * (1 - ABS(bendBottomPct) * 0.5);
 
     path.moveTo(ofPoint(-pageSize, bendTopY, bendTopZ));
+    path.lineTo(ofPoint(pageSize, bendTopY, bendTopZ));
 
-    path.bezierTo(ofPoint(-pageSize, bendTopY * 0.5, bendTopZ),
-                  ofPoint(-pageSize, 0, bendTopZ * 0.5),
-                  ofPoint(-pageSize, 0, 0));
-    path.bezierTo(ofPoint(-pageSize, 0, bendBottomZ * 0.5),
-                  ofPoint(-pageSize, bendBottomY * 0.5, bendBottomZ),
-                  ofPoint(-pageSize, bendBottomY, bendBottomZ));
-
-    path.lineTo(ofPoint(pageSize, bendBottomY, bendBottomZ));
-
-    path.bezierTo(ofPoint(pageSize, bendBottomY * 0.5, bendBottomZ),
-                  ofPoint(pageSize, 0, bendBottomZ * 0.5),
+    path.bezierTo(ofPoint(pageSize, bendTopY * 0.5, bendTopZ),
+                  ofPoint(pageSize, 0, bendTopZ * 0.5),
                   ofPoint(pageSize, 0, 0));
-    path.bezierTo(ofPoint(pageSize, 0, bendTopZ * 0.5),
-                  ofPoint(pageSize, bendTopY * 0.5, bendTopZ),
-                  ofPoint(pageSize, bendTopY, bendTopZ));
+    path.bezierTo(ofPoint(pageSize, 0, bendBottomZ * 0.5),
+                  ofPoint(pageSize, bendBottomY * 0.5, bendBottomZ),
+                  ofPoint(pageSize, bendBottomY, bendBottomZ));
 
-    remesh(PageOverwriteFirst);
+    path.lineTo(ofPoint(-pageSize, bendBottomY, bendBottomZ));
+
+    path.bezierTo(ofPoint(-pageSize, bendBottomY * 0.5, bendBottomZ),
+                  ofPoint(-pageSize, 0, bendBottomZ * 0.5),
+                  ofPoint(-pageSize, 0, 0));
+    path.bezierTo(ofPoint(-pageSize, 0, bendTopZ * 0.5),
+                  ofPoint(-pageSize, bendTopY * 0.5, bendTopZ),
+                  ofPoint(-pageSize, bendTopY, bendTopZ));
+
+    remesh();
 }
 
 //--------------------------------------------------------------
-void Page::remesh(enum PageOverwriteMode mode)
+void Page::remesh()
 {
     mesh = path.getTessellation();
 
@@ -150,16 +148,15 @@ void Page::remesh(enum PageOverwriteMode mode)
         ofVec3f ac = c - a;
 
         ofVec3f n = ab.cross(ac).normalized();  // gotta flip it, guess i'm winding backwards...
-        if ((mode == PageOverwriteAll) ||
-            (i < mesh.getNumVertices() / 2 && mode == PageOverwriteFirst) ||
-            (i > mesh.getNumVertices() / 2 && mode == PageOverwriteLast)) {
-            // overwrite the normals
+
+        if (i < mesh.getNumVertices() / 2) {
+            // overwrite the first half of the normals
             mesh.setNormal(mesh.getIndex(i + 0), n);
             mesh.setNormal(mesh.getIndex(i + 1), n);
             mesh.setNormal(mesh.getIndex(i + 2), n);
         }
         else {
-            // don't overwrite the normals
+            // don't overwrite the second half
             if (mesh.getNormal(mesh.getIndex(i + 0)).length() == 0) mesh.setNormal(mesh.getIndex(i + 0), n);
             if (mesh.getNormal(mesh.getIndex(i + 1)).length() == 0) mesh.setNormal(mesh.getIndex(i + 1), n);
             if (mesh.getNormal(mesh.getIndex(i + 2)).length() == 0) mesh.setNormal(mesh.getIndex(i + 2), n);
@@ -170,7 +167,7 @@ void Page::remesh(enum PageOverwriteMode mode)
 //--------------------------------------------------------------
 void Page::update()
 {
-    animateCounter = (ofGetElapsedTimef() * 30.0) + animateOffset * offsetAmount;
+    animateCounter = ofGetFrameNum() + animateOffset * offsetAmount;
 
     rotInc = sin(animateCounter * 0.1);
 
@@ -225,11 +222,9 @@ void Page::update()
         bottomBendPct = -rotInc * 2 * bottomBendAmount;
     }
 
-    ofVec3f posFromCenter(pos.x, 0, pos.z);
-    alignPivot = posFromCenter;
-
     if (tornadoAmount > 0) {
         float tornadoRadius = MIN(pos.y, groundSize);
+        ofVec3f posFromCenter(pos.x, 0, pos.z);
         float distFromCenter = posFromCenter.length();
         if ((int)distFromCenter < 1) {
             // move away from the center
@@ -285,6 +280,7 @@ void Page::update()
 //--------------------------------------------------------------
 void Page::draw()
 {
+    //
     ofPushMatrix();
 
     ofPoint currPos;
@@ -309,9 +305,6 @@ void Page::draw()
 
     // tilt
     ofRotate(RAD_TO_DEG * tiltAngle, 1, 0, 1);
-
-    // axis
-    ofRotate(RAD_TO_DEG * alignAngle * alignAmount, alignPivot.x, alignPivot.y, alignPivot.z);
 
     if (debugMesh) {
         ofSetColor(255);
