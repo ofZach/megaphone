@@ -7,9 +7,9 @@
 #include "audioSampleLoader.h"
 #include "ofxProjectorBlend.h"
 #include "mtl2dMapping.h"
+#include "ControlsMapping.h"
 
-
-#define PIXEL_OVERLAP 40
+#define PIXEL_OVERLAP 30
 #define PROJECTOR_COUNT 2
 #define PROJECTOR_WIDTH 1024
 #define PROJECTOR_HEIGHT 768

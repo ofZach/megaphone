@@ -12,11 +12,11 @@
 #include "ofVec2f.h"
 
 //MSA Libs
-#include "ofxMSAInteractiveObject.h"
+#include "ofxMSAInteractiveObjectMod.h"
 
 //--------------------------------------------------------------
 //--------------------------------------------------------------
-class mtl2dMappingVertex : public ofxMSAInteractiveObject {
+class mtl2dMappingVertex : public ofxMSAInteractiveObjectMod {
 	
 public:
     
