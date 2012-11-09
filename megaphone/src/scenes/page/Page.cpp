@@ -257,6 +257,9 @@ void Page::update()
             ofPoint center(0, pos.y, 0);
             tornadoOffset = pos.getPerpendicular(center);
             tornadoOffset.normalize();
+            if (speedAmount < 0) {
+                tornadoOffset *= -1;
+            }
             tornadoOffset *= (pos.y * 0.1);
 
             if (bGoingUp) {
@@ -276,7 +279,7 @@ void Page::update()
             }
 
             tornadoOffset.y *= liftAmount;
-            pos += tornadoOffset * speedAmount;
+            pos += tornadoOffset * ABS(speedAmount);
             
             ofVec3f newPosFromCenter(pos.x, 0, pos.z);
             float newDistFromCenter = newPosFromCenter.length();
