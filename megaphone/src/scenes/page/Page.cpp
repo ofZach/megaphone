@@ -70,11 +70,11 @@ void Page::rebuild()
     path.clear();
 
     path.moveTo(ofPoint(-pageSize, 0, -pageSize));
-    path.lineTo(ofPoint( pageSize, 0, -pageSize));
-    path.lineTo(ofPoint( pageSize, 0,  pageSize));
     path.lineTo(ofPoint(-pageSize, 0,  pageSize));
+    path.lineTo(ofPoint( pageSize, 0,  pageSize));
+    path.lineTo(ofPoint( pageSize, 0, -pageSize));
 
-    remesh();
+    remesh(PageOverwriteNone);
 }
 
 //--------------------------------------------------------------
@@ -86,14 +86,14 @@ void Page::rebuild(float bendPct)
     float bendZ = ABS(pageSize * bendPct * 2);
 
     path.moveTo(ofPoint(-pageSize, 0, -pageSize));
+    path.lineTo(ofPoint(-pageSize, 0, pageSize - bendZ));
+    path.bezierTo(ofPoint(-pageSize, 0, pageSize - bendZ * 0.5), ofPoint(-pageSize, bendY * 0.5, pageSize), ofPoint(-pageSize, bendY, pageSize));
+    path.lineTo(ofPoint(pageSize, bendY, pageSize));
+    path.bezierTo(ofPoint(pageSize, bendY * 0.5, pageSize), ofPoint(pageSize, 0, pageSize - bendZ * 0.5), ofPoint(pageSize, 0, pageSize - bendZ));
     path.lineTo(ofPoint(pageSize, 0, -pageSize));
-    path.lineTo(ofPoint(pageSize, 0, pageSize - bendZ));
-    path.bezierTo(ofPoint(pageSize, 0, pageSize - bendZ * 0.5), ofPoint(pageSize, bendY * 0.5, pageSize), ofPoint(pageSize, bendY, pageSize));
-    path.lineTo(ofPoint(-pageSize, bendY, pageSize));
-    path.bezierTo(ofPoint(-pageSize, bendY * 0.5, pageSize), ofPoint(-pageSize, 0, pageSize - bendZ * 0.5), ofPoint(-pageSize, 0, pageSize - bendZ));
     path.lineTo(ofPoint(-pageSize, 0, -pageSize));
 
-    remesh();
+    remesh(PageOverwriteAll);
 }
 
 //--------------------------------------------------------------
@@ -110,29 +110,28 @@ void Page::rebuild(float bendTopPct, float bendBottomPct)
     float bendBottomZ = pageSize * (1 - ABS(bendBottomPct) * 0.5);
 
     path.moveTo(ofPoint(-pageSize, bendTopY, bendTopZ));
-    path.lineTo(ofPoint(pageSize, bendTopY, bendTopZ));
 
-    path.bezierTo(ofPoint(pageSize, bendTopY * 0.5, bendTopZ),
-                  ofPoint(pageSize, 0, bendTopZ * 0.5),
-                  ofPoint(pageSize, 0, 0));
-    path.bezierTo(ofPoint(pageSize, 0, bendBottomZ * 0.5),
-                  ofPoint(pageSize, bendBottomY * 0.5, bendBottomZ),
-                  ofPoint(pageSize, bendBottomY, bendBottomZ));
-
-    path.lineTo(ofPoint(-pageSize, bendBottomY, bendBottomZ));
-
-    path.bezierTo(ofPoint(-pageSize, bendBottomY * 0.5, bendBottomZ),
-                  ofPoint(-pageSize, 0, bendBottomZ * 0.5),
+    path.bezierTo(ofPoint(-pageSize, bendTopY * 0.5, bendTopZ),
+                  ofPoint(-pageSize, 0, bendTopZ * 0.5),
                   ofPoint(-pageSize, 0, 0));
-    path.bezierTo(ofPoint(-pageSize, 0, bendTopZ * 0.5),
-                  ofPoint(-pageSize, bendTopY * 0.5, bendTopZ),
-                  ofPoint(-pageSize, bendTopY, bendTopZ));
+    path.bezierTo(ofPoint(-pageSize, 0, bendBottomZ * 0.5),
+                  ofPoint(-pageSize, bendBottomY * 0.5, bendBottomZ),
+                  ofPoint(-pageSize, bendBottomY, bendBottomZ));
 
-    remesh();
+    path.lineTo(ofPoint(pageSize, bendBottomY, bendBottomZ));
+
+    path.bezierTo(ofPoint(pageSize, bendBottomY * 0.5, bendBottomZ),
+                  ofPoint(pageSize, 0, bendBottomZ * 0.5),
+                  ofPoint(pageSize, 0, 0));
+    path.bezierTo(ofPoint(pageSize, 0, bendTopZ * 0.5),
+                  ofPoint(pageSize, bendTopY * 0.5, bendTopZ),
+                  ofPoint(pageSize, bendTopY, bendTopZ));
+
+    remesh(PageOverwriteFirst);
 }
 
 //--------------------------------------------------------------
-void Page::remesh()
+void Page::remesh(enum PageOverwriteMode mode)
 {
     mesh = path.getTessellation();
 
@@ -151,17 +150,16 @@ void Page::remesh()
         ofVec3f ac = c - a;
 
         ofVec3f n = ab.cross(ac).normalized();  // gotta flip it, guess i'm winding backwards...
-//        mesh.setNormal(mesh.getIndex(i + 0), n);
-//        mesh.setNormal(mesh.getIndex(i + 1), n);
-//        mesh.setNormal(mesh.getIndex(i + 2), n);
-        if (i < mesh.getNumVertices() / 2) {
-            // overwrite the first half of the normals
+        if ((mode == PageOverwriteAll) ||
+            (i < mesh.getNumVertices() / 2 && mode == PageOverwriteFirst) ||
+            (i > mesh.getNumVertices() / 2 && mode == PageOverwriteLast)) {
+            // overwrite the normals
             mesh.setNormal(mesh.getIndex(i + 0), n);
             mesh.setNormal(mesh.getIndex(i + 1), n);
             mesh.setNormal(mesh.getIndex(i + 2), n);
         }
         else {
-            // don't overwrite the second half
+            // don't overwrite the normals
             if (mesh.getNormal(mesh.getIndex(i + 0)).length() == 0) mesh.setNormal(mesh.getIndex(i + 0), n);
             if (mesh.getNormal(mesh.getIndex(i + 1)).length() == 0) mesh.setNormal(mesh.getIndex(i + 1), n);
             if (mesh.getNormal(mesh.getIndex(i + 2)).length() == 0) mesh.setNormal(mesh.getIndex(i + 2), n);
