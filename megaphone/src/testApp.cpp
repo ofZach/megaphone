@@ -1,6 +1,7 @@
 #include "testApp.h"
 #include "paperScene.h"
 
+
 //--------------------------------------------------------------
 void testApp::setup(){
     
@@ -20,7 +21,7 @@ void testApp::setup(){
     for (int i = 0; i < scenes.size(); i++){
         scenes[i]->results = &AM.results;
     }
-    scenes[0]->setup();   
+    //scenes[0]->setup();   
     bDrawAudioManager = false;
 
     
@@ -41,13 +42,14 @@ void testApp::setup(){
     
     //---------------------------------------------------
     blender.setup(PROJECTOR_WIDTH, PROJECTOR_HEIGHT, PROJECTOR_COUNT, PIXEL_OVERLAP);
-	blender.gamma = .5;
+	blender.gamma = 2.45;
+    blender.gamma2 = 2.45;
 	blender.blendPower = 1;
 	blender.luminance = 0;
     
     
     _mapping = new mtl2dMapping();
-    _mapping->init(ofGetWidth(), ofGetHeight());
+    _mapping->init(blender.getDisplayWidth(), blender.getDisplayHeight());
     
     
 }
@@ -81,7 +83,7 @@ void testApp::update(){
     
     
     ofClear(0,0,0,255);
-    scenes[0]->update();
+    //scenes[0]->update();
     
     _mapping->update();
 
@@ -97,38 +99,49 @@ void testApp::draw(){
     
     if (bDrawAudioManager) AM.draw();
     
-    scenes[0]->draw(); 
+    //scenes[0]->draw(); 
     //ofBackground(127,127,127);
 
     
-   
-    /*
+        
+    ofSetBackgroundAuto(false);
+  
     //call blender.begin() to draw onto the blendable canvas
 	blender.begin();
-	
+	ofClear(0,0,0,255);
 	//light gray backaground
-	ofSetColor(100, 100, 100);
-	ofRect(0, 0, blender.getCanvasWidth(), blender.getCanvasHeight());
+	ofSetColor(0, 0, 0);
+	//ofRect(0, 0, blender.getCanvasWidth(), blender.getCanvasHeight());
 	
 	//thick grid lines for blending
 	ofSetColor(255, 255, 255);
 	ofSetLineWidth(3);
 	
 	//vertical line
-	for(int i = 0; i <= blender.getCanvasWidth(); i+=40){
+	for(int i = 0; i <= blender.getCanvasWidth(); i+=30){
 		ofLine(i, 0, i, blender.getCanvasHeight());
 	}
 	
 	//horizontal lines
-	for(int j = 0; j <= blender.getCanvasHeight(); j+=40){
+	for(int j = 0; j <= blender.getCanvasHeight(); j+= 30){
 		ofLine(0, j, blender.getCanvasWidth(), j);		
 	}
 	
-	//instructions
-	ofSetColor(255, 255, 255);
-	ofRect(10, 10, 300, 100);
-	ofSetColor(0, 0, 0);
-	ofDrawBitmapString("SPACE - toggle show blend\n[g/G] - adjust gamma\n[p/P] - adjust blend power\n[l/L] adjust luminance", 15, 35);
+//	//instructions
+//	ofSetColor(255, 255, 255);
+//	ofRect(10, 10, 300, 100);
+//	ofSetColor(0, 0, 0);
+//	ofDrawBitmapString("SPACE - toggle show blend\n[g/G] - adjust gamma\n[p/P] - adjust blend power\n[l/L] adjust luminance", 15, 35);
+    
+    
+    float scale = 2048.0f / 1024.0;
+    ofPushMatrix();
+    ofScale(scale, scale);
+    _mapping->drawOutput();
+    ofPopMatrix();
+
+    ofSetColor(255,255,255);
+    //_mapping->drawFbo();
 	
 	//call when you are finished drawing
 	blender.end();
@@ -136,34 +149,69 @@ void testApp::draw(){
 	//this draws to the main window
     
     ofPushMatrix();
-    float scale = ofGetWidth() / 2048.0f;
+    
+    
+    scale = 1024.0  / 2048.0f;
+    
     ofScale(scale, scale);
 	blender.draw();
     ofPopMatrix();
     
-    */
     
-//    
-//    // ----
-//    _mapping->bind();
-//    
-//    // draw a test pattern
-//    _mapping->chessBoard( ofGetWidth() / 100);
-//    
-//    _mapping->unbind();
-//    
-//    
-//    //-------- mapping of the towers/shapes
-//    _mapping->draw();
-//    //_mapping->drawFbo();
-//    
-//    
-//    // Draw some instructions.
-//    ofSetColor(0);
-//    ofDrawBitmapString("'m' open the mapping controls.\n", 20, 20);
-//    
-//    ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), ofGetWidth()-100, 100);
+    ofPushMatrix();
+    ofTranslate(1024, 0);
+    blender.draw();
+    ofPopMatrix();
     
+    
+    
+    // ----
+    _mapping->bind();
+    
+    // draw a test pattern
+    _mapping->chessBoard( ofGetWidth() / 20);
+    
+//    ofSetColor(0, 0, 0);
+//	ofRect(0, 0, blender.getCanvasWidth(), blender.getCanvasHeight());
+//	
+//	//thick grid lines for blending
+//	ofSetColor(255, 255, 255);
+//	ofSetLineWidth(3);
+    
+//    //vertical line
+//	for(int i = 0; i <= blender.getCanvasWidth(); i+= MAX(5, 40 + 20 * sin(ofGetElapsedTimef()/2.0))){
+//		ofLine(i, 0, i, blender.getCanvasHeight());
+//	}
+//	
+//	//horizontal lines
+//	for(int j = 0; j <= blender.getCanvasHeight(); j+=MAX(5, 40 + 20 * sin(ofGetElapsedTimef()/2.0))){
+//		ofLine(0, j, blender.getCanvasWidth(), j);		
+//	}
+    
+    
+    _mapping->unbind();
+    
+    if (ControlsMapping::controlsMapping()->mappingMode() == MAPPING_MODE_INPUT) {
+        ofPushMatrix();
+        ofScale(0.5, 0.5);
+    }
+    //-------- mapping of the towers/shapes
+    _mapping->draw();
+    //_mapping->drawFbo();
+    
+    if (ControlsMapping::controlsMapping()->mappingMode() == MAPPING_MODE_INPUT) {
+        ofPopMatrix();
+       
+    }
+    
+    // Draw some instructions.
+    ofSetColor(0);
+    ofDrawBitmapString("'m' open the mapping controls.\n", 20, 20);
+    
+    ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), ofGetWidth()-100, 100);
+    
+
+    ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), ofGetWidth()-100, 100);
 
 }
 
@@ -171,10 +219,10 @@ void testApp::draw(){
 void testApp::keyPressed(int key){
 
     
-    if (key == 'S'){
-        
-        ((paperScene *)scenes[0])->gui.saveToFile("settings/paperSettings.xml");
-    }
+//    if (key == 'S'){
+//        
+//        ((paperScene *)scenes[0])->gui.saveToFile("settings/paperSettings.xml");
+//    }
     
     
     _mapping->keyPressed(key);
@@ -229,6 +277,8 @@ void testApp::keyPressed(int key){
 	}
 
     
+    //cout << blender.gamma << endl;
+    
 }
 
 //--------------------------------------------------------------
@@ -236,26 +286,64 @@ void testApp::keyReleased(int key){
     
 }
 
+
+ofxMSAInteractiveObjectMod test;
 //--------------------------------------------------------------
 void testApp::mouseMoved(int x, int y ){
-
+    
+    
+    float scale = 1.0;
+    if (ControlsMapping::controlsMapping()->mappingMode() == MAPPING_MODE_INPUT) scale = 2.0;
+    
+    ofMouseEventArgs mouseEventArgs;
+    mouseEventArgs.x = x * scale;
+    mouseEventArgs.y = y * scale;
+    //mouseEventArgs.button = button;
+    ofNotifyEvent( mtlScaleOption::instance().ofEvents().mouseMoved, mouseEventArgs );
 }
 
+//
 //--------------------------------------------------------------
 void testApp::mouseDragged(int x, int y, int button){
 
+    float scale = 1.0;
+    if (ControlsMapping::controlsMapping()->mappingMode() == MAPPING_MODE_INPUT) scale = 2.0;
+    
     //blender.setup(PROJECTOR_WIDTH, PROJECTOR_HEIGHT, PROJECTOR_COUNT, x);
-	
+	ofMouseEventArgs mouseEventArgs;
+    mouseEventArgs.x = x * scale;
+    mouseEventArgs.y = y * scale;
+    mouseEventArgs.button = button;
+    ofNotifyEvent( mtlScaleOption::instance().ofEvents().mouseDragged, mouseEventArgs );
 }
 
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button){
-//_mapping->mousePressed(x, y, button);
+    //_mapping->mousePressed(x, y, button);
+    
+    float scale = 1.0;
+    if (ControlsMapping::controlsMapping()->mappingMode() == MAPPING_MODE_INPUT) scale = 2.0;
+    
+    // ok this is VERY ghetto: 
+    ofMouseEventArgs mouseEventArgs;
+    mouseEventArgs.x = x * scale;
+    mouseEventArgs.y = y * scale;
+    mouseEventArgs.button = button;
+    ofNotifyEvent( mtlScaleOption::instance().ofEvents().mousePressed, mouseEventArgs );
+    
 }
 
 //--------------------------------------------------------------
 void testApp::mouseReleased(int x, int y, int button){
-
+    
+    float scale = 1.0;
+    if (ControlsMapping::controlsMapping()->mappingMode() == MAPPING_MODE_INPUT) scale = 2.0;
+    
+    ofMouseEventArgs mouseEventArgs;
+    mouseEventArgs.x = x * scale;
+    mouseEventArgs.y = y * scale;
+    mouseEventArgs.button = button;
+    ofNotifyEvent( mtlScaleOption::instance().ofEvents().mouseReleased, mouseEventArgs );
 }
 
 //--------------------------------------------------------------

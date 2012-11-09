@@ -37,6 +37,11 @@ class mtl2dMapping {
         void unbind();
         void drawFbo();
         void draw();
+    
+    
+        void drawOutput();
+    
+    
 
         void mousePressed(int x, int y, int button);
         void keyPressed(int key);

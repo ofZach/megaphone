@@ -15,11 +15,14 @@
 #include "mtl2dMappingVertex.h"
 
 //MSA Libs
-#include "ofxMSAInteractiveObject.h"
+#include "ofxMSAInteractiveObjectMod.h"
+
+
+
 
 //--------------------------------------------------------------
 //--------------------------------------------------------------
-class mtl2dMappingPolygon : public ofxMSAInteractiveObject {
+class mtl2dMappingPolygon : public ofxMSAInteractiveObjectMod {
 	
     public:
     

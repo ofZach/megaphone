@@ -2,61 +2,31 @@
     <shape id="0">
         <setting key="type">quad</setting>
         <outputVertices>
-            <vertex x="662" y="142"></vertex>
-            <vertex x="864" y="104"></vertex>
-            <vertex x="856" y="615"></vertex>
-            <vertex x="653" y="565"></vertex>
+            <vertex x="76" y="371"></vertex>
+            <vertex x="90" y="45"></vertex>
+            <vertex x="518" y="-8"></vertex>
+            <vertex x="523" y="390"></vertex>
         </outputVertices>
         <inputPolygon>
-            <vertex x="63" y="20"></vertex>
-            <vertex x="342" y="80"></vertex>
-            <vertex x="386" y="462"></vertex>
-            <vertex x="80" y="667"></vertex>
+            <vertex x="88" y="731"></vertex>
+            <vertex x="98" y="26"></vertex>
+            <vertex x="970" y="22"></vertex>
+            <vertex x="968" y="724"></vertex>
         </inputPolygon>
     </shape>
     <shape id="1">
         <setting key="type">quad</setting>
         <outputVertices>
-            <vertex x="364" y="102"></vertex>
-            <vertex x="544" y="313"></vertex>
-            <vertex x="553" y="613"></vertex>
-            <vertex x="403" y="592"></vertex>
+            <vertex x="523" y="390"></vertex>
+            <vertex x="517" y="-7"></vertex>
+            <vertex x="880" y="-16"></vertex>
+            <vertex x="925" y="390"></vertex>
         </outputVertices>
         <inputPolygon>
-            <vertex x="392" y="81"></vertex>
-            <vertex x="503" y="86"></vertex>
-            <vertex x="520" y="466"></vertex>
-            <vertex x="393" y="465"></vertex>
-        </inputPolygon>
-    </shape>
-    <shape id="2">
-        <setting key="type">quad</setting>
-        <outputVertices>
-            <vertex x="576" y="108"></vertex>
-            <vertex x="663" y="92"></vertex>
-            <vertex x="647" y="604"></vertex>
-            <vertex x="565" y="572"></vertex>
-        </outputVertices>
-        <inputPolygon>
-            <vertex x="512" y="80"></vertex>
-            <vertex x="641" y="79"></vertex>
-            <vertex x="640" y="464"></vertex>
-            <vertex x="511" y="465"></vertex>
-        </inputPolygon>
-    </shape>
-    <shape id="3">
-        <setting key="type">quad</setting>
-        <outputVertices>
-            <vertex x="680" y="97"></vertex>
-            <vertex x="921" y="129"></vertex>
-            <vertex x="893" y="546"></vertex>
-            <vertex x="663" y="607"></vertex>
-        </outputVertices>
-        <inputPolygon>
-            <vertex x="640" y="80"></vertex>
-            <vertex x="896" y="80"></vertex>
-            <vertex x="897" y="467"></vertex>
-            <vertex x="640" y="464"></vertex>
+            <vertex x="966" y="728"></vertex>
+            <vertex x="968" y="24"></vertex>
+            <vertex x="1712" y="-4"></vertex>
+            <vertex x="1744" y="694"></vertex>
         </inputPolygon>
     </shape>
 </root>

@@ -111,6 +111,13 @@ void mtl2dMapping::update()
     }
 }
 
+
+void mtl2dMapping::drawOutput(){
+     render();
+}
+
+
+
 #pragma mark -
 #pragma mark Draw / Edit Mode
 //--------------------------------------------------------------
@@ -236,6 +243,9 @@ void mtl2dMapping::deleteShape()
 //--------------------------------------------------------------
 void mtl2dMapping::mousePressed(int x, int y, int button)
 {
+    
+    
+    
     if (ControlsMapping::controlsMapping()->isHit(x, y))
         return;
     
@@ -597,6 +607,8 @@ void mtl2dMapping::chessBoard(int nbOfCol)
     ofSetColor(ofColor::white);
     ofFill();
     
+    ofSeedRandom(0);
+    
     int boardWidth = ofGetWidth();
     int boardHeight = ofGetHeight();
     
@@ -609,6 +621,15 @@ void mtl2dMapping::chessBoard(int nbOfCol)
             } else {
                 ofSetColor(ofColor::black);
             }
+            
+            if ((rowId) % 6 == 0) {
+                ofSetColor(  ofColor::fromHsb( (rowId * 50) % 255 , 255, 255));
+            }
+            
+            else if ((colId) % 6 == 0) {
+                ofSetColor(  ofColor::fromHsb((colId * 50) % 255 , 255, 255));
+            }
+            
             
             ofRect(colId * squareSize, rowId * squareSize, squareSize, squareSize);
         }
