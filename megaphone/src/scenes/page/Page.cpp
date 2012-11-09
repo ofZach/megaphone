@@ -48,6 +48,7 @@ Page::Page()
     
     localFlipAngle = 0;
     flipAngle = 0;
+    flipSpeed = 0;
 
     vertAngle = 0;
     vertOffsetY = 0;
@@ -179,29 +180,44 @@ void Page::update()
     tiltAngle = sin(rotInc * 0.01) * 100 * tiltAmount;
 
     // flip around, always in the same direction
-    if (flipAmount > 0) {
-        localFlipAngle += MAX(rotInc, 0.02) * flipAmount;
+    bool bFlipDecelerating = false;
+    if (flipAmount > 0.05) {
+        float offsetSpeed = animateOffset * .02 * offsetAmount * 0.3;
+        float newSpeed = MIN(0.4, flipAmount);
+        flipSpeed = MAX(flipSpeed, newSpeed + offsetSpeed);
     }
-    else {
-        if (localFlipAngle != 0) {
-            while (localFlipAngle > M_TWO_PI) localFlipAngle -= M_TWO_PI;
-            if (localFlipAngle + 0.2 < M_TWO_PI) {
-                localFlipAngle += 0.2;
-            }
-            else {
-                localFlipAngle = 0;
-            }
+    else if (localFlipAngle != 0) {
+        bFlipDecelerating = true;
+        
+        flipSpeed = MAX(flipSpeed * 0.9, 0.1);
+        
+        int currRotations = localFlipAngle / M_TWO_PI;
+        int nextRotations = (localFlipAngle + flipSpeed) / M_TWO_PI;
+        if (currRotations != nextRotations) {
+            localFlipAngle = 0;
+            flipSpeed = 0;
         }
     }
+    localFlipAngle += flipSpeed;
 
     // flip the global value if it hasn't already been set this frame
     if (sharedLastFlipFrame < ofGetFrameNum()) {
         sharedFlipAngle = localFlipAngle;
         sharedLastFlipFrame = ofGetFrameNum();
-    }
 
-    // sync the flips...
-    flipAngle = ofLerp(sharedFlipAngle, localFlipAngle, offsetAmount);
+        flipAngle = sharedFlipAngle;
+    }
+    else if (bFlipDecelerating) {
+        // don't sync if you're decelerating
+        flipAngle = localFlipAngle;
+    }
+    else if (localFlipAngle != 0) {
+        // sync the flips
+        flipAngle = ofLerp(sharedFlipAngle, localFlipAngle, offsetAmount);
+    }
+    else {
+        flipAngle = 0;
+    }
 
     // sway back and forth
     swayInc += swaySpeed;
@@ -310,7 +326,7 @@ void Page::draw()
     // tilt
     ofRotate(RAD_TO_DEG * tiltAngle, 1, 0, 1);
 
-    // axis
+    // align
     ofRotate(RAD_TO_DEG * alignAngle * alignAmount, alignPivot.x, alignPivot.y, alignPivot.z);
 
     if (debugMesh) {

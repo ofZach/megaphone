@@ -159,6 +159,11 @@ void paperScene::update()
     rmsSmooth = 0.97f * rmsSmooth + 0.03f * ofMap(results->aubioRMS,0,0.06, 0,1, true);;
     
     //flipAmountTarget = (results->fftOctaves[15] * 0.2) * rmsSmooth;
+
+    // ELIE BEGIN
+    flipAmountTarget = (results->fftOctaves[15] * 0.2) * rmsSmooth;
+    alignAmountTarget = rmsSmooth;
+    // ELIE END
     
     
     tornadoAmountTarget = rmsSmooth;
@@ -176,36 +181,39 @@ void paperScene::update()
     
     
     static float lerpRatio = 0.2;
+    static float lerpLimit = 0.01;
 
     offsetAmount = ofLerp(offsetAmount, offsetAmountTarget, lerpRatio);
-    if (ABS(offsetAmountTarget - offsetAmount) < 0.01) offsetAmount = offsetAmountTarget;
+    if (ABS(offsetAmountTarget - offsetAmount) < lerpLimit) offsetAmount = offsetAmountTarget;
 
     alignAmount = ofLerp(alignAmount, alignAmountTarget, lerpRatio);
-    if (ABS(alignAmountTarget - alignAmount) < 0.01) alignAmount = alignAmountTarget;
+    if (ABS(alignAmountTarget - alignAmount) < lerpLimit) alignAmount = alignAmountTarget;
 
     twirlAmount = ofLerp(twirlAmount, twirlAmountTarget, lerpRatio);
-    if (ABS(twirlAmountTarget - twirlAmount) < 0.01) twirlAmount = twirlAmountTarget;
+    if (ABS(twirlAmountTarget - twirlAmount) < lerpLimit) twirlAmount = twirlAmountTarget;
 
     tiltAmount = ofLerp(tiltAmount, tiltAmountTarget, lerpRatio);
-    if (ABS(tiltAmountTarget - tiltAmount) < 0.01) tiltAmount = tiltAmountTarget;
+    if (ABS(tiltAmountTarget - tiltAmount) < lerpLimit) tiltAmount = tiltAmountTarget;
 
     flipAmount = ofLerp(flipAmount, flipAmountTarget, lerpRatio);
-    if (ABS(flipAmountTarget - flipAmount) < 0.01) flipAmount = flipAmountTarget;
+    if (ABS(flipAmountTarget - flipAmount) < lerpLimit) flipAmount = flipAmountTarget;
 
     swayAmount = ofLerp(swayAmount, swayAmountTarget, lerpRatio);
-    if (ABS(swayAmountTarget - swayAmount) < 0.01) swayAmount = swayAmountTarget;
+    if (ABS(swayAmountTarget - swayAmount) < lerpLimit) swayAmount = swayAmountTarget;
 
     tornadoAmount = ofLerp(tornadoAmount, tornadoAmountTarget, lerpRatio);
-    if (ABS(tornadoAmountTarget - tornadoAmount) < 0.01) tornadoAmount = tornadoAmountTarget;
+    // EZ: Commented out the following line because the tornado kept snapping back into place near the limit.
+    // EZ: Not sure why, but that's the only one that seems to be acting funny...
+//    if (ABS(tornadoAmountTarget - tornadoAmount) < lerpLimit) tornadoAmount = tornadoAmountTarget;
 
     speedAmount = ofLerp(speedAmount, speedAmountTarget, lerpRatio);
-    if (ABS(speedAmountTarget - speedAmount) < 0.01) speedAmount = speedAmountTarget;
+    if (ABS(speedAmountTarget - speedAmount) < lerpLimit) speedAmount = speedAmountTarget;
 
     expandAmount = ofLerp(expandAmount, expandAmountTarget, lerpRatio);
-    if (ABS(expandAmountTarget - expandAmount) < 0.01) expandAmount = expandAmountTarget;
+    if (ABS(expandAmountTarget - expandAmount) < lerpLimit) expandAmount = expandAmountTarget;
 
     liftAmount = ofLerp(liftAmount, liftAmountTarget, lerpRatio);
-    if (ABS(liftAmountTarget - liftAmount) < 0.01) liftAmount = liftAmountTarget;
+    if (ABS(liftAmountTarget - liftAmount) < lerpLimit) liftAmount = liftAmountTarget;
 
     if (!camera.getMouseInputEnabled()) {
         // tween the camera to its target position

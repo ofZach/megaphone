@@ -61,6 +61,7 @@ class Page
         static int sharedLastFlipFrame;
         float localFlipAngle;
         float flipAngle;
+        float flipSpeed;
 
         float animateOffset;
         float animateCounter;
