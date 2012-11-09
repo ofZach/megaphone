@@ -87,7 +87,7 @@ void paperScene::setup(){
     gui.add(bottomBendAmount.setup("bottom bend", 0.5, 0, 1));
     gui.add(spacerLabel.setup("spacer", ""));
 	gui.add(tornadoAmountTarget.setup("tornado", 0, 0, 1));
-	gui.add(speedAmountTarget.setup("speed", 0, 0, 1));
+	gui.add(speedAmountTarget.setup("speed", 0, -1, 1));
 	gui.add(expandAmountTarget.setup("expand", 1, 0, 1));
 	gui.add(liftAmountTarget.setup("lift", 1, 0, 1));
     gui.add(spacerLabel.setup("spacer", ""));
